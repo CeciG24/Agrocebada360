@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Configuración local y secretos
+.env
+.env.*
+!.env.example
+
+# Frontend
+node_modules/
+dist/
+.vercel/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Datos locales y artefactos de modelos
+/data/**
+!/data/.gitkeep
+!/data/README.md
+*.joblib
+*.pkl
+*.pickle
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
