@@ -23,6 +23,7 @@ dist/
 .ipynb_checkpoints/
 
 # Datos locales y artefactos de modelos
+/DataSet.zip
 /data/**
 !/data/.gitkeep
 !/data/README.md
