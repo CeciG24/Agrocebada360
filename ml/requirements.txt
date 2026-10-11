@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn>=1.3
+scipy
+joblib
+xgboost
+lightgbm
+catboost
+nbformat
