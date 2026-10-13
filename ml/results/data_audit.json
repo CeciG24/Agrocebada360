@@ -1,0 +1,63 @@
+{
+  "cutoff": "2025-10-31",
+  "data_root": "..\\data\\DATASET_RETO_AGRO_2026_LIMPIO",
+  "structure": {
+    "n_parcels": 197,
+    "split": {
+      "ENTRENAMIENTO": 138,
+      "PREDICCION": 59
+    },
+    "n_features_numeric": 209,
+    "nan_cells": 0,
+    "inf_cells": 0
+  },
+  "raw_rows_after_cutoff": {
+    "sentinel2": {
+      "after": 3091,
+      "total": 59040,
+      "max_date": "2025-12-31"
+    },
+    "landsat": {
+      "after": 1914,
+      "total": 48626,
+      "max_date": "2025-12-31"
+    },
+    "planet": {
+      "after": 7932,
+      "total": 47804,
+      "max_date": "2025-12-30"
+    },
+    "clima": {
+      "after": 394,
+      "total": 9456,
+      "max_date": "2025-12-01"
+    }
+  },
+  "feature_window_match_40_parcels": {
+    "sentinel2_ndvi_mean": {
+      "todo el histórico": 40,
+      "hasta corte": 0,
+      "abr–oct 2025": 0
+    },
+    "planet_ndvi_mean": {
+      "todo el histórico": 40,
+      "hasta corte": 0,
+      "abr–oct 2025": 0
+    },
+    "precip_total_mm_2025": {
+      "año 2025 completo": 40,
+      "ene–oct 2025": 0
+    }
+  },
+  "peak_dates": {
+    "sentinel2_ndvi_peak_date": {
+      "min": "2022-07-30",
+      "max": "2025-10-14"
+    },
+    "planet_ndvi_peak_date": {
+      "min": "2025-07-03",
+      "max": "2025-10-26"
+    }
+  },
+  "cutoff_ok": false
+}

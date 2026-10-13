@@ -2,25 +2,34 @@
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-from .config import DATA_ROOT, TARGET, ID, SEED, N_SPATIAL_GROUPS
+from pathlib import Path
+from .config import DATA_ROOT, TARGET, ID, SEED, N_SPATIAL_GROUPS, N_TRAIN, N_EVAL
+from .contract import validate_catalog
 
 TOPO = ["area_ha", "elevation_mean", "slope_mean"]
 GEO = ["centroid_lat", "centroid_lon"]  # OJO: proxy de ubicación; decidir si entra al modelo oficial
 
 
 def load(root=None):
-    """Devuelve (train, eval). `eval` NO tiene target: jamás se usa para tuning."""
-    root = root or DATA_ROOT
-    fm = pd.read_csv(root / "features" / "features_master.csv")
-    y = pd.read_csv(root / "targets" / "rendimiento.csv")
+    """Devuelve (train, eval). `eval` NO tiene target: jamás se usa para tuning.
+
+    Contrato §3: parcel_id string (sin conversión a entero), único, no nulo y coincidente entre fuentes.
+    Las columnas `mun_*` y `grupo_espacial` son SOLO de diagnóstico/CV: nunca entran al feature_schema oficial.
+    """
+    root = Path(root or DATA_ROOT)
+    if not (root / "features" / "features_master.csv").exists():
+        raise FileNotFoundError(f"No se encontró features_master.csv en {root}. Define CEBADA_DATA o ajusta config.DATA_ROOT")
+    validate_catalog(root)                                   # IDs consistentes entre las 4 fuentes
+    fm = pd.read_csv(root / "features" / "features_master.csv", dtype={ID: str})
+    y = pd.read_csv(root / "targets" / "rendimiento.csv", dtype={ID: str})
     df = fm.merge(y, on=ID, how="left", validate="1:1")
     km = KMeans(N_SPATIAL_GROUPS, random_state=SEED, n_init=10).fit(df[GEO].values)
-    df = pd.concat([df, pd.get_dummies(df["municipio"], prefix="mun").astype(float)], axis=1)
-    df["grupo_espacial"] = km.labels_
-    df = df.copy()
+    muni = pd.get_dummies(df["municipio"], prefix="mun").astype(float)
+    df = pd.concat([df, muni, pd.Series(km.labels_, name="grupo_espacial", index=df.index)], axis=1)
     tr = df[df.dataset_split == "ENTRENAMIENTO"].reset_index(drop=True)
     ev = df[df.dataset_split == "PREDICCION"].reset_index(drop=True)
-    assert tr[TARGET].notna().all() and ev[TARGET].isna().all()
+    assert tr[TARGET].notna().all() and ev[TARGET].isna().all(), "el target debe existir solo en train"
+    assert (len(tr), len(ev)) == (N_TRAIN, N_EVAL), f"partición inesperada: {len(tr)}/{len(ev)}"
     return tr, ev
 
 

@@ -8,6 +8,7 @@ venv/
 .ruff_cache/
 .coverage
 htmlcov/
+catboost_info/
 
 # Configuración local y secretos
 .env

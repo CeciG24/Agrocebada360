@@ -1,0 +1,4 @@
+exp,model,rmse_default,rmse_tuned_nested,delta,mae_tuned,r2_tuned,folds_chose_default,best_params,provisional
+E5_fusion,rf,0.5357904755472273,0.5366704033328205,0.0008799277855932042,0.39332564593185904,0.5994767054321096,2/15,"{""n_estimators"": 500, ""min_samples_leaf"": 5, ""max_samples"": null, ""max_features"": 0.1, ""max_depth"": 8}",True
+E5_fusion,catboost,0.5498968322736034,0.5404705908326267,-0.009426241440976701,0.3911181761428588,0.5937111300114627,0/15,"{""rsm"": 0.5, ""learning_rate"": 0.02, ""l2_leaf_reg"": 20, ""iterations"": 500, ""depth"": 3}",True
+E5_fusion,extratrees,0.5311801549313059,0.540657426444722,0.009477271513416152,0.39462814083210934,0.5935416639983867,1/15,"{""n_estimators"": 300, ""min_samples_leaf"": 5, ""max_features"": 0.5, ""max_depth"": 8}",True

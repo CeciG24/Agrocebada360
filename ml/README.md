@@ -16,7 +16,10 @@ Este repositorio implementa el **pipeline de Machine Learning** dentro del ecosi
 # 1. Instalar dependencias
 pip install -r requirements.txt
 
-# 2. Apuntar al dataset (o usar la variable de entorno) || Modificar config.py
+# 2. Auditar el dataset contra el contrato (corte temporal, IDs)
+python audit_data.py        # → results/data_audit.json (exit 1 si viola el corte)
+
+# 2b. Apuntar al dataset (o usar la variable de entorno) || Modificar config.py
 $env:CEBADA_DATA="/ruta/a/DATASET_RETO_AGRO_2026_LIMPIO"
 |
 # 3. Correr todos los experimentos
@@ -27,7 +30,7 @@ python run_experiments.py --repeats 10
 # 4. Generar predicciones de evaluación con baseline v0 (contrato para Rol 4/5)
 python make_baseline_predictions.py
 #   → results/predictions_raw.csv
-#   → artifacts/baseline_v0.joblib
+#   → models/yield_model_v0.joblib + models/feature_schema.json
 ```
 
 ### Flags útiles de `run_experiments.py`
@@ -71,8 +74,11 @@ cebada360_ml/
 ├── notebooks/
 │   └── 01_baselines.ipynb      # Exploración inicial y validación de baselines
 │
-├── artifacts/
-│   └── baseline_v0.joblib      # Modelo serializado con lista de features y versión
+├── models/
+│   ├── yield_model_v0.joblib   # Solo el modelo (contrato §5)
+│   └── feature_schema.json     # Features en orden contractual, unidad, versión, data_cutoff
+├── audit_data.py               # Auditoría del dataset vs system-contract.md
+├── tests/test_contract.py      # Tests de contrato (pytest)
 │
 ├── results/
 │   ├── leaderboard.csv         # Tabla comparativa: RMSE, MAE, R² por experimento x modelo
@@ -223,6 +229,15 @@ DATASET_RETO_AGRO_2026_LIMPIO/
 
 ---
 
+## Alineación con `system-contract.md` (v0.1.0)
+
+- `parcel_id` siempre `string`; IDs validados entre `parcel_master`, `features_master`, `rendimiento` y topografía (§3.2).
+- Faltantes: `features_master.csv` no trae NaN; el Pipeline imputa con mediana del train solo si aparecieran (§3.3).
+- Schema oficial solo con columnas originales de `features_master`; `mun_*`, `grupo_espacial` y `geo` son diagnóstico y se rechazan (§1.3, §5).
+- Predicciones se generan recargando `models/` y validando orden/faltantes/finitud (§5.2, §6, §13).
+- **Corte temporal (§1.7): hoy NO se cumple.** Ver `results/data_audit.json`: los agregados de `features_master` usan series completas 2022–2025 (incluye nov–dic 2025). `data_cutoff_verified=false` queda registrado en el schema. `CEBADA_STRICT_CUTOFF=1` bloquea la generación de artefactos mientras no se corrija.
+- Pendientes de confirmación oficial (§17): nombre de columna ID, unidad, formato del CSV de FIRA.
+
 ## Dependencias
 
 ```
@@ -247,4 +262,6 @@ pip install -r requirements.txt
 | `results/leaderboard.csv` | Tabla con `exp`, `model`, `n_feat`, `rmse`, `rmse_sd`, `mae`, `r2`, `rmse_spatial`, `r2_spatial`, `repeats`, `secs` |
 | `results/oof/{exp}__{model}.csv` | Columnas: `parcel_id`, `y` (real), `oof` (predicción promedio OOF) |
 | `results/predictions_raw.csv` | Predicciones de las 59 parcelas de evaluación — contrato para la API |
-| `artifacts/baseline_v0.joblib` | Dict con `model`, `features` y `version` — cargable con `joblib.load()` |
+| `models/yield_model_v0.joblib` | Modelo serializado (sin metadatos); cargar con `src.contract.load_artifacts()` |
+| `models/feature_schema.json` | Schema contractual: `features` (orden), `unit`, `model_version`, `data_cutoff`, `data_cutoff_verified` |
+| `results/data_audit.json` | Resultado de `audit_data.py` |
