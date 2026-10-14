@@ -1,0 +1,11 @@
+exp,descripcion,n_feat,model,rmse,rmse_sd,mae,r2,rmse_spatial,rmse_prom_modelos,repeats
+E0_baseline,Ninguna (mediana del train),0,dummy_median,0.935,0.01,0.749,-0.215,1.21,0.935,10
+E1_topo,Topografía + área,3,rf,0.715,0.014,0.574,0.289,0.954,0.763,10
+E2_basico,Sentinel-2 + Landsat (+ fenología),144,ridge,0.659,0.012,0.505,0.396,0.855,0.687,10
+E3_planet,Planet (+ fenología),30,elasticnet,0.651,0.013,0.515,0.41,0.804,0.68,10
+E4_clima,"Clima (precip., temperaturas)",30,ridge,0.515,0.006,0.356,0.632,0.7,0.521,10
+E5_fusion,Todo: topo + básico + Planet + clima,207,extratrees,0.524,0.011,0.378,0.618,0.777,0.552,10
+X0_municipio,[diagnóstico] solo municipio,9,ridge,0.508,0.002,0.333,0.642,0.642,0.542,10
+X1_geo,[diagnóstico] solo lat/lon,2,lightgbm,0.51,0.02,0.364,0.638,0.643,0.524,10
+X2_fusion_mas_geo,[diagnóstico] E5 + lat/lon,209,extratrees,0.52,0.011,0.373,0.624,0.758,0.543,10
+X3_muni_mas_sat,[diagnóstico] municipio + topo + satélite,186,elasticnet,0.534,0.008,0.393,0.604,0.734,0.573,10

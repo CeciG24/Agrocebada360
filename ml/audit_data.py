@@ -49,20 +49,24 @@ rep["feature_window_match_40_parcels"] = {
     "sentinel2_ndvi_mean": match("sentinel2", "ndvi", "sentinel2_ndvi_mean", "ndvi_promedio"),
     "planet_ndvi_mean": match("planet", "ndvi", "planet_ndvi_mean", "ndvi_promedio"),
 }
-cl = S["clima"]; ok = {"año 2025 completo": 0, "ene–oct 2025": 0}
+cl = S["clima"]; ok = {"año 2025 completo": 0, "ene–oct 2025": 0, "abr–oct 2025": 0}
 for i in ids:
     x = cl[(cl[C.ID] == i) & (cl.f.dt.year == 2025)]; v = fm.loc[fm[C.ID] == i, "precip_total_mm_2025"].iloc[0]
     ok["año 2025 completo"] += int(np.isclose(x.precip_mm.sum(), v, atol=1e-6))
     ok["ene–oct 2025"] += int(np.isclose(x[x.f <= cut].precip_mm.sum(), v, atol=1e-6))
+    ok["abr–oct 2025"] += int(np.isclose(x[(x.f >= "2025-04-01") & (x.f <= cut)].precip_mm.sum(), v, atol=1e-6))
 rep["feature_window_match_40_parcels"]["precip_total_mm_2025"] = ok
 for c in ("sentinel2_ndvi_peak_date", "planet_ndvi_peak_date"):
     rep.setdefault("peak_dates", {})[c] = {"min": str(pd.read_csv(root / "features/fenologia_features.csv")[c].min()),
                                            "max": str(pd.read_csv(root / "features/fenologia_features.csv")[c].max())}
 
 m = rep["feature_window_match_40_parcels"]
-violated = (m["sentinel2_ndvi_mean"]["hasta corte"] < 40 and m["sentinel2_ndvi_mean"]["todo el histórico"] == 40) or \
-           m["precip_total_mm_2025"]["ene–oct 2025"] < 40
-rep["cutoff_ok"] = not violated
+ndvi_s2_ok = (m["sentinel2_ndvi_mean"]["abr–oct 2025"] == 40 or m["sentinel2_ndvi_mean"]["hasta corte"] == 40)
+ndvi_pl_ok = (m["planet_ndvi_mean"]["abr–oct 2025"] == 40 or m["planet_ndvi_mean"]["hasta corte"] == 40)
+precip_ok = (m["precip_total_mm_2025"]["abr–oct 2025"] == 40 or m["precip_total_mm_2025"]["ene–oct 2025"] == 40)
+peaks_ok = all(pd.to_datetime(rep["peak_dates"][c]["max"]) <= cut for c in ("sentinel2_ndvi_peak_date", "planet_ndvi_peak_date"))
+
+rep["cutoff_ok"] = bool(ndvi_s2_ok and ndvi_pl_ok and precip_ok and peaks_ok)
 C.RESULTS.mkdir(parents=True, exist_ok=True)
 (C.RESULTS / "data_audit.json").write_text(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
 print(json.dumps(rep, indent=2, ensure_ascii=False, default=str))

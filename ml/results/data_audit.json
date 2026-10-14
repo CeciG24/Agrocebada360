@@ -1,6 +1,6 @@
 {
   "cutoff": "2025-10-31",
-  "data_root": "..\\data\\DATASET_RETO_AGRO_2026_LIMPIO",
+  "data_root": "D:\\workspace\\Events\\Agrocebada360\\data\\DATASET_RETO_AGRO_2026_LIMPIO_2",
   "structure": {
     "n_parcels": 197,
     "split": {
@@ -8,7 +8,7 @@
       "PREDICCION": 59
     },
     "n_features_numeric": 209,
-    "nan_cells": 0,
+    "nan_cells": 2,
     "inf_cells": 0
   },
   "raw_rows_after_cutoff": {
@@ -35,23 +35,24 @@
   },
   "feature_window_match_40_parcels": {
     "sentinel2_ndvi_mean": {
-      "todo el histórico": 40,
+      "todo el histórico": 0,
       "hasta corte": 0,
-      "abr–oct 2025": 0
+      "abr–oct 2025": 40
     },
     "planet_ndvi_mean": {
-      "todo el histórico": 40,
+      "todo el histórico": 0,
       "hasta corte": 0,
-      "abr–oct 2025": 0
+      "abr–oct 2025": 40
     },
     "precip_total_mm_2025": {
-      "año 2025 completo": 40,
-      "ene–oct 2025": 0
+      "año 2025 completo": 0,
+      "ene–oct 2025": 0,
+      "abr–oct 2025": 40
     }
   },
   "peak_dates": {
     "sentinel2_ndvi_peak_date": {
-      "min": "2022-07-30",
+      "min": "2025-07-04",
       "max": "2025-10-14"
     },
     "planet_ndvi_peak_date": {
@@ -59,5 +60,5 @@
       "max": "2025-10-26"
     }
   },
-  "cutoff_ok": false
+  "cutoff_ok": true
 }

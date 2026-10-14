@@ -223,5 +223,5 @@
   "experiment": "E5_fusion",
   "n_train": 138,
   "sklearn_version": "1.9.1",
-  "data_cutoff_verified": false
+  "data_cutoff_verified": true
 }

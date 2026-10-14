@@ -1,0 +1,47 @@
+{
+  "version": "early-v1",
+  "provisional": false,
+  "data_cutoff_verified": true,
+  "params": "default",
+  "window_issues": [],
+  "notes": [],
+  "ceiling_cut": "octubre",
+  "models": {
+    "ridge": {
+      "rmse_by_cut": {
+        "junio": 0.5745619544581323,
+        "julio": 0.5605841073828158,
+        "agosto": 0.568167357318996,
+        "septiembre": 0.5746211106211983,
+        "octubre": 0.5632967480066541
+      },
+      "earliest_beats_dummy": "junio",
+      "earliest_beats_municipio": null,
+      "earliest_within_tol_of_ceiling": "junio"
+    },
+    "extratrees": {
+      "rmse_by_cut": {
+        "junio": 0.5371840311977569,
+        "julio": 0.5271591814204815,
+        "agosto": 0.5291088002324484,
+        "septiembre": 0.5313530363214467,
+        "octubre": 0.5354833513656414
+      },
+      "earliest_beats_dummy": "junio",
+      "earliest_beats_municipio": null,
+      "earliest_within_tol_of_ceiling": "junio"
+    },
+    "catboost": {
+      "rmse_by_cut": {
+        "junio": 0.5492483028897508,
+        "julio": 0.5409416170509058,
+        "agosto": 0.5394873436771832,
+        "septiembre": 0.5565665952728508,
+        "octubre": 0.5537648629549731
+      },
+      "earliest_beats_dummy": "junio",
+      "earliest_beats_municipio": null,
+      "earliest_within_tol_of_ceiling": "junio"
+    }
+  }
+}

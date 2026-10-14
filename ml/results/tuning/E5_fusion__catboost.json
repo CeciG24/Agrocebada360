@@ -9,27 +9,27 @@
     "iterations": 500,
     "depth": 3
   },
-  "search_cv_rmse_optimistic": 0.5295397349841664,
-  "default_search_cv_rmse": 0.5423628808508024,
+  "search_cv_rmse_optimistic": 0.5428724619108188,
+  "default_search_cv_rmse": 0.550625544384403,
   "nested": {
     "tuned": {
-      "rmse": 0.5404705908326267,
-      "mae": 0.3911181761428588,
-      "r2": 0.5937111300114627
+      "rmse": 0.5558541318922225,
+      "mae": 0.39876878072805855,
+      "r2": 0.570342385848861
     },
     "default": {
-      "rmse": 0.5498968322736034,
-      "mae": 0.3998587640973576,
-      "r2": 0.5794715172207973
+      "rmse": 0.5643575893449175,
+      "mae": 0.41151879630789406,
+      "r2": 0.5570928608051349
     },
-    "rmse_sd_tuned": 0.012525950681831204,
-    "rmse_sd_default": 0.010100743349588144,
-    "outer_repeats": 3,
-    "n_iter": 30
+    "rmse_sd_tuned": 0.009656623935734071,
+    "rmse_sd_default": 0.010033981623577241,
+    "outer_repeats": 2,
+    "n_iter": 15
   },
   "top5_candidates": [
     {
-      "rmse": 0.5295397349841664,
+      "rmse": 0.5428724619108188,
       "params": {
         "rsm": 0.5,
         "learning_rate": 0.02,
@@ -39,17 +39,17 @@
       }
     },
     {
-      "rmse": 0.5309991648619238,
+      "rmse": 0.5436180322380636,
       "params": {
-        "rsm": 0.5,
+        "rsm": 1.0,
         "learning_rate": 0.02,
-        "l2_leaf_reg": 10,
-        "iterations": 500,
-        "depth": 3
+        "l2_leaf_reg": 1,
+        "iterations": 300,
+        "depth": 6
       }
     },
     {
-      "rmse": 0.5325743320695941,
+      "rmse": 0.5437200685117802,
       "params": {
         "rsm": 1.0,
         "learning_rate": 0.02,
@@ -59,29 +59,29 @@
       }
     },
     {
-      "rmse": 0.5344510192468022,
+      "rmse": 0.5450712249156625,
       "params": {
-        "rsm": 1.0,
-        "learning_rate": 0.02,
-        "l2_leaf_reg": 3,
-        "iterations": 500,
+        "rsm": 0.2,
+        "learning_rate": 0.07,
+        "l2_leaf_reg": 20,
+        "iterations": 300,
         "depth": 3
       }
     },
     {
-      "rmse": 0.5368268231220572,
+      "rmse": 0.5452429970740562,
       "params": {
-        "rsm": 1.0,
-        "learning_rate": 0.07,
-        "l2_leaf_reg": 20,
+        "rsm": 0.2,
+        "learning_rate": 0.04,
+        "l2_leaf_reg": 10,
         "iterations": 300,
         "depth": 5
       }
     }
   ],
   "folds_chose_default": 0,
-  "folds_total": 15,
-  "data_cutoff_verified": false,
-  "provisional": true,
-  "note": "PROVISIONAL: features_master no respeta el corte 2025-10-31; reejecutar con el dataset corregido."
+  "folds_total": 10,
+  "data_cutoff_verified": true,
+  "provisional": false,
+  "note": ""
 }
