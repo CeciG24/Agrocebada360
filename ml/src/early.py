@@ -2,10 +2,10 @@
 
 Pregunta que responde: ¿qué tan pronto en el ciclo abril–octubre 2025 se puede anticipar el rendimiento final?
 
-Contrato (system-contract.md):
-  §1.5/1.6  parcel_id siempre string.            §1.7  ningún corte puede pasar de DATA_CUTOFF (2025-10-31).
-  §1.3      no se inventan features: solo columnas de la matriz que entregue Rol 1 (sin geo ni mun_*).
-  §3.3      los faltantes los trata el Pipeline (imputación dentro del fold), no este módulo.
+Contrato (system-contract.md v0.3.0):
+  §5.1      parcel_id siempre string.            §2.3  ningún corte puede pasar de prediction_information_cutoff (2025-10-31).
+  §3.3      no se inventan features: solo columnas de la matriz que entregue Rol 1 (sin geo ni mun_*).
+  §5.5      los faltantes los trata el Pipeline (imputación dentro del fold), no este módulo.
 Las matrices por corte las produce Rol 1 (P1.11/P1.12). Este módulo NO las modifica; solo las lee y las audita.
 """
 from pathlib import Path
@@ -15,17 +15,19 @@ import pandas as pd
 
 from . import config as C
 from . import contract as K
+from .split import diff_split, load_official_ids
 
 # Fecha límite que cada corte DEBERÍA respetar (la usa la auditoría; ajustar si Rol 1 documenta otra).
 CUTS = {"junio": "2025-06-30", "julio": "2025-07-31", "agosto": "2025-08-31",
         "septiembre": "2025-09-30", "octubre": "2025-10-31"}
-MATRIX_SUBDIR = "prediccion_temprana/matrices"
+MATRIX_SUBDIRS = ("prediccion_temprana/features", "prediccion_temprana/matrices")   # dataset v2 usa .../features; v1 usaba .../matrices
+MATRIX_SUBDIR = MATRIX_SUBDIRS[0]
 MATRIX_PATTERN = "features_master_corte_{cut}.csv"      # cambiar aquí si Rol 1 renombra los archivos
 
 # Columnas que NO son features (identificadores, texto, geo de diagnóstico, target).
 NON_FEATURES = {C.ID, "dataset_split", "municipio", "estado", C.TARGET, "centroid_lat", "centroid_lon"}
 
-assert all(pd.Timestamp(d) <= pd.Timestamp(C.DATA_CUTOFF) for d in CUTS.values()), "un corte excede DATA_CUTOFF (§1.7)"
+assert all(pd.Timestamp(d) <= pd.Timestamp(C.DATA_CUTOFF) for d in CUTS.values()), "un corte excede el límite de información (§2.3)"
 
 
 def load_cut(cut, root=None, subdir=MATRIX_SUBDIR, pattern=MATRIX_PATTERN):
@@ -33,9 +35,11 @@ def load_cut(cut, root=None, subdir=MATRIX_SUBDIR, pattern=MATRIX_PATTERN):
     if cut not in CUTS:
         raise ValueError(f"Corte desconocido: {cut}. Opciones: {list(CUTS)}")
     root = Path(root or C.DATA_ROOT)
-    path = root / subdir / pattern.format(cut=cut)
-    if not path.exists():
-        raise FileNotFoundError(f"No existe la matriz del corte '{cut}': {path}")
+    subdirs = (subdir,) + tuple(d for d in MATRIX_SUBDIRS if d != subdir)
+    path = next((root / d / pattern.format(cut=cut) for d in subdirs if (root / d / pattern.format(cut=cut)).exists()), None)
+    if path is None:
+        raise FileNotFoundError(f"No existe la matriz del corte '{cut}' en {[str(root / d) for d in subdirs]}. "
+                                f"Si el layout es otro usa `python prepare_data.py` (adaptador reproducible).")
     m = pd.read_csv(path, dtype={C.ID: str})
     y = pd.read_csv(root / "targets" / "rendimiento.csv", dtype={C.ID: str})
     K.validate_ids(m, f"matriz {cut}")
@@ -44,8 +48,15 @@ def load_cut(cut, root=None, subdir=MATRIX_SUBDIR, pattern=MATRIX_PATTERN):
     df = m.merge(y, on=C.ID, how="left", validate="1:1")
     tr = df[df.dataset_split == "ENTRENAMIENTO"].sort_values(C.ID).reset_index(drop=True)
     ev = df[df.dataset_split == "PREDICCION"].sort_values(C.ID).reset_index(drop=True)
-    assert tr[C.TARGET].notna().all() and ev[C.TARGET].isna().all(), f"{cut}: el target debe existir solo en train"
-    assert (len(tr), len(ev)) == (C.N_TRAIN, C.N_EVAL), f"{cut}: partición inesperada {len(tr)}/{len(ev)}"
+    if not tr[C.TARGET].notna().all() or not ev[C.TARGET].isna().all():
+        raise K.ContractError(f"{cut}: el target debe existir solo en el conjunto etiquetado")
+    official = load_official_ids()                      # §2.6/§14: lista oficial versionada, no 138/59
+    if official is not None:
+        d = diff_split(df, official)
+        if d:
+            raise K.ContractError(f"{cut}: dataset_split no coincide con la lista oficial: {d}")
+    if len(tr) == 0 or len(ev) == 0:
+        raise K.ContractError(f"{cut}: partición vacía")
     feats = [c for c in m.columns if c not in NON_FEATURES and pd.api.types.is_numeric_dtype(m[c])]
     K.validate_features(df, feats)
     return tr, ev, feats

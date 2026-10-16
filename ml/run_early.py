@@ -1,11 +1,12 @@
 """P2.6 — Modelos de predicción temprana: ¿qué tan pronto se puede anticipar el rendimiento final?
 
-Entrada : CEBADA_DATA/prediccion_temprana/matrices/features_master_corte_<corte>.csv  (producidas por Rol 1, P1.12)
+Entrada : CEBADA_DATA/prediccion_temprana/features/features_master_corte_<corte>.csv  (Rol 1, P1.12; también acepta .../matrices/)
 Salida  : results/early/early_leaderboard.csv   (una fila por corte x modelo: RMSE±sd, MAE, R², RMSE espacial, mejora vs baselines)
           results/early/early_summary.json      (curva RMSE por corte, corte más temprano "útil", auditoría de ventanas)
           results/early/early_curve.png         (curva RMSE vs corte; si hay matplotlib)
           results/early/oof/<corte>__<modelo>.csv   (parcel_id, y, oof) para Rol 3
-Versión : early-v1 (contrato 0.1.0)
+Versión : early-v2 (contrato 0.3.0)
+Alcance : curva DIAGNÓSTICA de qué tan pronto se puede anticipar. NO produce un modelo por corte ni un endpoint de inferencia temprana.
 
 Corte "útil" (se reportan los tres criterios):
   - supera a la mediana en >= --min-gain-dummy (5 % por defecto)
@@ -20,6 +21,7 @@ Uso:
 import argparse, json, sys, time
 import numpy as np, pandas as pd
 from src import config as C
+from src import provenance as PV
 from src import early as E
 from src.cv import repeated_cv, spatial_cv
 from src.tuning import build, load_best
@@ -38,12 +40,14 @@ a = ap.parse_args()
 out = C.RESULTS / "early"; (out / "oof").mkdir(parents=True, exist_ok=True)
 data = E.load_cuts(a.cuts)                                   # valida IDs, split, target y features por corte
 issues, notes = E.audit_windows(data)
-try: audit_ok = bool(json.loads((C.RESULTS / "data_audit.json").read_text())["cutoff_ok"])
-except FileNotFoundError: audit_ok = None
-provisional = bool(issues) or audit_ok is not True
+meta = PV.run_meta(cuts=a.cuts, models=a.models, repeats=a.repeats, params=a.params)
+audit_ok = meta["audit_valid_for_dataset"]
+provisional = bool(issues) or not audit_ok
 if provisional:
     print("⚠️  RESULTADOS PROVISIONALES:" + (f" {len(issues)} incoherencias de ventana entre cortes." if issues else "")
-          + ("" if audit_ok else " data_audit.json no confirma el corte temporal."), flush=True)
+          + ("" if audit_ok else f" {meta['audit_reason']}"), flush=True)
+if a.params == "tuned":
+    print("ℹ️  --params tuned usa hiperparámetros elegidos con TODAS las parcelas etiquetadas: la curva NO es una evaluación independiente.", flush=True)
     for i in issues[:5]: print("   ", i)
 for n in notes: print("ℹ️ ", n)
 
@@ -76,7 +80,9 @@ lb["loss_vs_ceiling"] = lb.rmse / lb.apply(lambda r: piv.loc[last, r.model], axi
 lb["cut"] = pd.Categorical(lb.cut, a.cuts, ordered=True)
 lb = lb.sort_values(["model", "cut"]); lb.to_csv(out / f"early_leaderboard{a.tag}.csv", index=False)
 
-summary = {"version": "early-v1", "provisional": provisional, "data_cutoff_verified": audit_ok, "params": a.params,
+summary = {"version": "early-v2", "provisional": provisional, "audit_valid_for_dataset": audit_ok, "params": a.params,
+           "evaluation_independent": a.params != "tuned", "scope": "curva diagnóstica; no es un modelo por corte ni un endpoint",
+           "provenance": meta,
            "window_issues": issues, "notes": notes, "ceiling_cut": last, "models": {}}
 for m in a.models:
     curve = piv[m].to_dict()
@@ -87,7 +93,7 @@ for m in a.models:
         "earliest_beats_municipio": E.earliest_cut(curve, lambda c, r: r < piv.loc[c, "ridge_municipio"]),
         "earliest_within_tol_of_ceiling": E.earliest_cut(curve, lambda c, r: r <= ceil * (1 + a.tol)),
     }
-(out / f"early_summary{a.tag}.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False, default=str))
+(out / f"early_summary{a.tag}.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
 
 try:
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
