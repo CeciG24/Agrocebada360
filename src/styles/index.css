@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Foco de teclado visible y consistente en todos los controles */
+  :focus-visible {
+    outline: 2px solid #22c55e;
+    outline-offset: 2px;
+  }
+}
+
 html, body, #root { height: 100%; font-size: 15px;}
+html { scroll-padding-top: 7rem; } /* alto del Topbar fijo: evita que tape el foco */
 body {
   background-color: #0a0f0d;
   color: #f1f5f3;

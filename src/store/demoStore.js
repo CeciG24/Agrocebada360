@@ -29,12 +29,12 @@ export const useDemoStore = create((set, get) => ({
   modoDemo: modoInicial,
 
   activarDemo: () => {
-    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch { /* sin localStorage: el modo queda solo en memoria */ }
     set({ modoDemo: true });
   },
 
   desactivarDemo: () => {
-    try { localStorage.setItem(STORAGE_KEY, 'false'); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, 'false'); } catch { /* sin localStorage: el modo queda solo en memoria */ }
     set({ modoDemo: false });
   },
 

@@ -1,10 +1,13 @@
-const num = (v, fallback = 0) => (typeof v === 'number' && Number.isFinite(v) ? v : fallback);
+export const esNum = (v) => typeof v === 'number' && Number.isFinite(v);
 
-export const fmtT    = (v) => `${num(v).toFixed(2)} t/ha`;
-export const fmtHa   = (v) => `${num(v).toFixed(1)} ha`;
-export const fmtTons = (v) => `${num(v).toFixed(1)} t`;
-export const fmtPct  = (v) => `${Math.round(num(v))}%`;
+// Si el valor falta o no es un número válido se muestra '—' (nunca 0).
+export const fmtNum = (v, d = 2) => (esNum(v) ? v.toFixed(d) : '—');
+
+export const fmtT    = (v) => (esNum(v) ? `${v.toFixed(2)} t/ha` : '—');
+export const fmtHa   = (v) => (esNum(v) ? `${v.toFixed(1)} ha` : '—');
+export const fmtTons = (v) => (esNum(v) ? `${v.toFixed(1)} t` : '—');
+export const fmtPct  = (v) => (esNum(v) ? `${Math.round(v)}%` : '—');
 export const fmtSigned = (v) => {
-  const n = num(v);
-  return n >= 0 ? `+${n.toFixed(2)}` : n.toFixed(2);
+  if (!esNum(v)) return '—';
+  return v >= 0 ? `+${v.toFixed(2)}` : v.toFixed(2);
 };

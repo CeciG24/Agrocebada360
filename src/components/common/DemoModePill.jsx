@@ -11,7 +11,8 @@ export function DemoModePill() {
       title={modoDemo
         ? 'Modo demo activo. La app usa datos de ejemplo.'
         : 'Conectado al backend real.'}
-      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm
+      className={`inline-flex min-h-[40px] items-center gap-2 rounded-full border px-3 sm:px-4 py-2 text-sm
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-moss-500
                   transition-all duration-200
                   ${modoDemo
                     ? 'border-moss-700/60 bg-moss-900/50 text-moss-500'

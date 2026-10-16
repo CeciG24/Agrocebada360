@@ -1,7 +1,9 @@
 import { fmtSigned } from '../../lib/format';
 
 export function ShapBars({ items = [] }) {
-  if (!items.length) return null;
+  if (!items.length) {
+    return <p className="text-sm text-text-lo">Sin explicación disponible para esta parcela.</p>;
+  }
 
   const max = Math.max(...items.map((i) => Math.abs(i.valor ?? 0)), 0.001);
 
@@ -16,11 +18,11 @@ export function ShapBars({ items = [] }) {
           return (
             <div
               key={it.categoria}
-              className="grid grid-cols-[1fr_auto_auto] items-center gap-3 animate-fade-up"
+              className="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1.5 sm:grid-cols-[1fr_auto_auto] animate-fade-up"
               style={{ animationDelay: `${idx * 60}ms` }}
             >
-              <span className="text-base text-text-hi truncate">{it.etiqueta ?? it.categoria}</span>
-              <div className="h-1.5 w-24 rounded-full bg-ink-700 overflow-hidden">
+              <span className="text-base text-text-hi sm:truncate">{it.etiqueta ?? it.categoria}</span>
+              <div className="order-last col-span-2 h-1.5 w-full rounded-full bg-ink-700 overflow-hidden sm:order-none sm:col-span-1 sm:w-24">
                 <div
                   className={`h-full origin-left animate-grow-bar
                     ${positivo ? 'bg-moss-500' : 'bg-rose-500'}`}

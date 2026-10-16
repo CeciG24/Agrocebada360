@@ -77,7 +77,7 @@ const FUENTES = [
 
 export function AcercaPage() {
   return (
-    <div className="px-6 pb-12 space-y-6 max-w-4xl mx-auto">
+    <div className="px-4 sm:px-6 pb-12 space-y-6 max-w-4xl mx-auto">
       {/* Encabezado */}
       <div className="animate-fade-up">
         <h1 className="text-3xl font-semibold text-text-hi tracking-tight">
@@ -89,7 +89,7 @@ export function AcercaPage() {
       </div>
 
       {/* Qué es */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-3">
           Qué es Cebada360
         </h2>
@@ -109,7 +109,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Los 4 módulos */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-5">
           Los cuatro módulos
         </h2>
@@ -143,7 +143,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Fuentes de datos */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-5">
           Fuentes de datos
         </h2>
@@ -164,7 +164,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Metodología */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-4">
           Decisiones metodológicas clave
         </h2>
@@ -229,7 +229,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Limitaciones */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-2">
           Limitaciones que declaramos
         </h2>
@@ -260,7 +260,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Uso responsable — destacado */}
-      <Panel className="p-6 border-amber-700/40 bg-amber-950/20 animate-fade-up">
+      <Panel className="p-4 sm:p-6 border-amber-700/40 bg-amber-950/20 animate-fade-up">
         <div className="flex items-start gap-4">
           <div className="shrink-0 grid h-10 w-10 place-items-center rounded-xl
                           bg-amber-950/60 border border-amber-700/40">
@@ -286,7 +286,7 @@ export function AcercaPage() {
       </Panel>
 
       {/* Equipo y créditos */}
-      <Panel className="p-6 animate-fade-up">
+      <Panel className="p-4 sm:p-6 animate-fade-up">
         <h2 className="text-lg font-semibold text-text-hi mb-5">
           Equipo
         </h2>

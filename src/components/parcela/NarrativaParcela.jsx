@@ -1,7 +1,7 @@
 export function NarrativaParcela({ texto }) {
   return (
     <p className="text-sm leading-relaxed text-text-mid">
-      {texto}
+      {texto || 'Sin narrativa disponible para esta parcela.'}
     </p>
   );
 }

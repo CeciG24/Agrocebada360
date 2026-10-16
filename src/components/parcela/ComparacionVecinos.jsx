@@ -1,15 +1,19 @@
-import { fmtT } from '../../lib/format';
+import { fmtT, esNum } from '../../lib/format';
 
 export function ComparacionVecinos({ vecinos, actualId }) {
-  if (!vecinos || vecinos.length === 0) return null;
+  // Solo se dibujan vecinos con id y rendimiento válidos.
+  const validos = Array.isArray(vecinos)
+    ? vecinos.filter((v) => v && typeof v.id === 'string' && esNum(v.rendimiento_t_ha))
+    : [];
+  if (validos.length === 0) return null;
 
-  const max = Math.max(...vecinos.map((v) => v.rendimiento_t_ha), 0.001);
+  const max = Math.max(...validos.map((v) => v.rendimiento_t_ha), 0.001);
 
   return (
     <div className="animate-fade-up">
       <div className="text-base text-text-mid mb-3">Parcelas similares en el municipio</div>
       <div className="space-y-2 stagger">
-        {vecinos.map((v) => {
+        {validos.map((v) => {
           const w = (v.rendimiento_t_ha / max) * 100;
           return (
             <div
@@ -18,7 +22,7 @@ export function ComparacionVecinos({ vecinos, actualId }) {
                           transition-all duration-200 hover:bg-ink-800
                 ${v.id === actualId ? 'bg-moss-900/40 border border-moss-700/40' : 'bg-ink-800/50'}`}
             >
-              <span className="text-sm text-text-hi font-mono">{v.id.split('_')[1]}</span>
+              <span className="text-sm text-text-hi font-mono">{v.id.split('_')[1] ?? v.id}</span>
               <div className="h-1.5 rounded-full bg-ink-700 overflow-hidden">
                 <div
                   className="h-full bg-moss-600 origin-left animate-grow-bar"

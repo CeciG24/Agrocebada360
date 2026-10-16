@@ -1,6 +1,11 @@
+import { esNum } from '../../lib/format';
+
 export function RangoProbable({ estimado, rango }) {
-  const lo = rango?.[0] ?? estimado - 0.3;
-  const hi = rango?.[1] ?? estimado + 0.3;
+  const valido = Array.isArray(rango) && rango.length === 2 && rango.every(esNum) && esNum(estimado);
+  if (!valido) {
+    return <p className="text-sm text-text-lo">Rango probable no disponible.</p>;
+  }
+  const [lo, hi] = rango;
 
   const min = 2.0;
   const max = 6.0;

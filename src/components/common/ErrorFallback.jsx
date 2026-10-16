@@ -5,7 +5,7 @@ export function ErrorFallback({ error, onRetry }) {
   const { modoDemo, activarDemo } = useDemoStore();
 
   return (
-    <Panel className="p-6 space-y-4">
+    <Panel className="p-4 sm:p-6 space-y-4">
       <div className="flex items-start gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-xl
                         bg-rose-950/50 border border-rose-700/40 shrink-0">

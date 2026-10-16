@@ -7,7 +7,11 @@ const CORTES = [
 
 export function SelectorCorte({ valor, onChange }) {
   return (
-    <div className="inline-flex rounded-xl border border-ink-700/60 bg-ink-800/70 p-1">
+    <div
+      role="group"
+      aria-label="Corte temporal"
+      className="grid w-full grid-cols-2 gap-1 rounded-xl border border-ink-700/60 bg-ink-800/70 p-1 sm:inline-flex sm:w-auto"
+    >
       {CORTES.map((c) => {
         const activo = c.id === valor;
         return (
@@ -15,7 +19,8 @@ export function SelectorCorte({ valor, onChange }) {
             key={c.id}
             type="button"
             onClick={() => onChange(c.id)}
-            className={`px-3 py-1.5 text-sm rounded-lg transition ${
+            aria-pressed={activo}
+            className={`px-3 py-2.5 sm:py-1.5 text-sm rounded-lg transition ${
               activo
                 ? 'bg-moss-900 text-moss-500 font-semibold border border-moss-700/40'
                 : 'text-text-mid hover:text-text-hi'

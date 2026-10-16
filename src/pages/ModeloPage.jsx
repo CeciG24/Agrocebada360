@@ -25,7 +25,7 @@ export function ModeloPage() {
   // ---------- Loading ----------
   if (cargando) {
     return (
-      <div className="px-6 pb-10 space-y-6 animate-fade-in">
+      <div className="px-4 sm:px-6 pb-10 space-y-6 animate-fade-in">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-4 w-96" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -42,8 +42,8 @@ export function ModeloPage() {
   // ---------- Error ----------
   if (error || !metricas) {
     return (
-      <div className="px-6 pb-10">
-        <Panel className="p-6 text-rose-300 text-sm">
+      <div className="px-4 sm:px-6 pb-10">
+        <Panel className="p-4 sm:p-6 text-rose-300 text-sm">
           No se pudieron cargar las métricas del modelo: {error ?? 'sin datos'}
         </Panel>
       </div>
@@ -51,7 +51,7 @@ export function ModeloPage() {
   }
 
   return (
-    <div className="px-6 pb-12 space-y-6">
+    <div className="px-4 sm:px-6 pb-12 space-y-6">
       {/* Encabezado */}
       <div>
         <h1 className="text-3xl font-semibold text-text-hi tracking-tight">
@@ -92,7 +92,7 @@ export function ModeloPage() {
       </div>
 
       {/* Bloque 2 — CV aleatoria vs espacial */}
-      <Panel className="p-6">
+      <Panel className="p-4 sm:p-6">
         <ComparacionCV
           cvAleatoria={metricas.cv_aleatoria}
           cvEspacial={metricas.cv_espacial}
@@ -100,12 +100,12 @@ export function ModeloPage() {
       </Panel>
 
       {/* Bloque 3 — Cortes temporales */}
-      <Panel className="p-6">
+      <Panel className="p-4 sm:p-6">
         <CurvaCortesModelo cortes={metricas.cortes_temporales} />
       </Panel>
 
       {/* Bloque 4 — Ablación */}
-      <Panel className="p-6">
+      <Panel className="p-4 sm:p-6">
         <TablaAblacion ablacion={metricas.ablacion} />
       </Panel>
 

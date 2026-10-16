@@ -6,6 +6,8 @@ import {
   resumenGlobalMock,
   metricasModeloMock,
 } from './parcelas.mock';
+import { generarGeometriasMock } from './geometrias.mock';
+import { cargarGeometriasEstaticas } from '../geometrias';
 
 // ---------- Utilidad ----------
 const delay = (ms = 180) => new Promise((r) => setTimeout(r, ms));
@@ -34,13 +36,17 @@ export const MockRepository = {
     return p;
   },
 
-  async getVecinos(id, n = 3) {
+    async getVecinos(id, n = 3) {
     await delay();
     const parcela = parcelasMock.find((p) => p.id === id);
     if (!parcela) return [];
 
     return parcelasMock
       .filter((p) => p.id !== id && p.municipio === parcela.municipio)
+      // "similares": las del mismo municipio con rendimiento más cercano
+      .sort((a, b) =>
+        Math.abs(a.rendimiento_t_ha - parcela.rendimiento_t_ha) -
+        Math.abs(b.rendimiento_t_ha - parcela.rendimiento_t_ha))
       .slice(0, n)
       .map((p) => ({
         id: p.id,
@@ -48,6 +54,14 @@ export const MockRepository = {
         superficie_ha: p.superficie_ha,
         municipio: p.municipio,
       }));
+  },
+
+  // ---------- Geometrías (mapa) ----------
+  // Usa public/data/parcelas.geojson si existe; si no, geometrías sintéticas.
+  async getGeometrias() {
+    await delay();
+    const real = await cargarGeometriasEstaticas();
+    return real ?? generarGeometriasMock(parcelasMock.map((p) => p.id));
   },
 
   // ---------- Contexto municipal ----------

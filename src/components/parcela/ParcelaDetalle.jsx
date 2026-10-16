@@ -4,28 +4,39 @@ import { MiniKpi } from '../common/MiniKpi';
 import { RangoProbable } from './RangoProbable';
 import { ShapBars } from './ShapBars';
 import { NarrativaParcela } from './NarrativaParcela';
+import { EmptyState } from '../common/EmptyState';
 
 export function ParcelaDetalle({ parcela, onVerDetalle }) {
   if (!parcela) {
     return (
-      <Panel className="p-6 text-text-lo text-sm">
-        Selecciona una parcela para ver su ficha.
+      <Panel>
+        <EmptyState
+          titulo="Selecciona una parcela"
+          detalle="Toca una parcela del mapa para ver su rendimiento esperado, su riesgo y por qué el modelo llegó a esa cifra."
+        />
       </Panel>
     );
   }
 
-  const rendimiento = parcela.rendimiento_t_ha ?? 0;
-  const produccion  = parcela.produccion_potencial_t ?? 0;
-  const superficie  = parcela.superficie_ha ?? 0;
-  const rango       = parcela.rango_probable ?? [rendimiento - 0.3, rendimiento + 0.3];
+  // Si un campo no llega, se muestra como no disponible: nunca se rellena con
+  // un valor que parezca un resultado real.
+  const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+  const rendimiento = num(parcela.rendimiento_t_ha);
+  const produccion  = num(parcela.produccion_potencial_t);
+  const superficie  = num(parcela.superficie_ha);
+  const rango       = Array.isArray(parcela.rango_probable)
+                      && parcela.rango_probable.length === 2
+                      && parcela.rango_probable.every((v) => num(v) !== null)
+                        ? parcela.rango_probable
+                        : null;
   const shap        = Array.isArray(parcela.shap) ? parcela.shap : [];
-  const riesgo      = parcela.riesgo ?? 'medio';
-  const confianzaPct = parcela.confianza_pct ?? 0;
+  const riesgo      = parcela.riesgo ?? null;
+  const confianzaPct = num(parcela.confianza_pct);
   const corte       = parcela.corte_temporal ?? '—';
   const narrativa   = parcela.narrativa || 'Sin narrativa disponible para esta parcela.';
 
   return (
-    <Panel className="p-6 space-y-6 animate-fade-up">
+    <Panel className="p-4 sm:p-6 space-y-6 animate-fade-up">
       {/* Cabecera */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -33,7 +44,8 @@ export function ParcelaDetalle({ parcela, onVerDetalle }) {
             {parcela.id}
           </h2>
           <p className="mt-1 text-sm text-text-lo">
-            Datos hasta {corte} · confianza {confianzaPct}%
+            Datos hasta {corte}
+            {confianzaPct !== null && ` · confianza ${confianzaPct}%`}
           </p>
         </div>
         <RiskBadge nivel={riesgo} />
@@ -41,12 +53,16 @@ export function ParcelaDetalle({ parcela, onVerDetalle }) {
 
       {/* KPIs */}
       <div className="grid grid-cols-3 gap-3">
-        <MiniKpi label="Rendimiento" value={rendimiento.toFixed(2)} unit="t/ha" />
-        <MiniKpi label="Producción"  value={produccion.toFixed(1)}  unit="t" />
-        <MiniKpi label="Superficie"  value={superficie.toFixed(1)}  unit="ha" />
+        <MiniKpi label="Rendimiento" value={rendimiento !== null ? rendimiento.toFixed(2) : '—'} unit={rendimiento !== null ? 't/ha' : ''} />
+        <MiniKpi label="Producción"  value={produccion !== null ? produccion.toFixed(1) : '—'}  unit={produccion !== null ? 't' : ''} />
+        <MiniKpi label="Superficie"  value={superficie !== null ? superficie.toFixed(1) : '—'}  unit={superficie !== null ? 'ha' : ''} />
       </div>
 
-      <RangoProbable estimado={rendimiento} rango={rango} />
+      {rendimiento !== null && rango ? (
+        <RangoProbable estimado={rendimiento} rango={rango} />
+      ) : (
+        <p className="text-sm text-text-lo">Rango probable no disponible para esta parcela.</p>
+      )}
 
       {shap.length > 0 && <ShapBars items={shap} />}
 

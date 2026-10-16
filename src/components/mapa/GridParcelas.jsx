@@ -4,7 +4,7 @@ import { LeyendaRendimiento } from './LeyendaRendimiento';
 
 export function GridParcelas({ parcelas, seleccionadaId, onSelect }) {
   return (
-    <Panel className="flex flex-col p-6 animate-fade-up">
+    <Panel className="flex flex-col p-4 sm:p-6 animate-fade-up">
       {/* Cabecera */}
       <div className="flex items-center gap-3 text-base text-text-mid">
         <span className="inline-block h-2 w-2 rounded-full bg-moss-500 animate-pulse" />

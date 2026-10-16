@@ -1,17 +1,19 @@
-import { fmtT } from '../../lib/format';
+import { esNum } from '../../lib/format';
 
 export function CurvaCortes({ cortes, corteActual }) {
-  if (!cortes || cortes.length === 0) return null;
+  // Solo se dibujan cortes con rendimiento válido.
+  const validos = Array.isArray(cortes) ? cortes.filter((c) => c && esNum(c.rendimiento_t_ha)) : [];
+  if (validos.length === 0) return null;
 
-  const max = Math.max(...cortes.map((c) => c.rendimiento_t_ha));
-  const min = Math.min(...cortes.map((c) => c.rendimiento_t_ha));
+  const max = Math.max(...validos.map((c) => c.rendimiento_t_ha));
+  const min = Math.min(...validos.map((c) => c.rendimiento_t_ha));
   const span = max - min || 1;
 
   return (
     <div className="animate-fade-up">
       <div className="text-base text-text-mid mb-3">Predicción a lo largo del ciclo</div>
       <div className="flex items-end gap-2 h-32">
-        {cortes.map((c, idx) => {
+        {validos.map((c, idx) => {
           const h = ((c.rendimiento_t_ha - min) / span) * 60 + 40;
           const activo = c.corte === corteActual;
           return (

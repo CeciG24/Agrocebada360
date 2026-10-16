@@ -1,5 +1,3 @@
-import { MetricaCard } from './MetricaCard';
-
 const METRICAS = [
   { key: 'rmse', label: 'RMSE', unit: 't/ha', formato: (v) => v.toFixed(2), mejorMenor: true },
   { key: 'mae',  label: 'MAE',  unit: 't/ha', formato: (v) => v.toFixed(2), mejorMenor: true },

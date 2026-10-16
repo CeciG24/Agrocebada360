@@ -40,9 +40,10 @@ export function generarCortes(final) {
 }
 
 // ============================================================
-// Parcelas
+// Parcelas destacadas (escritas a mano: son las que cuenta el guion de la demo)
+//   042 → riesgo bajo · 017/103 → medio · 156 → alto con alerta fuera de distribución
 // ============================================================
-export const parcelasMock = [
+const parcelasDestacadas = [
   {
     ...parcelaBase,
     id: 'AGC_042',
@@ -158,82 +159,180 @@ export const parcelasMock = [
 ];
 
 // ============================================================
+// Parcelas generadas hasta completar las 197 del reto
+// Determinista: mismo resultado en cada recarga (semilla fija), así la demo es repetible.
+// Los datos son de EJEMPLO; no representan parcelas reales.
+// ============================================================
+const TOTAL_PARCELAS = 197;
+
+// Cuántas parcelas hay por municipio, rendimiento medio y probabilidad de riesgo [bajo, medio, alto]
+const PERFIL_MUNICIPIO = {
+  Tlaxco:              { n: 58, media: 4.32, riesgo: [0.62, 0.28, 0.10] },
+  Huamantla:           { n: 52, media: 4.65, riesgo: [0.74, 0.20, 0.06] },
+  Atlangatepec:        { n: 32, media: 3.88, riesgo: [0.42, 0.38, 0.20] },
+  Nanacamilpa:         { n: 28, media: 4.10, riesgo: [0.55, 0.33, 0.12] },
+  Terrenate:           { n: 24, media: 3.72, riesgo: [0.38, 0.40, 0.22] },
+  'San José Teacalco': { n: 3,  media: 4.20, riesgo: [0.60, 0.30, 0.10] }, // muestra chica: prueba el filtro n ≥ 5
+};
+
+const FACTORES_MUNICIPIO = {
+  Tlaxco: ['Estrés hídrico en junio', 'Pendiente pronunciada', 'Baja retención de suelo'],
+  Huamantla: ['Granizo tardío', 'Variabilidad térmica'],
+  Atlangatepec: ['Déficit hídrico recurrente', 'Suelo erosionado', 'Baja fertilidad'],
+  Nanacamilpa: ['Nubosidad persistente', 'Pendiente moderada'],
+  Terrenate: ['Estrés hídrico severo en julio', 'Parcela con historial de bajo vigor'],
+  'San José Teacalco': ['Muestra insuficiente'],
+};
+
+const NARRATIVAS = {
+  bajo: [
+    'Vigor sostenido durante el ciclo y humedad favorable. Se parece a parcelas vecinas con buen rendimiento.',
+    'Buen desarrollo en el llenado de grano; la lluvia acumulada acompañó la estimación.',
+    'Rendimiento alto respaldado por un vigor constante y sin señales relevantes de estrés hídrico.',
+    'Ciclo estable de principio a fin. La estimación coincide con la de parcelas cercanas de condiciones parecidas.',
+  ],
+  medio: [
+    'Vigor moderado con buena respuesta a la lluvia. Una ligera caída hacia el final del ciclo reduce la estimación.',
+    'Desempeño razonable, aunque la variabilidad térmica de la temporada añade incertidumbre.',
+    'El estrés hídrico en una etapa intermedia limitó parte del potencial; el resto del ciclo fue estable.',
+    'Rendimiento cercano al promedio municipal, con un rango probable algo más amplio de lo habitual.',
+  ],
+  alto: [
+    'Incertidumbre alta: hay señales de estrés hídrico en una etapa crítica y pocas parcelas comparables. Conviene revisarla con cautela.',
+    'La pendiente y la baja retención de humedad penalizan la estimación; el rango probable es amplio.',
+    'Vigor irregular durante el ciclo. La cifra es orientativa y debe leerse junto con su rango probable.',
+  ],
+  ood: [
+    'El patrón temporal se parece poco al de las parcelas de entrenamiento, así que la estimación es menos confiable. Revísala con cautela.',
+    'Parcela poco representada en los datos de entrenamiento: la predicción puede desviarse más de lo habitual.',
+  ],
+};
+
+function mulberry32(semilla) {
+  let a = semilla;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const limitar = (v, a, b) => Math.min(b, Math.max(a, v));
+
+function generarParcelas() {
+  const rnd = mulberry32(361);
+  const gauss = () => { // ≈ N(0,1): suma de 6 uniformes
+    let acc = 0;
+    for (let k = 0; k < 6; k++) acc += rnd();
+    return (acc - 3) / Math.SQRT1_2;
+  };
+  const entre = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  const elegir = (lista) => lista[Math.floor(rnd() * lista.length)];
+
+  // Cola de municipios (descontando las destacadas) barajada con Fisher–Yates
+  const restantes = Object.fromEntries(Object.entries(PERFIL_MUNICIPIO).map(([m, d]) => [m, d.n]));
+  parcelasDestacadas.forEach((p) => { restantes[p.municipio] -= 1; });
+  const cola = Object.entries(restantes).flatMap(([m, n]) => Array(n).fill(m));
+  for (let k = cola.length - 1; k > 0; k--) {
+    const r = Math.floor(rnd() * (k + 1));
+    [cola[k], cola[r]] = [cola[r], cola[k]];
+  }
+
+  const ocupados = new Set(parcelasDestacadas.map((p) => p.id));
+  const generadas = [];
+
+  for (let n = 1; n <= TOTAL_PARCELAS; n++) {
+    const codigo = String(n).padStart(3, '0');
+    const id = `AGC_${codigo}`;
+    if (ocupados.has(id)) continue;
+
+    const municipio = cola.pop();
+    const perfil = PERFIL_MUNICIPIO[municipio];
+
+    // Riesgo según la distribución del municipio; la confianza sigue al riesgo
+    const u = rnd();
+    const [pBajo, pMedio] = perfil.riesgo;
+    const riesgo = u < pBajo ? 'bajo' : u < pBajo + pMedio ? 'medio' : 'alto';
+    const confianza_pct =
+      riesgo === 'bajo' ? entre(82, 94) : riesgo === 'medio' ? entre(70, 81) : entre(55, 69);
+    const confianza = confianza_pct >= 82 ? 'alta' : confianza_pct >= 70 ? 'media' : 'baja';
+    const ood_flag = riesgo === 'alto' && rnd() < 0.6;
+
+    // Parcelas de riesgo alto tienden a rendir un poco menos
+    const ajuste = riesgo === 'bajo' ? 0.12 : riesgo === 'alto' ? -0.28 : 0;
+    const rendimiento_t_ha = +limitar(perfil.media + gauss() * 0.42 + ajuste, 2.9, 5.7).toFixed(2);
+    const superficie_ha = +(1.4 + rnd() ** 1.6 * 7).toFixed(1);
+    const semiancho = 0.15 + (100 - confianza_pct) * 0.0105;
+
+    // SHAP: magnitudes escaladas con el rendimiento; el estrés hídrico pesa más con riesgo alto
+    const rv = limitar(0.55 + (rendimiento_t_ha - 4.3) * 0.45, 0.45, 1.2);
+    const jit = () => 0.85 + rnd() * 0.3;
+    const estres = riesgo === 'alto' ? -(0.14 + rnd() * 0.1) : riesgo === 'medio' ? -(0.07 + rnd() * 0.06) : -(0.02 + rnd() * 0.04);
+    const shap = [
+      { categoria: 'vigor',          etiqueta: 'Vigor de la planta', valor: +(0.55 * rv * jit()).toFixed(2) },
+      { categoria: 'clima',          etiqueta: 'Lluvia acumulada',   valor: +(0.27 * rv * jit()).toFixed(2) },
+      { categoria: 'humedad',        etiqueta: 'Humedad del suelo',  valor: +(0.14 * rv * jit()).toFixed(2) },
+      { categoria: 'estres_hidrico', etiqueta: 'Estrés hídrico',     valor: +estres.toFixed(2) },
+      { categoria: 'topografia',     etiqueta: 'Pendiente',          valor: +((rnd() - 0.35) * 0.1).toFixed(2) },
+    ].sort((x, y) => Math.abs(y.valor) - Math.abs(x.valor));
+
+    generadas.push({
+      ...parcelaBase,
+      id,
+      codigo,
+      municipio,
+      superficie_ha,
+      rendimiento_t_ha,
+      produccion_potencial_t: +(superficie_ha * rendimiento_t_ha).toFixed(1),
+      rango_probable: [+(rendimiento_t_ha - semiancho).toFixed(2), +(rendimiento_t_ha + semiancho).toFixed(2)],
+      confianza,
+      confianza_pct,
+      riesgo,
+      ood_flag,
+      shap,
+      narrativa: elegir(ood_flag ? NARRATIVAS.ood : NARRATIVAS[riesgo]),
+    });
+  }
+  return generadas;
+}
+
+// Las destacadas van primero: el dashboard abre seleccionando la primera (AGC_042)
+export const parcelasMock = [...parcelasDestacadas, ...generarParcelas()];
+
+// ============================================================
+// Agregados CALCULADOS desde las parcelas (nunca escritos a mano,
+// para que Regional, dashboard y ficha siempre cuadren entre sí)
+// ============================================================
+const redondear = (v, d) => +v.toFixed(d);
+
+function distribucionRiesgo(lista) {
+  const n = lista.length || 1;
+  const cuenta = (nivel) => lista.filter((p) => p.riesgo === nivel).length / n;
+  return { bajo: redondear(cuenta('bajo'), 3), medio: redondear(cuenta('medio'), 3), alto: redondear(cuenta('alto'), 3) };
+}
+
+// ============================================================
 // Contexto municipal
 // ============================================================
-export const municipiosMock = {
-  Tlaxco: {
-    municipio: 'Tlaxco',
-    estado: 'Tlaxcala',
-    n_parcelas: 42,
-    rendimiento_promedio_t_ha: 4.32,
-    superficie_total_ha: 128.4,
-    produccion_total_t: 554.7,
-    distribucion_riesgo: { bajo: 0.62, medio: 0.28, alto: 0.10 },
-    factores_limitantes: [
-      'Estrés hídrico en junio',
-      'Pendiente pronunciada',
-      'Baja retención de suelo',
-    ],
-  },
-  Huamantla: {
-    municipio: 'Huamantla',
-    estado: 'Tlaxcala',
-    n_parcelas: 38,
-    rendimiento_promedio_t_ha: 4.65,
-    superficie_total_ha: 142.1,
-    produccion_total_t: 660.8,
-    distribucion_riesgo: { bajo: 0.74, medio: 0.20, alto: 0.06 },
-    factores_limitantes: ['Granizo tardío', 'Variabilidad térmica'],
-  },
-  Atlangatepec: {
-    municipio: 'Atlangatepec',
-    estado: 'Tlaxcala',
-    n_parcelas: 24,
-    rendimiento_promedio_t_ha: 3.88,
-    superficie_total_ha: 89.6,
-    produccion_total_t: 347.6,
-    distribucion_riesgo: { bajo: 0.42, medio: 0.38, alto: 0.20 },
-    factores_limitantes: [
-      'Déficit hídrico recurrente',
-      'Suelo erosionado',
-      'Baja fertilidad',
-    ],
-  },
-  Nanacamilpa: {
-    municipio: 'Nanacamilpa',
-    estado: 'Tlaxcala',
-    n_parcelas: 18,
-    rendimiento_promedio_t_ha: 4.10,
-    superficie_total_ha: 61.3,
-    produccion_total_t: 251.3,
-    distribucion_riesgo: { bajo: 0.55, medio: 0.33, alto: 0.12 },
-    factores_limitantes: ['Nubosidad persistente', 'Pendiente moderada'],
-  },
-  Terrenate: {
-    municipio: 'Terrenate',
-    estado: 'Tlaxcala',
-    n_parcelas: 15,
-    rendimiento_promedio_t_ha: 3.72,
-    superficie_total_ha: 48.9,
-    produccion_total_t: 181.9,
-    distribucion_riesgo: { bajo: 0.38, medio: 0.40, alto: 0.22 },
-    factores_limitantes: [
-      'Estrés hídrico severo en julio',
-      'Parcela con historial de bajo vigor',
-    ],
-  },
-  // Municipios con muestra chica (para probar el filtro n >= 5)
-  SanJoséTeacalco: {
-    municipio: 'San José Teacalco',
-    estado: 'Tlaxcala',
-    n_parcelas: 3,
-    rendimiento_promedio_t_ha: 4.20,
-    superficie_total_ha: 9.4,
-    produccion_total_t: 39.5,
-    distribucion_riesgo: { bajo: 0.60, medio: 0.30, alto: 0.10 },
-    factores_limitantes: ['Muestra insuficiente'],
-  },
-};
+export const municipiosMock = Object.fromEntries(
+  Object.keys(PERFIL_MUNICIPIO).map((municipio) => {
+    const lista = parcelasMock.filter((p) => p.municipio === municipio);
+    return [
+      municipio,
+      {
+        municipio,
+        estado: 'Tlaxcala',
+        n_parcelas: lista.length,
+        rendimiento_promedio_t_ha: redondear(lista.reduce((s, p) => s + p.rendimiento_t_ha, 0) / lista.length, 2),
+        superficie_total_ha: redondear(lista.reduce((s, p) => s + p.superficie_ha, 0), 1),
+        produccion_total_t: redondear(lista.reduce((s, p) => s + p.produccion_potencial_t, 0), 1),
+        distribucion_riesgo: distribucionRiesgo(lista),
+        factores_limitantes: FACTORES_MUNICIPIO[municipio],
+      },
+    ];
+  }),
+);
 
 // ============================================================
 // Cortes temporales precalculados (opcional)
@@ -252,12 +351,12 @@ export const cortesMock = {
 // Resumen global para el dashboard
 // ============================================================
 export const resumenGlobalMock = {
-  n_parcelas: 197,
-  n_train: 138,
-  n_prediccion: 59,
-  superficie_total_ha: 842.6,
-  produccion_potencial_total_t: 3452.1,
-  distribucion_riesgo: { bajo: 0.62, medio: 0.28, alto: 0.10 },
+  n_parcelas: parcelasMock.length,
+  n_train: 138,        // con rendimiento observado (dato del reto)
+  n_prediccion: 59,    // a predecir (dato del reto)
+  superficie_total_ha: redondear(parcelasMock.reduce((t, p) => t + p.superficie_ha, 0), 1),
+  produccion_potencial_total_t: redondear(parcelasMock.reduce((t, p) => t + p.produccion_potencial_t, 0), 1),
+  distribucion_riesgo: distribucionRiesgo(parcelasMock),
   corte_temporal: 'hasta 2025-09-15',
 };
 

@@ -38,7 +38,7 @@ export function TablaAblacion({ ablacion }) {
                   : 'border-ink-700/60 bg-ink-800/40'}`}
               style={{ animationDelay: `${idx * 40}ms` }}
             >
-              <div className="grid grid-cols-[140px_1fr_auto] items-center gap-4">
+              <div className="grid grid-cols-[96px_1fr_auto] items-center gap-3 sm:grid-cols-[140px_1fr_auto] sm:gap-4">
                 <span className={`text-sm ${esFusion ? 'text-moss-500 font-semibold' : 'text-text-hi'}`}>
                   {a.familia}
                 </span>
@@ -52,7 +52,7 @@ export function TablaAblacion({ ablacion }) {
                   />
                 </div>
 
-                <span className="text-sm tabular-nums text-text-mid w-24 text-right">
+                <span className="text-sm tabular-nums text-text-mid w-20 sm:w-24 text-right">
                   {esFusion
                     ? `RMSE ${a.rmse.toFixed(2)}`
                     : `+${delta.toFixed(2)}`}
