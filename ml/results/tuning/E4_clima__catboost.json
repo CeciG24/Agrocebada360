@@ -1,0 +1,114 @@
+{
+  "exp": "E4_clima",
+  "model": "catboost",
+  "n_features": 30,
+  "best_params": {
+    "rsm": 0.2,
+    "learning_rate": 0.04,
+    "l2_leaf_reg": 20,
+    "iterations": 500,
+    "depth": 6
+  },
+  "search_cv_rmse_optimistic": 0.5146422604581398,
+  "default_search_cv_rmse": 0.5188676896685608,
+  "nested": {
+    "tuned": {
+      "rmse": 0.5410032213273104,
+      "mae": 0.3776135602144711,
+      "r2": 0.5930336457660197
+    },
+    "default": {
+      "rmse": 0.5487797402520282,
+      "mae": 0.38083557657045974,
+      "r2": 0.5812609236159897
+    },
+    "rmse_sd_tuned": 0.005628003717673865,
+    "rmse_sd_default": 0.004087525231262544,
+    "outer_repeats": 2,
+    "n_iter": 15
+  },
+  "top5_candidates": [
+    {
+      "rmse": 0.5146422604581398,
+      "params": {
+        "rsm": 0.2,
+        "learning_rate": 0.04,
+        "l2_leaf_reg": 20,
+        "iterations": 500,
+        "depth": 6
+      }
+    },
+    {
+      "rmse": 0.5150734561355854,
+      "params": {
+        "rsm": 1.0,
+        "learning_rate": 0.02,
+        "l2_leaf_reg": 1,
+        "iterations": 300,
+        "depth": 6
+      }
+    },
+    {
+      "rmse": 0.5156767816733973,
+      "params": {
+        "rsm": 0.2,
+        "learning_rate": 0.04,
+        "l2_leaf_reg": 10,
+        "iterations": 300,
+        "depth": 5
+      }
+    },
+    {
+      "rmse": 0.5160291160016357,
+      "params": {
+        "rsm": 0.2,
+        "learning_rate": 0.07,
+        "l2_leaf_reg": 3,
+        "iterations": 300,
+        "depth": 6
+      }
+    },
+    {
+      "rmse": 0.5165595191603213,
+      "params": {
+        "rsm": 1.0,
+        "learning_rate": 0.04,
+        "l2_leaf_reg": 10,
+        "iterations": 300,
+        "depth": 6
+      }
+    }
+  ],
+  "folds_chose_default": 2,
+  "folds_total": 10,
+  "best_params_selected_on": "todas las parcelas etiquetadas (oficiales)",
+  "honest_estimate": "nested",
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": [],
+    "exp": "E4_clima",
+    "n_iter": 15,
+    "outer_repeats": 2,
+    "final_repeats": 3,
+    "n_labeled": 138
+  },
+  "provisional": false
+}

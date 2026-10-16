@@ -1,0 +1,86 @@
+{
+  "exp": "E4_clima",
+  "model": "elasticnet",
+  "n_features": 30,
+  "best_params": {},
+  "search_cv_rmse_optimistic": 0.5142017837293995,
+  "default_search_cv_rmse": 0.5142017837293995,
+  "nested": {
+    "tuned": {
+      "rmse": 0.5252467257132085,
+      "mae": 0.35958728883983354,
+      "r2": 0.6163492922625905
+    },
+    "default": {
+      "rmse": 0.531423280513794,
+      "mae": 0.36413734920594304,
+      "r2": 0.6073311596285655
+    },
+    "rmse_sd_tuned": 0.00969608542322383,
+    "rmse_sd_default": 0.0036033585786513543,
+    "outer_repeats": 2,
+    "n_iter": 15
+  },
+  "top5_candidates": [
+    {
+      "rmse": 0.5142017837293995,
+      "params": {}
+    },
+    {
+      "rmse": 0.5150585872414726,
+      "params": {
+        "l1_ratio": 0.9
+      }
+    },
+    {
+      "rmse": 0.5153310888964032,
+      "params": {
+        "l1_ratio": 0.1
+      }
+    },
+    {
+      "rmse": 0.515628558640947,
+      "params": {
+        "l1_ratio": 0.7
+      }
+    },
+    {
+      "rmse": 0.5165503496817501,
+      "params": {
+        "l1_ratio": 0.3
+      }
+    }
+  ],
+  "folds_chose_default": 2,
+  "folds_total": 10,
+  "best_params_selected_on": "todas las parcelas etiquetadas (oficiales)",
+  "honest_estimate": "nested",
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": [],
+    "exp": "E4_clima",
+    "n_iter": 15,
+    "outer_repeats": 2,
+    "final_repeats": 3,
+    "n_labeled": 138
+  },
+  "provisional": false
+}
