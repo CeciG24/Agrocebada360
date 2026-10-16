@@ -28,7 +28,6 @@ dist/
 /data/**
 !/data/.gitkeep
 !/data/README.md
-*.joblib
 *.pkl
 *.pickle
 
