@@ -1,4 +1,4 @@
-﻿# P3.3 - Resultados de validacion espacial
+# P3.3 - Resultados de validacion espacial
 
 ## Objetivo
 
@@ -19,6 +19,11 @@ La separacion espacial fue verificada en P3.1:
 ninguna parcela ni grupo espacial se comparte entre
 entrenamiento y validacion dentro del mismo fold.
 
+
+> **Nota de version:** los resultados de `leaderboard_v2.csv`
+> son comparaciones exploratorias. Las metricas del modelo
+> definitivo `yield-v1` se documentan en la seccion de
+> actualizacion correspondiente.
 
 ## Experimentos evaluados
 
@@ -107,3 +112,67 @@ Documentación del Rol 3:
 
 P3.3: validacion espacial ejecutada y resultados
 exploratorios documentados.
+
+## Evaluacion del modelo definitivo yield-v1
+
+### Identificacion del modelo
+
+- Version del modelo: yield-v1.
+- Experimento seleccionado: E4_clima.
+- Algoritmo: RidgeCV dentro de un Pipeline.
+- Variables utilizadas: 30 variables climaticas.
+- Parcelas etiquetadas: 138.
+- Version de datos: sha256:b045a212af57282a.
+- Fuente: ml/results/final_model_config.json.
+
+### Resultados de validacion
+
+| Metrica | Validacion convencional | Validacion espacial |
+|---|---:|---:|
+| RMSE (t/ha) | 0.5147 | 0.6995 |
+| R2 | 0.6317 | 0.3196 |
+| MAE (t/ha) | 0.3561 | No reportado |
+
+El RMSE espacial es aproximadamente 35.92 % mayor que el
+RMSE convencional. Esto indica una disminucion del desempeno
+predictivo cuando la evaluacion separa grupos geograficos.
+
+### Comparacion con el modelo basado en municipio
+
+| Modelo | RMSE convencional | RMSE espacial |
+|---|---:|---:|
+| X0_municipio / Ridge | 0.5076 | 0.6422 |
+| E4_clima / Ridge (yield-v1) | 0.5147 | 0.6995 |
+
+El modelo basado en municipio obtuvo menor error en ambas
+evaluaciones. Por tanto, los resultados disponibles no permiten
+afirmar que yield-v1 supera a todas las alternativas evaluadas.
+
+### Procedencia y limitaciones
+
+Las metricas de esta seccion proceden de la configuracion final
+del Rol 2 y no representan una nueva ejecucion independiente
+del protocolo espacial por parte del Rol 3.
+
+La validacion espacial utiliza grupos geograficos y constituye
+un diagnostico de generalizacion, no una reproduccion del
+muestreo oficial de evaluacion.
+
+La seleccion del modelo se realizo utilizando resultados de
+validacion sobre los mismos datos empleados para comparar
+candidatos, por lo que puede existir optimismo de seleccion.
+
+La verificacion de las 59 predicciones de evaluacion confirmo
+coincidencia numerica con los resultados publicados por el Rol 2,
+con una diferencia maxima de aproximadamente 4.44e-16 t/ha.
+Esta comprobacion demuestra reproducibilidad de predicciones,
+pero no constituye una validacion espacial independiente.
+
+Los resultados deben interpretarse considerando las limitaciones
+de procedencia temporal de las variables climaticas documentadas
+en P3.2.
+
+### Estado actualizado
+
+P3.3: resultados exploratorios conservados y metricas espaciales
+del modelo definitivo yield-v1 incorporadas y documentadas.

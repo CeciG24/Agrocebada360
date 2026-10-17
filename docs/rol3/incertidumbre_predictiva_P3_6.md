@@ -1,5 +1,11 @@
 # P3.6 - Incertidumbre predictiva
 
+> **Guia de lectura (version actual):** las secciones iniciales
+> describen resultados historicos exploratorios. Para la entrega
+> definitiva, utilizar la seccion «Actualizacion del modelo
+> definitivo yield-v1» y sus archivos `*_yield_v1`.
+
+
 ## Objetivo
 
 Cuantificar la incertidumbre de las predicciones
@@ -90,7 +96,7 @@ El archivo de intervalos contiene:
 
 ### Scripts
 
-- `ml/rol3/calcular_intervalos_rol3.py` (pendiente de incorporar al repositorio)
+- `ml/rol3/calcular_intervalos_rol3.py` — script de la etapa exploratoria anterior; su disponibilidad en el repositorio debe comprobarse por separado.
 - `ml/make_baseline_predictions.py` (Rol 2)
 
 ### Resultados
@@ -165,3 +171,101 @@ cuya seguridad temporal no ha sido certificada.
 
 Los resultados deben considerarse exploratorios
 hasta realizar la validacion temporal definitiva.
+
+## Actualizacion del modelo definitivo yield-v1
+
+### Modelo y procedencia
+
+- Modelo definitivo: yield-v1.
+- Experimento: E4_clima.
+- Algoritmo: Ridge.
+- Variables climaticas: 30.
+- Parcelas de entrenamiento: 138.
+- Parcelas de evaluacion: 59.
+- Version de datos: sha256:b045a212af57282a.
+
+Los resultados anteriores de baseline_v0 y E5_fusion
+se conservan como analisis exploratorios historicos.
+
+### Metodologia de intervalos
+
+Se utilizo el archivo E4_clima__ridge.csv, generado
+mediante validacion cruzada aleatoria de cinco folds
+y diez repeticiones.
+
+Cada prediccion OOF corresponde al promedio de las
+predicciones fuera de fold de una misma parcela
+entre las diez repeticiones.
+
+Se calcularon 138 residuos absolutos y se selecciono
+su cuantil empirico con correccion de muestra finita:
+
+k = ceil((n + 1) * 0.90)
+
+El margen obtenido se sumo y resto a cada una de las
+59 predicciones oficiales del modelo yield-v1.
+
+No se modificaron las predicciones originales.
+
+### Resultados
+
+| Metrica | Resultado |
+|---|---:|
+| Parcelas OOF | 138 |
+| MAE OOF | 0.353605 t/ha |
+| RMSE OOF | 0.512451 t/ha |
+| Margen exploratorio nominal 90 % | 0.887987 t/ha |
+| Ancho del intervalo | 1.775974 t/ha |
+| Cobertura descriptiva OOF | 91.30 % |
+| Parcelas cubiertas OOF | 126 de 138 |
+| Intervalos generados | 59 |
+
+El RMSE de 0.512451 t/ha corresponde a los residuos
+de las predicciones OOF promediadas.
+
+El RMSE oficial de 0.514672 t/ha corresponde al
+promedio de los RMSE de las diez repeticiones.
+Por ello, ambas metricas no son directamente iguales.
+
+### Ejemplo individual: AGC_003
+
+- Prediccion: 3.210176 t/ha.
+- Limite inferior: 2.322190 t/ha.
+- Limite superior: 4.098163 t/ha.
+
+El intervalo se interpreta como una banda exploratoria
+de incertidumbre predictiva, no como garantia individual.
+
+### Archivos generados
+
+Script:
+- `ml/rol3/calcular_intervalos_yield_v1.py`
+
+Resultados:
+- `ml/results/rol3/intervalos_yield_v1/predicciones_intervalos_yield_v1.csv`
+- `ml/results/rol3/intervalos_yield_v1/metadata_intervalos_yield_v1.json`
+
+### Limitaciones
+
+1. No se utilizo un conjunto de calibracion independiente.
+2. Los residuos OOF fueron promediados entre repeticiones.
+3. La cobertura OOF es descriptiva y no una garantia conformal.
+4. El margen es uniforme para todas las parcelas.
+5. No se ha medido la cobertura espacial de yield-v1.
+6. La seguridad temporal de las variables no esta
+   completamente certificada.
+
+La evaluacion espacial del modelo E5_fusion documentada
+anteriormente no debe atribuirse a yield-v1.
+
+### Conclusion actualizada
+
+P3.6 dispone de intervalos exploratorios para las
+59 predicciones oficiales del modelo yield-v1.
+
+Los intervalos se generaron a partir de residuos OOF
+del experimento E4_clima con Ridge y mantienen un
+margen uniforme de 0.887987 t/ha.
+
+Se requiere calibracion y validacion independientes
+para afirmar garantias de cobertura.

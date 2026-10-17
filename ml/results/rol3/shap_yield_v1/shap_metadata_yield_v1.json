@@ -1,0 +1,13 @@
+{
+  "model_version": "yield-v1",
+  "data_version": "sha256:b045a212af57282a",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "method": "shap.LinearExplainer",
+  "background": "138 parcelas de entrenamiento, variables imputadas y escaladas",
+  "n_train": 138,
+  "n_evaluation": 59,
+  "n_features": 30,
+  "max_additivity_error_t_ha": 8.881784197001252e-16,
+  "unit": "t/ha",
+  "interpretation": "Asociaciones predictivas, no efectos causales"
+}

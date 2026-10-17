@@ -1,4 +1,7 @@
-﻿# P3.2 — Política temporal contra la fuga de información
+# P3.2 — Política temporal contra la fuga de información
+
+> **Guia de lectura (version actual):** las secciones 8 y 9 documentan el estado historico anterior a la seleccion del modelo definitivo. La auditoria de las 30 variables de `yield-v1` y sus resultados actualizados se presentan en la seccion 10. La auditoria no certifica la disponibilidad operativa de todas las fuentes al corte temporal.
+
 
 ## 1. Objetivo
 
@@ -204,3 +207,87 @@ Por tanto, **la auditoría de las matrices temporales revisadas se considera com
 Sin embargo, la matriz maestra original y el futuro modelo definitivo requieren comprobaciones adicionales antes de afirmar que cumplen integralmente la política anti-leakage.
 
 Los resultados de P3.2 constituyen una base técnica para que el Rol 2 seleccione y valide un modelo compatible con las restricciones temporales del proyecto.
+
+## Estado actualizado de P3.2
+
+Las actividades pendientes mencionadas en las secciones 8 y 9
+corresponden a la fase anterior a la seleccion de yield-v1.
+La auditoria posterior del modelo definitivo, documentada
+a continuacion, verifico las 30 variables climaticas utilizadas
+por yield-v1 (5910/5910 coincidencias). No certifica las
+otras familias de features_master.csv ni la disponibilidad
+operativa de cada fuente al corte temporal.
+
+## 10. Auditoria temporal del modelo definitivo yield-v1
+
+### Modelo y datos
+
+- Modelo: yield-v1.
+- Experimento: E4_clima.
+- Algoritmo: Ridge.
+- Variables climaticas utilizadas: 30.
+- Parcelas verificadas: 197.
+- Corte temporal: 2025-10-31.
+
+### Procedimiento
+
+Se recalcularon las 30 variables climaticas a partir
+de climate_timeseries.csv, utilizando exclusivamente
+registros con fecha igual o anterior al corte.
+
+Se utilizaron las siguientes ventanas:
+
+- 2022: enero a diciembre.
+- 2023: enero a diciembre.
+- 2024: enero a diciembre.
+- 2025: abril a octubre.
+- 2022-2025: combinacion de los periodos anteriores.
+
+La amplitud termica se calculo como tmax_c - tmin_c.
+La desviacion estandar se calculo con ddof=1.
+
+Los valores recalculados se compararon contra
+climate_features.csv y features_master.csv.
+
+### Resultados
+
+| Comprobacion | Resultado |
+|---|---:|
+| Parcelas verificadas | 197 |
+| Variables climaticas | 30 |
+| Comparaciones por variable | 197 |
+| Comparaciones totales | 5910 |
+| Coincidencias | 5910 |
+| Diferencias | 0 |
+| Tolerancia absoluta | 0.00001 |
+| Coincidencias entre climate_features y features_master | 5910/5910 |
+
+Las 30 variables se reprodujeron correctamente
+utilizando los periodos temporales permitidos.
+
+La serie climatica original contiene 394 registros
+posteriores al corte. Sin embargo, las variables
+auditadas se reprodujeron sin utilizar esos registros.
+
+### Interpretacion
+
+No se encontro evidencia de fuga temporal en los
+valores de las 30 variables climaticas utilizadas
+por yield-v1, dentro del alcance de esta auditoria.
+
+La comprobacion no demuestra por si sola la
+disponibilidad operativa de cada registro en la
+fecha de corte, ni descarta otras formas de fuga
+de informacion.
+
+La conclusion aplica al modelo yield-v1 y a
+las variables verificadas. No certifica las
+otras familias de variables de features_master.csv.
+
+### Fuentes verificadas
+
+- clima/climate_timeseries.csv
+- clima/climate_features.csv
+- features/features_master.csv
+- ml/models/feature_schema.json
+- ml/audit_data.py

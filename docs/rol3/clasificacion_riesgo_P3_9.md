@@ -1,4 +1,10 @@
-﻿# P3.9 - Clasificacion de riesgo y prioridades de revision
+# P3.9 - Clasificacion de riesgo y prioridades de revision
+
+> **Guia de lectura (version actual):** las secciones iniciales
+> describen resultados historicos exploratorios. Para la entrega
+> definitiva, utilizar la seccion «Actualizacion del modelo
+> definitivo yield-v1» y sus archivos `*_yield_v1`.
+
 
 ## Objetivo
 
@@ -129,3 +135,123 @@ incertidumbre predictiva para 59 parcelas.
 El resultado permite identificar parcelas
 que requieren atencion adicional, sin
 atribuir probabilidades de riesgo no validadas.
+
+## Actualizacion del modelo definitivo yield-v1
+
+### Integracion de resultados
+
+Se integraron las 59 predicciones oficiales del modelo
+yield-v1 con los resultados actualizados de:
+
+- P3.6: intervalos exploratorios de incertidumbre.
+- P3.8: deteccion OOD mediante Isolation Forest.
+
+La integracion contiene 59 parcelas y 14 columnas,
+sin duplicados ni valores faltantes.
+
+Se verifico la coincidencia de los identificadores
+y las predicciones entre los tres archivos de origen.
+
+### Clasificacion relativa de rendimiento
+
+Se conservaron las reglas originales basadas en
+terciles de las 59 predicciones.
+
+| Indicador | Valor |
+|---|---:|
+| Primer tercil | 3.210176 t/ha |
+| Segundo tercil | 4.365824 t/ha |
+| Bajo relativo | 21 parcelas |
+| Intermedio relativo | 26 parcelas |
+| Alto relativo | 12 parcelas |
+
+Las cantidades no son iguales debido a la presencia
+de valores de prediccion repetidos en los limites
+de los terciles.
+
+Estas categorias son relativas al conjunto evaluado
+y no representan umbrales agronomicos absolutos.
+
+### Prioridades de revision
+
+Se mantuvieron las reglas originales de prioridad:
+
+1. Rendimiento bajo y alerta OOD:
+   prioridad alta de revision.
+2. Rendimiento bajo sin alerta OOD:
+   revisar rendimiento estimado.
+3. Alerta OOD sin rendimiento bajo:
+   revisar caracteristicas inusuales.
+4. Ninguna condicion anterior:
+   sin alerta combinada.
+
+| Prioridad | Parcelas |
+|---|---:|
+| Prioridad alta de revision | 4 |
+| Revisar rendimiento estimado | 17 |
+| Revisar caracteristicas inusuales | 0 |
+| Sin alerta combinada | 38 |
+| Total | 59 |
+
+### Parcelas con prioridad alta
+
+| Parcela | Prediccion (t/ha) | Puntaje OOD |
+|---|---:|---:|
+| AGC_029 | 3.038316 | -0.668064 |
+| AGC_061 | 3.067883 | -0.697110 |
+| AGC_087 | 2.734081 | -0.664180 |
+| AGC_120 | 2.734081 | -0.664180 |
+
+Las cuatro parcelas con alerta OOD presentan
+rendimiento bajo relativo y reciben prioridad alta.
+
+No se identificaron parcelas OOD fuera del grupo
+de rendimiento bajo relativo.
+
+### Incertidumbre predictiva
+
+Se integraron los intervalos exploratorios de P3.6:
+
+- Nivel nominal: 90 %.
+- Margen uniforme: 0.887987 t/ha.
+- Ancho uniforme: 1.775974 t/ha.
+
+Los intervalos son informacion complementaria.
+No modifican las prioridades porque su amplitud
+es constante para las 59 parcelas.
+
+La cobertura descriptiva OOF no representa
+una garantia de cobertura individual.
+
+### Archivos generados
+
+Script:
+- `ml/rol3/clasificar_riesgo_yield_v1.py`
+
+Resultados:
+- `ml/results/rol3/riesgo_yield_v1/predicciones_riesgo_yield_v1.csv`
+- `ml/results/rol3/riesgo_yield_v1/metadata_riesgo_yield_v1.json`
+
+### Limitaciones
+
+1. Los terciles dependen de las 59 parcelas evaluadas.
+2. Las prioridades no representan probabilidades
+   calibradas de perdida de rendimiento.
+3. Las alertas OOD no confirman errores predictivos.
+4. Los intervalos de P3.6 son exploratorios.
+5. La auditoria P3.2 reprodujo las 30 variables climaticas
+   de yield-v1, pero no certifica su disponibilidad operativa
+   en la fecha de corte ni otras fuentes.
+6. Las prioridades son criterios operativos de revision,
+   no recomendaciones agronomicas validadas.
+
+### Conclusion actualizada
+
+P3.9 integra las predicciones, la incertidumbre
+exploratoria y las alertas OOD del modelo yield-v1.
+
+Se identificaron cuatro parcelas con prioridad alta,
+17 para revision de rendimiento y 38 sin alerta combinada.
+
+El archivo integrado permite priorizar revisiones
+sin atribuir probabilidades de riesgo no validadas.

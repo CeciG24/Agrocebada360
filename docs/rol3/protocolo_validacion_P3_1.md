@@ -1,4 +1,4 @@
-﻿# P3.1 - Diseño de validación convencional y espacial
+# P3.1 - Diseño de validación convencional y espacial
 
 ## Objetivo
 
@@ -123,3 +123,64 @@ separación espacial verificada.
 
 La ejecución y comparación de métricas espaciales
 corresponde a P3.3.
+
+> **Nota de version:** el protocolo general anterior se
+> conserva como antecedente. La configuracion y los resultados
+> oficiales de `yield-v1` se detallan a continuacion.
+
+## Actualizacion del modelo definitivo yield-v1
+
+### Configuracion
+
+- Version del modelo: yield-v1.
+- Experimento: E4_clima.
+- Algoritmo: Ridge.
+- Variables climaticas: 30.
+- Parcelas de entrenamiento: 138.
+- Parcelas de evaluacion: 59.
+- Version de datos: sha256:b045a212af57282a.
+
+Se conserva el protocolo convencional de cinco folds
+y diez repeticiones, con semillas de 42 a 51.
+
+La validacion espacial utiliza GroupKFold sobre
+seis grupos geograficos construidos mediante KMeans.
+
+### Resultados del modelo definitivo
+
+| Metrica | Convencional | Espacial |
+|---|---:|---:|
+| RMSE (t/ha) | 0.514672 | 0.699534 |
+| R2 | 0.631662 | 0.319617 |
+
+El RMSE espacial es aproximadamente 35.92 %
+superior al RMSE convencional.
+
+Esta diferencia sugiere una perdida de capacidad
+de generalizacion bajo la particion espacial.
+
+El RMSE convencional corresponde al promedio
+de las diez repeticiones de validacion cruzada.
+
+### Interpretacion y limitaciones
+
+La validacion espacial evalua la transferencia
+entre los grupos definidos por KMeans, pero no
+garantiza generalizacion a cualquier nueva region.
+
+Los resultados no certifican ausencia de fuga
+temporal. La auditoria correspondiente se
+documenta en P3.2.
+
+La seleccion del modelo a partir de experimentos
+de validacion puede introducir optimismo en las
+metricas reportadas.
+
+Las 59 parcelas sin rendimiento observado no
+se utilizaron para calcular estas metricas.
+
+### Referencias internas
+
+- `ml/results/final_model_config.json`
+- `docs/rol3/resultados_validacion_espacial_P3_3.md`
+- `docs/rol3/politica_temporal_anti_leakage.md`

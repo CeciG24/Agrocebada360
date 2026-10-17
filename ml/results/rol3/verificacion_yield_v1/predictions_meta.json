@@ -1,0 +1,47 @@
+{
+  "model_version": "yield-v1",
+  "model_file": "yield_model_v1.joblib",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "data_version": "sha256:b045a212af57282a",
+  "contract_version": "0.3.0",
+  "n_predictions": 59,
+  "eval_ids_sha256": "e3d19bd8589fc7260e9e80f10f9816b3a2d70f082c4fc437230e6b7ae359a940",
+  "official_eval_ids_sha256": "e3d19bd8589fc7260e9e80f10f9816b3a2d70f082c4fc437230e6b7ae359a940",
+  "decimals_submission": 4,
+  "unit": "t/ha",
+  "verified": true,
+  "files": {
+    "predictions_raw.csv": "4a27ea50a1d9bdb78ebb720fa84ca1024ee299b0eb47a3785397a3b90f24acdf",
+    "predictions_4dp.csv": "7b564a8eed03675238d95e04a66a2a5508b4e0c1a819bf7e54fc9eeea23a555d"
+  },
+  "range_t_ha": [
+    2.734081374472982,
+    4.614860919015873
+  ],
+  "note": "columnas/nombre/orden del CSV oficial: PENDIENTES (contrato §20); este archivo es insumo del exportador.",
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.16",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": null,
+        "xgboost": null,
+        "lightgbm": null
+      }
+    },
+    "python_argv": [
+      "--out-dir",
+      "ml\\results\\rol3\\verificacion_yield_v1"
+    ]
+  }
+}
