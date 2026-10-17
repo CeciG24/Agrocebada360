@@ -1,0 +1,75 @@
+{
+  "cutoff": "2025-10-31",
+  "data_root": "D:\\workspace\\Events\\Agrocebada360\\data\\DATASET_RETO_AGRO_2026_LIMPIO",
+  "structure": {
+    "n_parcels": 197,
+    "split": {
+      "ENTRENAMIENTO": 138,
+      "PREDICCION": 59
+    },
+    "n_features_numeric": 209,
+    "nan_cells": 2,
+    "inf_cells": 0
+  },
+  "raw_rows_after_cutoff": {
+    "sentinel2": {
+      "after": 3091,
+      "total": 59040,
+      "max_date": "2025-12-31"
+    },
+    "landsat": {
+      "after": 1914,
+      "total": 48626,
+      "max_date": "2025-12-31"
+    },
+    "planet": {
+      "after": 7932,
+      "total": 47804,
+      "max_date": "2025-12-30"
+    },
+    "clima": {
+      "after": 394,
+      "total": 9456,
+      "max_date": "2025-12-01"
+    }
+  },
+  "feature_window_match_40_parcels": {
+    "sentinel2_ndvi_mean": {
+      "todo el histórico": 0,
+      "hasta corte": 0,
+      "abr–oct 2025": 40
+    },
+    "planet_ndvi_mean": {
+      "todo el histórico": 0,
+      "hasta corte": 0,
+      "abr–oct 2025": 40
+    },
+    "precip_total_mm_2025": {
+      "año 2025 completo": 0,
+      "ene–oct 2025": 0,
+      "abr–oct 2025": 40
+    }
+  },
+  "peak_dates": {
+    "sentinel2_ndvi_peak_date": {
+      "min": "2025-07-04",
+      "max": "2025-10-14"
+    },
+    "planet_ndvi_peak_date": {
+      "min": "2025-07-03",
+      "max": "2025-10-26"
+    }
+  },
+  "cutoff_ok": true,
+  "data_fingerprint": {
+    "files": {
+      "features_master": "59d74155556855231e1faadf4f6984970788da05b3d45a1179767c94fd4bffac",
+      "rendimiento": "3253015e26c75ad4dbcf09672daa6e25396a37c0310e9ce8ff34e2fc52fff62e",
+      "parcel_master": "1213afe83a23b62cc330c7c377a2d930ac2fa25c90ddb87d81d9bc2a8fc363a3"
+    },
+    "data_version": "sha256:b045a212af57282a",
+    "data_root": "D:\\workspace\\Events\\Agrocebada360\\data\\DATASET_RETO_AGRO_2026_LIMPIO",
+    "stamped_utc": "2026-10-15T23:09:32Z",
+    "audit_script_sha256": "53a8732e69ab223bda3ac62eb2d497076a5533ec4e91548ee752e35f3c4ff72a"
+  }
+}

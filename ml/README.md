@@ -1,250 +1,129 @@
 # Cebada360 · Módulo de ML (Rol 2)
 
-> **Reto Agrocebada 2026** — Predicción de rendimiento de cebada (t/ha) a partir de imágenes satelitales, datos climáticos y topografía, sobre 138 parcelas de entrenamiento y 59 de evaluación.
+> **Reto Agrocebada 2026** — Predicción de rendimiento de cebada (**t/ha**) por parcela a partir de satélite (Sentinel-2, Landsat, Planet), clima y topografía.
+> Alineado con `system-contract.md` **v0.3.0**, `audit-2026-10-14.md` y `backlog-review-2026-10-14.md`.
+
+Las cantidades del split actual (138 etiquetadas / 59 de evaluación) son **observaciones**, no constantes contractuales: el código valida contra
+`split/official_ids_v1.json` (lista versionada con hash), que debe contrastarse con la lista oficial de FIRA cuando se publique (contrato §20).
 
 ---
 
-## Descripción general
-
-Este repositorio implementa el **pipeline de Machine Learning** dentro del ecosistema Cebada360. Su objetivo es comparar sistemáticamente combinaciones de familias de features (satélite Sentinel-2, Landsat, Planet, fenología, clima, topografía) con diferentes modelos de regresión, siguiendo un protocolo de validación cruzada repetida con verificación estadística pareada.
-
----
-
-## Instalación y uso rápido
+## 1. Instalación
 
 ```bash
-# 1. Instalar dependencias
+cd ml
 pip install -r requirements.txt
-
-# 2. Apuntar al dataset (o usar la variable de entorno) || Modificar config.py
-$env:CEBADA_DATA="/ruta/a/DATASET_RETO_AGRO_2026_LIMPIO"
-|
-# 3. Correr todos los experimentos
-python run_experiments.py --repeats 10
-#   → results/leaderboard.csv   (tabla comparativa de todos los experimentos x modelos)
-#   → results/oof/*.csv         (predicciones fuera de fold para Rol 3)
-
-# 4. Generar predicciones de evaluación con baseline v0 (contrato para Rol 4/5)
-python make_baseline_predictions.py
-#   → results/predictions_raw.csv
-#   → artifacts/baseline_v0.joblib
 ```
 
-### Flags útiles de `run_experiments.py`
+## 2. Datos
 
-| Flag | Descripción | Ejemplo |
-| ------ | ------------- | --------- |
-| `--repeats N` | Número de repeticiones de CV (default: 10) | `--repeats 3` para prueba rápida |
-| `--fast` | Reduce árboles a 150 (vs 300) para acelerar | `--fast` |
-| `--exps` | Seleccionar experimentos específicos | `--exps E5_fusion E4_clima` |
-| `--models` | Seleccionar modelos específicos | `--models ridge catboost` |
-| `--tag` | Sufijo para el nombre del leaderboard | `--tag _v2` |
+El dataset de Data se localiza con `CEBADA_DATA`, o en `<repo>/data/DATASET_RETO_AGRO_2026_LIMPIO/` o `ml/data/...`.
+Si el ZIP trae otro layout (p. ej. `prediccion_temprana/features/` en vez de `matrices/`), conviértelo con el adaptador reproducible:
 
----
+```bash
+python prepare_data.py --src ruta/al/DATASET.zip --out data/DATASET_RETO_AGRO_2026_LIMPIO   # escribe data_manifest.json con sha256 por archivo
+```
 
-## Estructura del proyecto
+PowerShell: `$env:CEBADA_DATA="D:\ruta\DATASET_RETO_AGRO_2026_LIMPIO"` · bash: `export CEBADA_DATA=/ruta/...`
+
+## 3. Orden de ejecución (backlog P2.x)
+
+```bash
+# --- Preparación (una vez por versión del dataset) ---
+python make_official_ids.py        # split/official_ids_v1.json (no sobrescribe sin --force)
+python audit_data.py               # results/data_audit.json   (exit 1 si hay datos posteriores al corte)
+python stamp_audit.py              # sella la auditoría con el hash del dataset (sin sello válido NO se exporta nada)
+
+# --- P2.3 / P2.4  baselines y familias de features ---
+python run_experiments.py --repeats 10      # results/leaderboard.csv (+ _meta.json, oof/)  ; columna `tipo`: oficial | baseline | diagnostico
+python make_tabla_experimentos.py           # results/tabla_experimentos.csv
+
+# --- P2.5  tuning con CV anidada ---
+python tune.py                              # results/tuning/*.json, results/tuning_summary.csv
+
+# --- P2.6  predicción temprana (curva diagnóstica, no un modelo por corte) ---
+python run_early.py --repeats 10            # results/early/*
+
+# --- P2.7  ensemble (decisión imparcial: parámetros por defecto) ---
+python run_ensemble.py --repeats 10         # results/ensemble/*   (descartar el ensemble es un resultado válido)
+
+# --- P2.8  selección del modelo definitivo ---
+python select_model.py                      # results/final_model_config.json
+
+# --- P2.9  reentrenar con TODAS las parcelas etiquetadas oficiales ---
+python train_final_model.py                 # models/yield_model_v1.joblib + models/feature_schema.json
+
+# --- P2.10 predicciones de las parcelas de evaluación ---
+python generate_predictions.py              # results/predictions_raw.csv (precisión completa) + predictions_4dp.csv + predictions_meta.json
+
+# --- P2.11 validación final (exit 1 si algo falla) ---
+python validate_final.py                    # results/final_validation.json
+
+# --- Baseline de integración para Rol 4/5 (yield-v0) ---
+python make_baseline_predictions.py         # models/baseline_v0/*, results/baseline_v0/predictions_raw.csv
+
+# --- Tests ---
+python -m pytest tests -q
+```
+
+Pruebas rápidas: `--repeats 2 --fast` (menos repeticiones/árboles). Un modelo entrenado con `--fast` **no** pasa `validate_final.py`.
+
+## 4. Qué cambió con v0.3.0 (resumen)
+
+| Tema | Ahora |
+| --- | --- |
+| Schema | `feature_schema.json` 0.3.0: `target_name`, `prediction_unit`, `target_cycle`, `prediction_information_cutoff`, `training_id_source`, `data_version`, `model_sha256`, `missing_value_policy`, entorno |
+| Modelo ↔ schema | sha256 del joblib, nº y **orden** de features (el modelo se entrena con DataFrame; sklearn valida nombres) |
+| Auditoría | `stamp_audit.py` ata el resultado al hash del dataset; exportar exige auditoría válida **para ese dataset** (`--allow-unverified` solo para pruebas; queda `verified=false`) |
+| IDs | listas oficiales versionadas, no 138/59 |
+| Ensemble | ponderación con stacking **anidado** (sin fuga entre niveles); `--params tuned` se marca `evaluation_independent=false` |
+| Experimentos | `tipo`: E1–E5 **oficial**; X* **diagnóstico** (municipio/ubicación); el modelo oficial solo sale de E1–E5 |
+| Predicciones | `predictions_raw.csv` a precisión completa; `predictions_4dp.csv` a 4 decimales; columnas/nombre del CSV oficial **pendientes** (§20) |
+| Predicción temprana | curva diagnóstica; no es un endpoint de modelos por corte |
+
+### Faltantes (§5.3)
+`features_master.csv` tiene **2 NaN** en `planet_ndvi_decay_rate` (parcelas de evaluación sin días posteriores al pico). Se imputan con la **mediana del train** dentro del `Pipeline`
+(política `documented` en el schema); no se rellenan aguas arriba.
+
+### Política temporal (§2)
+Ciclo abril–octubre 2025; `prediction_information_cutoff = 2025-10-31` es una **convención técnica** (FIRA confirma el mes). Hay features con histórico 2022–2024 usado como **contexto ambiental**,
+no como historial de cebada. El rendimiento de otras parcelas/años, fecha de siembra, dosis, variedad, siniestros 2025 e historial de cultivo no se usan (§5.6).
+
+## 5. Hallazgos a tener presentes (con el dataset auditado)
+- El baseline de **solo municipio** (Ridge) tiene RMSE comparable o mejor que el mejor modelo con satélite; `select_model.py` lo reporta (`municipality_baseline_gap`). Si el municipio puede entrar al modelo oficial es una **decisión del equipo/FIRA**: el contrato no lo prohíbe, pero el schema actual rechaza `mun_*`.
+- La curva de predicción temprana es casi plana (junio → octubre).
+- El ensemble suele descartarse (residuos muy correlacionados).
+- La CV espacial (KMeans sobre centroides) es **diagnóstico**; no reproduce el muestreo oficial.
+
+## 6. Estructura
 
 ```
-cebada360_ml/
-│
-├── src/                        # Librería principal del módulo ML
-│   ├── __init__.py
-│   ├── config.py               # Protocolo central: rutas, semilla, folds, métrica
-│   ├── data.py                 # Carga de datos + definición de familias de features + experimentos E0-E5
-│   ├── models.py               # Zoo de modelos (Ridge, RF, GBR, CatBoost, XGBoost, LightGBM...)
-│   └── cv.py                   # Validación cruzada repetida, CV espacial y diferencia pareada
-│
-├── run_experiments.py          # Script principal: corre E0-E5 x modelos → leaderboard + OOF
-├── make_baseline_predictions.py# Contrato Rol 4/5: genera predictions_raw.csv y guarda modelo
-│
-├── data/
-│   └── DATASET_RETO_AGRO_2026_LIMPIO/  # Dataset de Rol 1 (no se modifica)
-│       ├── features/           # features_master.csv (todas las familias fusionadas)
-│       ├── targets/            # rendimiento.csv (variable objetivo: rendimiento_t_ha)
-│       ├── clima/              # Series climáticas (precipitación, tmin, tmax, amplitud)
-│       ├── sensores/           # Datos satelitales crudos (Sentinel-2, Landsat, Planet)
-│       ├── topografia/         # Variables topográficas (area_ha, elevation_mean, slope_mean)
-│       ├── normalizado/        # Versiones normalizadas de features
-│       ├── prediccion_temprana/# Features para predicción anticipada
-│       └── parcel_master.csv   # Maestro de parcelas con metadatos y split ENTRENAMIENTO/PREDICCION
-│
-├── notebooks/
-│   └── 01_baselines.ipynb      # Exploración inicial y validación de baselines
-│
-├── artifacts/
-│   └── baseline_v0.joblib      # Modelo serializado con lista de features y versión
-│
+ml/
+├── src/
+│   ├── config.py        # constantes, versiones (contract 0.3.0, yield-v1), rutas, STRICT_CUTOFF
+│   ├── provenance.py    # sha256 del dataset (data_version), estado de la auditoría, run_meta()
+│   ├── split.py         # listas oficiales de IDs (build/load/diff)
+│   ├── contract.py      # validaciones §5, schema 0.3.0, save/load verificados, predict_frame, validate_predictions
+│   ├── data.py          # carga + familias + EXPERIMENTS (E0–E5 y X*)
+│   ├── models.py        # zoo de modelos (no modificar sin avisar: el equipo ajustó parámetros)
+│   ├── cv.py            # CV repetida, CV espacial, métricas
+│   ├── tuning.py        # espacios de búsqueda y CV anidada
+│   ├── ensemble.py      # OOF compartidos, stacking anidado, decisión keep/discard
+│   ├── early.py         # cortes tempranos
+│   └── final.py         # construir el modelo desde final_model_config.json
+├── audit_data.py        # auditoría de ventana temporal (versión del equipo)
+├── stamp_audit.py       # sella la auditoría con el hash del dataset
+├── prepare_data.py      # adaptador de layout del ZIP de Data
+├── make_official_ids.py # split/official_ids_v1.json
+├── run_experiments.py · make_tabla_experimentos.py · tune.py · run_early.py · run_ensemble.py
+├── select_model.py · train_final_model.py · generate_predictions.py · validate_final.py   # P2.8–P2.11
+├── make_baseline_predictions.py   # yield-v0 (integración)
+├── split/official_ids_v1.json
+├── models/ (yield_model_v1.joblib, feature_schema.json, baseline_v0/)
 ├── results/
-│   ├── leaderboard.csv         # Tabla comparativa: RMSE, MAE, R² por experimento x modelo
-│   ├── predictions_raw.csv     # Predicciones de las 59 parcelas de evaluación (contrato API)
-│   ├── run_log.txt             # Log de ejecución del último run_experiments.py
-│   └── oof/                    # Predicciones OOF: {experimento}__{modelo}.csv (para Rol 3)
-│
-├── catboost_info/              # Logs internos de CatBoost (generado automáticamente)
-├── requirements.txt            # Dependencias Python
-└── README.md                   # Este archivo
+└── tests/
+notebooks/01_baselines.ipynb       # P2.1 (usa ml/src; CEBADA_REPS, CEBADA_FAST)
 ```
 
----
-
-## Descripción de archivos fuente (`src/`)
-
-### `config.py` — Configuración central del protocolo
-
-Define **todas las constantes compartidas** del protocolo. Es el único lugar donde deben modificarse parámetros globales.
-
-| Variable | Valor | Descripción |
-| ---------- | ------- | ------------- |
-| `DATA_ROOT` | `data/DATASET_RETO_AGRO_2026_LIMPIO` | Ruta al dataset (override con `$CEBADA_DATA`) |
-| `RESULTS` | `results/` | Directorio de salida de métricas y predicciones |
-| `ARTIFACTS` | `artifacts/` | Directorio de modelos serializados |
-| `SEED` | `42` | Semilla global de aleatoriedad |
-| `N_SPLITS` | `5` | Número de folds por repetición de CV |
-| `N_REPEATS` | `10` | Repeticiones de CV (usar 3 para pruebas rápidas) |
-| `N_SPATIAL_GROUPS` | `6` | Clusters KMeans para CV espacial de diagnóstico |
-| `TARGET` | `rendimiento_t_ha` | Variable objetivo |
-| `PRIMARY_METRIC` | `rmse` | Métrica principal de comparación |
-
----
-
-### `data.py` — Carga y definición de features
-
-Responsabilidades:
-
-1. **`load()`**: Carga `features_master.csv` + `rendimiento.csv`, los fusiona, añade dummies de municipio y asigna grupos espaciales (KMeans sobre lat/lon). Separa y retorna `(train, eval)` donde `eval` **nunca tiene target**.
-
-2. **`families(df)`**: Clasifica las columnas numéricas en familias por prefijo/nombre:
-
-| Familia | Descripción |
-| --------- | ------------- |
-| `topo` | Topografía: `area_ha`, `elevation_mean`, `slope_mean` |
-| `geo` | Coordenadas del centroide (proxy de ubicación; uso diagnóstico) |
-| `s2` | Bandas/índices Sentinel-2 (sin fenología) |
-| `landsat` | Bandas/índices Landsat |
-| `planet` | Bandas/índices Planet (sin fenología) |
-| `feno_s2` | Features fenológicas de Sentinel-2 (`_peak`, `_auc`, `_growth_rate`...) |
-| `feno_planet` | Features fenológicas de Planet |
-| `clima` | Variables climáticas (`precip`, `tmin`, `tmax`, `amplitud`) |
-| `muni` | Dummies de municipio (one-hot encoding) |
-
-1. **`EXPERIMENTS`**: Diccionario que mapea cada experimento a la lista de familias que lo compone:
-
-| Experimento | Familias incluidas | Propósito |
-| ------------- | -------------------- | ----------- |
-| `E0_baseline` | _(ninguna)_ | Dummy median — cota inferior |
-| `E1_topo` | `topo` | Solo topografía |
-| `E2_basico` | `s2`, `landsat`, `feno_s2` | Satélites ópticos principales |
-| `E3_planet` | `planet`, `feno_planet` | Imágenes Planet de alta resolución |
-| `E4_clima` | `clima` | Solo variables climáticas |
-| `E5_fusion` | `topo` + `s2` + `landsat` + `feno_s2` + `planet` + `feno_planet` + `clima` | Fusión completa (oficial) |
-| `X0_municipio` | `muni` | **Piso real**: media por municipio (todo modelo debe superarlo) |
-| `X1_geo` | `geo` | Diagnóstico: ¿cuánto aporta la ubicación? |
-| `X2_fusion_mas_geo` | `E5_fusion` + `geo` | Diagnóstico: fusión con coordenadas |
-| `X3_muni_mas_sat` | `muni` + `topo` + satélites | Diagnóstico: municipio + satélite |
-
-1. **`columns_for(exp, fam)`**: Retorna la lista de columnas correspondientes a un experimento dado.
-
----
-
-### `models.py` — Zoo de modelos
-
-Define la función `zoo(fast=False)` que devuelve un diccionario `{nombre: callable_que_crea_modelo}`. Todos los modelos incluyen la imputación y el escalado **dentro del `Pipeline`** para garantizar que se ajustan por fold (sin data leakage).
-
-| Modelo | Tipo | Notas |
-| -------- | ------ | ------- |
-| `dummy_median` | Baseline | Predice la mediana; solo se usa en E0 |
-| `ridge` | Lineal | `RidgeCV` con escalado estándar |
-| `elasticnet` | Lineal regularizado | `ElasticNetCV` L1+L2 |
-| `rf` | Ensemble (bagging) | `RandomForestRegressor` (300 árboles) |
-| `extratrees` | Ensemble (bagging) | `ExtraTreesRegressor` (300 árboles) |
-| `gbr` | Boosting (sklearn) | `GradientBoostingRegressor` (200 est.) |
-| `catboost` | Boosting | Requiere `catboost` instalado |
-| `xgboost` | Boosting | Requiere `xgboost` instalado |
-| `lightgbm` | Boosting | Requiere `lightgbm` instalado |
-
-Los modelos de boosting de terceros se importan con `try/except`, por lo que son opcionales.
-
----
-
-### `cv.py` — Protocolo de validación
-
-| Función | Descripción |
-| --------- | ------------- |
-| `metrics(y, p)` | Calcula RMSE, MAE y R² |
-| `repeated_cv(...)` | CV aleatoria repetida (`KFold` × `N_REPEATS`). Retorna métricas por repetición, OOF promedio y OOF por repetición |
-| `spatial_cv(...)` | CV por grupos espaciales (`GroupKFold`). Diagnóstico de generalización geográfica; suele ser más pesimista |
-| `paired_diff(oofs_a, oofs_b, y)` | Diferencia pareada de RMSE por repetición. Un modelo solo "gana" si `mean(diff) < 0` de forma consistente, no por un fold afortunado |
-
----
-
-## Flujo de datos y relación entre archivos
-
-```
-DATASET_RETO_AGRO_2026_LIMPIO/
-  features/features_master.csv  ──┐
-  targets/rendimiento.csv       ──┤  src/data.py::load()
-                                  │       │
-                                  ▼       ▼
-                            (tr, ev)  ←  split ENTRENAMIENTO / PREDICCION
-                                  │
-              src/data.py::families() + EXPERIMENTS
-                                  │
-                    ┌─────────────┼─────────────┐
-                    ▼             ▼             ▼
-              src/models.py   src/cv.py    src/config.py
-                    │             │
-                    └──────┬──────┘
-                           ▼
-                   run_experiments.py
-                           │
-              ┌────────────┼────────────┐
-              ▼            ▼            ▼
-      results/          results/    results/
-      leaderboard.csv   oof/*.csv   run_log.txt
-
-                   make_baseline_predictions.py
-                           │
-              ┌────────────┴────────────┐
-              ▼                         ▼
-      results/predictions_raw.csv   artifacts/baseline_v0.joblib
-      (contrato Rol 4/5 API)        (modelo serializado + features + versión)
-```
-
----
-
-## Reglas del protocolo (no negociables)
-
-1. **Todo preprocesamiento va dentro del `Pipeline`** (imputación, escalado): se ajusta por fold, nunca sobre el conjunto completo.
-2. **Las 59 parcelas de evaluación jamás participan en tuning** ni en la selección del modelo ganador.
-3. **Un experimento solo "gana" si mejora el RMSE de forma estadísticamente consistente** en las repeticiones (prueba pareada), no por un fold afortunado.
-4. **Contrato de salida** — `predictions_raw.csv` debe tener exactamente: `parcel_id`, `rendimiento_pred_t_ha`, `model_version` con 59 filas únicas y sin valores nulos.
-5. **`E0_baseline` solo corre con `dummy_median`**; el resto de los experimentos lo excluyen automáticamente.
-6. **`X0_municipio`** es el **piso real**: cualquier modelo que no lo supere no justifica el uso de datos satelitales.
-
----
-
-## Dependencias
-
-```
-numpy          pandas         scikit-learn>=1.3
-scipy          joblib
-xgboost        lightgbm       catboost        # opcionales (boosting de terceros)
-nbformat                                       # para leer notebooks
-```
-
-Instalar con:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Salidas generadas
-
-| Archivo | Descripción |
-| --------- | ------------- |
-| `results/leaderboard.csv` | Tabla con `exp`, `model`, `n_feat`, `rmse`, `rmse_sd`, `mae`, `r2`, `rmse_spatial`, `r2_spatial`, `repeats`, `secs` |
-| `results/oof/{exp}__{model}.csv` | Columnas: `parcel_id`, `y` (real), `oof` (predicción promedio OOF) |
-| `results/predictions_raw.csv` | Predicciones de las 59 parcelas de evaluación — contrato para la API |
-| `artifacts/baseline_v0.joblib` | Dict con `model`, `features` y `version` — cargable con `joblib.load()` |
+## 7. Pendientes oficiales (contrato §20) — marcados como placeholders
+Nombre oficial de ID y target, columnas/orden/nombre/canal del archivo de envío, región, CRS. Este módulo entrega `predictions_raw.csv` (insumo) y deja el formato oficial al exportador (Rol 4, P4.16).

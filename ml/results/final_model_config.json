@@ -1,0 +1,195 @@
+{
+  "version": "select-v1",
+  "model_version": "yield-v1",
+  "contract_version": "0.3.0",
+  "experiment": "E4_clima",
+  "features": [
+    "precip_total_mm_2022",
+    "precip_mean_mm_2022",
+    "tmin_mean_c_2022",
+    "tmax_mean_c_2022",
+    "amplitud_termica_mean_c_2022",
+    "amplitud_termica_std_c_2022",
+    "precip_total_mm_2023",
+    "precip_mean_mm_2023",
+    "tmin_mean_c_2023",
+    "tmax_mean_c_2023",
+    "amplitud_termica_mean_c_2023",
+    "amplitud_termica_std_c_2023",
+    "precip_total_mm_2024",
+    "precip_mean_mm_2024",
+    "tmin_mean_c_2024",
+    "tmax_mean_c_2024",
+    "amplitud_termica_mean_c_2024",
+    "amplitud_termica_std_c_2024",
+    "precip_total_mm_2025",
+    "precip_mean_mm_2025",
+    "tmin_mean_c_2025",
+    "tmax_mean_c_2025",
+    "amplitud_termica_mean_c_2025",
+    "amplitud_termica_std_c_2025",
+    "precip_total_mm_2022_2025",
+    "precip_mean_mm_2022_2025",
+    "tmin_mean_c_2022_2025",
+    "tmax_mean_c_2022_2025",
+    "amplitud_termica_mean_c_2022_2025",
+    "amplitud_termica_std_c_2022_2025"
+  ],
+  "n_features": 30,
+  "spec": {
+    "type": "single",
+    "model": "ridge",
+    "params": {}
+  },
+  "spec_text": "ridge",
+  "selection_reason": "mejor RMSE oficial E4_clima/ridge (0.5147); empatados a <= 0.5205: E4_clima/ridge, E4_clima/elasticnet, E4_clima/extratrees, E4_clima/catboost; desempate por RMSE espacial y nº de features",
+  "hyperparameters": "hiperparámetros por defecto (zoo) (no hay results/tuning para E4_clima/ridge: si quieres evaluar hiperparámetros afinados corre `python tune.py --exp E4_clima --models ridge` y vuelve a ejecutar select_model.py)",
+  "tuning": null,
+  "ensemble": "ensemble DESCARTADO (mejora -0.0001 t/ha, gana en 60% de repeticiones): un modelo individual es válido",
+  "ensemble_ref": {
+    "exp": "E4_clima",
+    "members": [
+      "elasticnet",
+      "catboost",
+      "extratrees",
+      "rf"
+    ],
+    "keep": false,
+    "variant": "mean",
+    "gain": -0.0001059280494587811,
+    "win_rate": 0.6,
+    "evaluation_independent": true,
+    "params_source": "default"
+  },
+  "cv_metrics": {
+    "rmse": 0.514672258022233,
+    "rmse_sd": 0.0057866999798356,
+    "mae": 0.3560961583385179,
+    "r2": 0.6316622491734689,
+    "rmse_spatial": 0.6995342420901589,
+    "r2_spatial": 0.3196173031056314,
+    "repeats": 10
+  },
+  "municipality_baseline_gap": {
+    "muni_model": "ridge",
+    "muni_rmse": 0.5075522504448297,
+    "selected_rmse": 0.514672258022233,
+    "delta": 0.007120007577403387,
+    "muni_rmse_spatial": 0.6422422133126718,
+    "selected_rmse_spatial": 0.6995342420901589,
+    "reading": "el modelo con satélite/clima NO supera al promedio por municipio en CV aleatoria; documentar y decidir como equipo si el municipio puede entrar al modelo oficial (el contrato no lo prohíbe pero el schema actual rechaza mun_*)"
+  },
+  "top_candidates": [
+    {
+      "exp": "E4_clima",
+      "model": "ridge",
+      "n_feat": 30,
+      "rmse": 0.5147,
+      "rmse_sd": 0.0058,
+      "mae": 0.3561,
+      "r2": 0.6317,
+      "rmse_spatial": 0.6995
+    },
+    {
+      "exp": "E4_clima",
+      "model": "elasticnet",
+      "n_feat": 30,
+      "rmse": 0.5158,
+      "rmse_sd": 0.0079,
+      "mae": 0.3579,
+      "r2": 0.6301,
+      "rmse_spatial": 0.7399
+    },
+    {
+      "exp": "E4_clima",
+      "model": "catboost",
+      "n_feat": 30,
+      "rmse": 0.5172,
+      "rmse_sd": 0.0072,
+      "mae": 0.3569,
+      "r2": 0.628,
+      "rmse_spatial": 0.8118
+    },
+    {
+      "exp": "E4_clima",
+      "model": "extratrees",
+      "n_feat": 30,
+      "rmse": 0.5197,
+      "rmse_sd": 0.0067,
+      "mae": 0.3673,
+      "r2": 0.6244,
+      "rmse_spatial": 0.756
+    },
+    {
+      "exp": "E4_clima",
+      "model": "xgboost",
+      "n_feat": 30,
+      "rmse": 0.521,
+      "rmse_sd": 0.0116,
+      "mae": 0.3622,
+      "r2": 0.6224,
+      "rmse_spatial": 0.7962
+    },
+    {
+      "exp": "E4_clima",
+      "model": "lightgbm",
+      "n_feat": 30,
+      "rmse": 0.5229,
+      "rmse_sd": 0.01,
+      "mae": 0.3687,
+      "r2": 0.6197,
+      "rmse_spatial": 0.7876
+    },
+    {
+      "exp": "E5_fusion",
+      "model": "extratrees",
+      "n_feat": 207,
+      "rmse": 0.5237,
+      "rmse_sd": 0.0112,
+      "mae": 0.3776,
+      "r2": 0.6185,
+      "rmse_spatial": 0.7766
+    },
+    {
+      "exp": "E4_clima",
+      "model": "gbr",
+      "n_feat": 30,
+      "rmse": 0.5244,
+      "rmse_sd": 0.0111,
+      "mae": 0.3634,
+      "r2": 0.6175,
+      "rmse_spatial": 0.8425
+    }
+  ],
+  "n_labeled": 138,
+  "primary_metric": "rmse",
+  "caveats": [
+    "La métrica principal (RMSE) es decisión técnica interna.",
+    "Los candidatos se compararon sobre las mismas parcelas con las que se elige: hay optimismo de selección.",
+    "CV espacial = diagnóstico (KMeans sobre centroides), no reproduce el muestreo oficial."
+  ],
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": [],
+    "selected_from": "leaderboard.csv"
+  },
+  "provisional": false
+}

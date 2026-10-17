@@ -1,26 +1,53 @@
 """Carga del dataset estandarizado de Rol 1 + definición de familias de features."""
+import warnings
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
+
 from .config import DATA_ROOT, TARGET, ID, SEED, N_SPATIAL_GROUPS
+from .contract import ContractError, validate_catalog
+from .split import load_official_ids, diff_split, TRAIN_LABEL, EVAL_LABEL
 
 TOPO = ["area_ha", "elevation_mean", "slope_mean"]
 GEO = ["centroid_lat", "centroid_lon"]  # OJO: proxy de ubicación; decidir si entra al modelo oficial
 
 
 def load(root=None):
-    """Devuelve (train, eval). `eval` NO tiene target: jamás se usa para tuning."""
-    root = root or DATA_ROOT
-    fm = pd.read_csv(root / "features" / "features_master.csv")
-    y = pd.read_csv(root / "targets" / "rendimiento.csv")
+    """Devuelve (train, eval). `eval` NO tiene target: jamás se usa para tuning.
+
+    Contrato §5: parcel_id string (sin conversión a entero), único, no nulo y coincidente entre fuentes.
+    §2.6/§14: la partición se valida contra la lista oficial versionada (split/official_ids_v1.json), NO contra 138/59.
+    Las columnas `mun_*` y `grupo_espacial` son SOLO de diagnóstico/CV: nunca entran al feature_schema oficial.
+    """
+    root = Path(root or DATA_ROOT)
+    if not (root / "features" / "features_master.csv").exists():
+        raise FileNotFoundError(f"No se encontró features_master.csv en {root}. Define CEBADA_DATA o ajusta config.DATA_ROOT")
+    validate_catalog(root)                                   # IDs consistentes entre las 4 fuentes
+    fm = pd.read_csv(root / "features" / "features_master.csv", dtype={ID: str})
+    y = pd.read_csv(root / "targets" / "rendimiento.csv", dtype={ID: str})
     df = fm.merge(y, on=ID, how="left", validate="1:1")
     km = KMeans(N_SPATIAL_GROUPS, random_state=SEED, n_init=10).fit(df[GEO].values)
-    df = pd.concat([df, pd.get_dummies(df["municipio"], prefix="mun").astype(float)], axis=1)
-    df["grupo_espacial"] = km.labels_
-    df = df.copy()
-    tr = df[df.dataset_split == "ENTRENAMIENTO"].reset_index(drop=True)
-    ev = df[df.dataset_split == "PREDICCION"].reset_index(drop=True)
-    assert tr[TARGET].notna().all() and ev[TARGET].isna().all()
+    muni = pd.get_dummies(df["municipio"], prefix="mun").astype(float)
+    df = pd.concat([df, muni, pd.Series(km.labels_, name="grupo_espacial", index=df.index)], axis=1)
+    bad_split = set(df.dataset_split.unique()) - {TRAIN_LABEL, EVAL_LABEL}
+    if bad_split:
+        raise ContractError(f"dataset_split con valores inesperados: {bad_split}")
+    official = load_official_ids()
+    if official is None:
+        warnings.warn("No existe split/official_ids_v1.json: la partición no se pudo validar contra una lista oficial. "
+                      "Genera la lista con `python make_official_ids.py`.")
+    else:
+        d = diff_split(df, official)
+        if d:
+            raise ContractError(f"dataset_split no coincide con la lista oficial de IDs: {d}")
+    tr = df[df.dataset_split == TRAIN_LABEL].reset_index(drop=True)
+    ev = df[df.dataset_split == EVAL_LABEL].reset_index(drop=True)
+    if len(tr) == 0 or len(ev) == 0:
+        raise ContractError("Partición vacía (entrenamiento o evaluación)")
+    if not tr[TARGET].notna().all() or not ev[TARGET].isna().all():
+        raise ContractError("el target debe existir en TODO el conjunto etiquetado y en NINGUNA parcela de evaluación")
     return tr, ev
 
 

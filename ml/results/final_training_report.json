@@ -1,0 +1,35 @@
+{
+  "model_version": "yield-v1",
+  "spec_text": "ridge",
+  "experiment": "E4_clima",
+  "n_features": 30,
+  "n_train": 138,
+  "train_ids_sha256": "94a28cc29e8405202fb9b7601c92ef937c9032e52b9a264a4e74fb761a2d4ca2",
+  "model_file": "yield_model_v1.joblib",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "reload_max_abs_diff": 0.0,
+  "in_sample_rmse_informativo": 0.49046876588091315,
+  "verified": true,
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": []
+  }
+}

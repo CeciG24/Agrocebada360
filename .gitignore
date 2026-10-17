@@ -8,6 +8,7 @@ venv/
 .ruff_cache/
 .coverage
 htmlcov/
+catboost_info/
 
 # Configuración local y secretos
 .env
@@ -27,7 +28,6 @@ dist/
 /data/**
 !/data/.gitkeep
 !/data/README.md
-*.joblib
 *.pkl
 *.pickle
 
