@@ -23,14 +23,16 @@ es independiente de la versión del contrato interno.
   predicción, no un ID inexistente.
 - Procedencia técnica de las features entregada por Data/ETL.
 
-Los placeholders, valores `PENDIENTE` y campos ausentes impiden la carga.
+Los placeholders, valores `PENDIENTE` y campos ausentes en los campos operativos
+obligatorios impiden la carga; se conservan las notas sobre confirmaciones
+oficiales pendientes sin convertirlas en requisitos ya confirmados.
 No se migran automáticamente `unit` o `data_cutoff`: ML debe confirmar y publicar
 el schema actualizado. Unidad: `t/ha`; ciclo: `2025-04/2025-10`.
 
 ## Vínculo verificable del modelo
 
 No basta con el nombre del archivo para validar la versión. Esta implementación
-admite dos mecanismos internos, alternativos:
+admite tres mecanismos internos, alternativos:
 
 1. Metadata dentro del artefacto: `cebada_metadata_` en un predictor directo,
    o `metadata` en un diccionario. Contiene `contract_version`, `model_version`,
@@ -41,9 +43,20 @@ admite dos mecanismos internos, alternativos:
    Los hashes se calculan sobre los archivos congelados y se verifican antes
    de deserializar. Se entrega mediante `model_manifest_path`.
 
+3. La entrega actual de ML con `model_sha256` en el schema. Se verifica ese
+   hash antes de deserializar, además de `model_file` cuando está declarado y
+   nombres/dimensiones aprendidos. No se exige envolver el predictor ni añadir
+   metadata duplicada. Un manifest proporcionado también debe ser válido.
+
+P4.7 define un paquete con los archivos originales y un manifiesto versionado
+que añade el hash del JSON exacto del schema. Se puede crear/inspeccionar sin
+deserializar mediante `python -m ml.model_bundle`; ver `docs/model-bundle.md`
+y `InferencePipeline.from_bundle(...)`.
+
 Estos nombres/hashes son un **formato interno de esta implementación**, no
-campos exigidos por FIRA. Los publica quien congela los artefactos, no el backend
-a partir de una asociación supuesta. Un manifest proporcionado siempre se valida.
+campos exigidos por FIRA. Quien congela la entrega puede usar el empaquetador
+de P4.7 sobre un par modelo/schema que ML ya vinculó. El empaquetador no
+deduce versiones ni corrige discrepancias; no acredita procedencia de Data.
 
 Se comprueban `n_features_in_` y `feature_names_in_` cuando existen. Los modelos
 que seleccionan por nombre reciben un DataFrame ordenado; los demás, una matriz
@@ -99,7 +112,7 @@ e infinitos impiden la predicción; no se inventan codificaciones de categorías
 
 `predict()` devuelve un float finito **sin redondearlo**. Los cuatro decimales del
 contrato corresponden al archivo oficial que genere el exportador/validador de
-submission. Agregar ceros al CSV actual de tres decimales no recupera precisión.
+submission. Agregar ceros a una salida ya redondeada no recupera precisión.
 
 ## Uso
 

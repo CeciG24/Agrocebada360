@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cebada360 — model_manifest.json P4.7",
+  "type": "object",
+  "required": ["bundle_format_version", "serialization", "contract_version", "model_version", "feature_schema_version", "data_version", "model_file", "feature_schema_file", "model_sha256", "feature_schema_sha256"],
+  "properties": {
+    "bundle_format_version": {"const": "1.0.0"},
+    "serialization": {"const": "joblib"},
+    "contract_version": {"const": "0.3.0"},
+    "model_version": {"type": "string", "minLength": 1},
+    "feature_schema_version": {"type": "string", "minLength": 1},
+    "data_version": {"type": "string", "minLength": 1},
+    "model_file": {"type": "string", "pattern": "^[^/\\\\:\\u0000]+\\.joblib$"},
+    "feature_schema_file": {"type": "string", "pattern": "^[^/\\\\:\\u0000]+\\.json$"},
+    "model_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "feature_schema_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

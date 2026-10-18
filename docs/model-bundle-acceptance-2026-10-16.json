@@ -1,0 +1,87 @@
+{
+  "task": "P4.7",
+  "producer_ref": "origin/ml",
+  "producer_commit": "2c7402650db6c830a7ba7e783836821a7353d719",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "schema_sha256": "4b114d753bedb313036607aa180d3d7c374ecd14d5860a3353af3b0089bff3d0",
+  "artifact_inspection": {
+    "status": "ARTIFACTS_VERIFIED",
+    "bundle_format_version": "1.0.0",
+    "contract_version": "0.3.0",
+    "model_version": "yield-v1",
+    "feature_schema_version": "features-v1",
+    "data_version": "sha256:b045a212af57282a",
+    "model_file": "yield_model_v1.joblib",
+    "feature_schema_file": "feature_schema.json",
+    "n_features": 30,
+    "deserialized": false,
+    "environment": {
+      "python": {
+        "declared": "3.13.9",
+        "current": "3.12.14",
+        "matches": false
+      },
+      "packages": {
+        "numpy": {
+          "declared": "2.5.4",
+          "current": "2.5.4",
+          "matches": true
+        },
+        "pandas": {
+          "declared": "3.0.6",
+          "current": "3.0.6",
+          "matches": true
+        },
+        "scipy": {
+          "declared": "1.18.1",
+          "current": "1.18.1",
+          "matches": true
+        },
+        "scikit-learn": {
+          "declared": "1.9.1",
+          "current": "1.9.1",
+          "matches": true
+        },
+        "joblib": {
+          "declared": "1.6.0",
+          "current": "1.6.0",
+          "matches": true
+        },
+        "catboost": {
+          "declared": "1.2.10",
+          "current": null,
+          "matches": false
+        },
+        "xgboost": {
+          "declared": "3.4.1",
+          "current": null,
+          "matches": false
+        },
+        "lightgbm": {
+          "declared": "4.7.0",
+          "current": null,
+          "matches": false
+        }
+      }
+    },
+    "data_provenance_checked": false,
+    "note": "Integridad de archivos comprobada; no certifica entrenamiento, procedencia ni aptitud para API real."
+  },
+  "data_acceptance": {
+    "accepted": false,
+    "error_type": "FeatureSchemaMismatch",
+    "reason": "Versión de datos incompatible con la procedencia.",
+    "deserialization_calls": 0
+  },
+  "offline_model_reproduction": {
+    "predictions": 59,
+    "max_abs_difference": 8.881784197001252e-16,
+    "learned_feature_names_match": true,
+    "method": "Direct trusted joblib load after bundle hashes; not full InferencePipeline acceptance",
+    "data_provenance_certified": false
+  },
+  "tests": {
+    "command": ".venv/Scripts/python.exe -m pytest -q",
+    "result": "139 passed in 69.81s"
+  }
+}

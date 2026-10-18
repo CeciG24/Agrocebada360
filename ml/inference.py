@@ -6,11 +6,15 @@ docs/inference-pipeline.md; no se presentan como requisitos oficiales de FIRA.
 
 import csv
 import hashlib
-import json
 import math
 from datetime import date
 from numbers import Real
 from pathlib import Path
+
+from ml.artifact_contract import (
+    ArtifactContractError, VERSION_FIELDS, validate_feature_schema, verify_model_file,
+)
+from ml.model_bundle import MANIFEST_FILE, inspect_bundle, read_json
 
 
 class InferenceError(Exception):
@@ -34,8 +38,7 @@ class PredictionUnavailable(InferenceError):
 
 
 def _read_json(path):
-    with Path(path).open(encoding="utf-8") as stream:
-        return json.load(stream)
+    return read_json(path)
 
 
 def _deserialize(path):
@@ -68,16 +71,13 @@ def _date(value):
     return parsed
 
 
-VERSION_FIELDS = ("contract_version", "model_version", "feature_schema_version", "data_version")
-
-
 class InferencePipeline:
     """Carga una vez el modelo, schema y features; predict nunca entrena.
 
     Data/ETL entrega la procedencia por feature y su vínculo con el CSV.
     Los IDs proceden del catálogo oficial validado por el adaptador de Data.
-    Un modelo directo sin metadata propia requiere un manifest de ML que
-    vincule las versiones y hashes del modelo y schema congelados.
+    Modelo directo: vínculo mediante SHA256 en schema o manifest de ML.
+    El paquete P4.7 añade el hash del schema, sin alterar el joblib de ML.
     """
 
     def __init__(self, model_path, schema_path, features_path, provenance_path, catalog_ids,
@@ -97,6 +97,18 @@ class InferencePipeline:
         self._schema = None
         self._rows = None
 
+    @classmethod
+    def from_bundle(cls, bundle_path, features_path, provenance_path, catalog_ids):
+        """Verifica el paquete P4.7; load_model aún exige procedencia de Data."""
+        try:
+            report = inspect_bundle(bundle_path)
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            raise FeatureSchemaMismatch("Paquete de modelo inválido.") from exc
+        root = Path(bundle_path)
+        return cls(root / report["model_file"], root / report["feature_schema_file"],
+                   features_path, provenance_path, catalog_ids,
+                   model_manifest_path=root / MANIFEST_FILE)
+
     @property
     def model_loaded(self):
         return self._model is not None
@@ -112,30 +124,10 @@ class InferencePipeline:
         return self._schema["prediction_unit"]
 
     def _validate_schema(self, schema):
-        if not isinstance(schema, dict):
-            raise FeatureSchemaMismatch("Schema inválido.")
-        for field in (*VERSION_FIELDS, "target_name", "prediction_unit", "target_cycle",
-                      "prediction_information_cutoff", "training_id_source", "missing_value_policy"):
-            if not _confirmed(schema.get(field)):
-                raise FeatureSchemaMismatch(f"Falta confirmar {field} en el schema.")
-        if schema["contract_version"] != "0.3.0":
-            raise FeatureSchemaMismatch("El schema requiere contract_version 0.3.0.")
-        if schema["prediction_unit"] != "t/ha" or schema["target_cycle"] != "2025-04/2025-10":
-            raise FeatureSchemaMismatch("Unidad o ciclo incompatible con el rendimiento solicitado.")
-        features = schema.get("features")
-        if (not isinstance(features, list) or not features
-                or any(not _confirmed(f) for f in features)
-                or len(set(features)) != len(features)
-                or "parcel_id" in features or schema["target_name"] in features
-                or (schema.get("target_column") and schema["target_column"] in features)):
-            raise FeatureSchemaMismatch("Lista de features inválida o contiene el target.")
-        if (schema["missing_value_policy"] == "documented"
-                and not _confirmed(schema.get("missing_value_policy_detail"))):
-            raise FeatureSchemaMismatch("La política documented requiere su descripción técnica.")
-        cutoff = _date(schema["prediction_information_cutoff"])
-        if cutoff > date(2025, 10, 31):
-            raise FeatureSchemaMismatch("El schema excede el cierre operativo del ciclo.")
-        return features, cutoff
+        try:
+            return validate_feature_schema(schema)
+        except ArtifactContractError as exc:
+            raise FeatureSchemaMismatch(str(exc)) from exc
 
     def _validate_provenance(self, schema, cutoff):
         provenance = _read_json(self.provenance_path)
@@ -171,6 +163,15 @@ class InferencePipeline:
         if self.model_manifest_path is None:
             return False
         manifest = _read_json(self.model_manifest_path)
+        if isinstance(manifest, dict) and "bundle_format_version" in manifest:
+            if self.model_manifest_path.name != MANIFEST_FILE:
+                raise FeatureSchemaMismatch("Nombre de manifest P4.7 incompatible.")
+            report = inspect_bundle(self.model_manifest_path.parent)
+            if (report["model_file"] != self.model_path.name
+                    or report["feature_schema_file"] != self.schema_path.name
+                    or self.model_path.resolve().parent != self.model_manifest_path.resolve().parent
+                    or self.schema_path.resolve().parent != self.model_manifest_path.resolve().parent):
+                raise FeatureSchemaMismatch("Las rutas no corresponden al paquete verificado.")
         if not isinstance(manifest, dict) or any(
                 manifest.get(field) != schema[field] for field in VERSION_FIELDS):
             raise FeatureSchemaMismatch("Versiones del manifest incompatibles con el schema.")
@@ -198,6 +199,7 @@ class InferencePipeline:
             raise FeatureSchemaMismatch("Schema, features o evidencia temporal inválidos.") from exc
 
         try:
+            schema_verified = verify_model_file(self.model_path, schema)
             manifest_verified = self._validate_manifest(schema)
         except InferenceError:
             raise
@@ -225,7 +227,7 @@ class InferencePipeline:
                 raise FeatureSchemaMismatch("Las versiones del modelo y schema no coinciden.")
             if metadata.get("features") != features:
                 raise FeatureSchemaMismatch("El orden de features del modelo y schema no coincide.")
-        elif not manifest_verified:
+        elif not (manifest_verified or schema_verified):
             raise FeatureSchemaMismatch("Falta vincular modelo y schema mediante metadata o manifest de ML.")
         if not callable(getattr(model, "predict", None)):
             raise ModelNotLoaded("El artefacto no contiene un predictor.")
