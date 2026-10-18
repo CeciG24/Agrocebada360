@@ -22,6 +22,7 @@ class RealService:
         self._pipeline = None
         self._explanations = {}
         self._explanation_failed = False
+        self._feature_labels = {}
 
     def _load_explanations(self, manifest):
         from ml.model_bundle import read_json
@@ -47,6 +48,9 @@ class RealService:
                         or not math.isclose(explanation.explained_output, self._pipeline.predict(parcel_id),
                                             rel_tol=0, abs_tol=RECONSTRUCTION_ATOL)):
                     raise ValueError('La explicación no corresponde a las features/salida del modelo cargado.')
+                # La capa semántica se aplica después de verificar la explicación original.
+                for impact in explanation.features:
+                    impact.friendly_name = self._feature_labels.get(impact.feature, impact.feature)
             validated[parcel_id] = explanation
         self._explanations = validated  # Publicación atómica: nada parcial si falla una fila.
 
@@ -116,6 +120,10 @@ class RealService:
             if pipeline.unit != 't/ha':
                 raise ValueError('Unidad real incompatible.')
             self._pipeline = pipeline
+            from api.app.services.feature_labels import load_feature_labels
+            self._feature_labels = load_feature_labels(
+                sha256(self.delivery_path / 'model' / report['model_file']),
+                sha256(self.delivery_path / 'model' / report['feature_schema_file']))
             logger.info('Servicio REAL listo: %d parcelas; modelo %s', len(self.parcels), pipeline.model_version)
         except Exception:
             self._pipeline = None

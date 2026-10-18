@@ -95,5 +95,28 @@ node scripts/check-api.mjs http://127.0.0.1:5173 AGC_003
 
 La comprobación del navegador validó el dashboard, el detalle con 30 contribuciones,
 el origen `API · real` y la vista móvil de 390 px sin overflow ni errores JavaScript.
-Riesgo continúa como aviso de módulo pendiente. Los nombres técnicos de features
-son el fallback del contrato mientras se acuerda el diccionario de P4.13.
+Riesgo continúa como aviso de módulo pendiente.
+
+## Nombres amigables P4.13
+
+El catálogo `api/app/catalogs/feature_labels.json` documenta las 30 variables
+climáticas de yield-v1: nombre, definición, unidad de entrada, fórmula y ventana.
+Ver [diccionario de variables](../docs/model-feature-dictionary.md).
+Las etiquetas se basan en el cálculo P1.9 auditado y quedan pendientes de revisión
+semántica por Persona 1; no son nombres oficiales atribuidos a FIRA.
+
+La API las aplica al cargar SHAP únicamente si coinciden los hashes del modelo y
+schema. Cambia solo `friendly_name`, después de verificar contribuciones, escala,
+orden y reconstrucción. No modifica los artefactos originales ni añade campos al
+contrato. Una variable desconocida, otro modelo/schema o un diccionario ausente
+conservan el nombre técnico, sin interrumpir predicción ni explicación.
+
+El frontend muestra los nombres recibidos y mantiene el código técnico en el
+título de la etiqueta; la gráfica completa permite desplegarlo con teclado o
+toque. Los impactos siguen en t/ha. La unidad mm/°C del diccionario describe la
+entrada climática, no la contribución SHAP.
+
+Aceptación P4.13 del 18 de octubre: 201 pruebas Python, 15 de frontend, lint y
+build aprobados; 30 nombres comprobados en 59 explicaciones y navegador en
+escritorio/móvil. Evidencia en `docs/api-real-acceptance-2026-10-18.json` y
+`docs/feature-labels-acceptance-2026-10-18.json`.

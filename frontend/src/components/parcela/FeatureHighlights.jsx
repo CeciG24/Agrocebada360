@@ -12,7 +12,7 @@ export function FeatureHighlights({ items = [], context }) {
             <span className="factor-rank" aria-hidden="true">0{i + 1}</span>
             <div className="min-w-0 flex-1">
               <div className="flex items-start justify-between gap-2">
-                <p className="break-words text-sm font-medium text-text-hi">{item.etiqueta ?? item.categoria}</p>
+                <p className="break-words text-sm font-medium text-text-hi" title={item.categoria}>{item.etiqueta ?? item.categoria}</p>
                 <span className={`shrink-0 text-sm font-semibold tabular-nums ${item.valor > 0 ? 'text-moss-500' : item.valor < 0 ? 'text-rose-400' : 'text-text-mid'}`}>{fmtSigned(item.valor)}</span>
               </div>
               <div className="mt-2 h-1 overflow-hidden rounded-full bg-ink-700" aria-hidden="true">

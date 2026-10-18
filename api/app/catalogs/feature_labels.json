@@ -1,0 +1,351 @@
+{
+  "dictionary_version": "feature-labels-v1",
+  "language": "es-MX",
+  "scope": {
+    "model_version": "yield-v1",
+    "feature_schema_version": "features-v1",
+    "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+    "feature_schema_sha256": "4b114d753bedb313036607aa180d3d7c374ecd14d5860a3353af3b0089bff3d0"
+  },
+  "source": {
+    "path": "scripts_limpieza/p1_9.py",
+    "function": "calcular_features",
+    "sha256": "0c57097abefe870f9ad18eda3eabb5dcb402cfcfc7b2f680dc9adabac0b9d364",
+    "sha256_lf": "263b89d2701d1b510df592ebb4546a3c207469f973707b1cd6dd27b8052aa10b",
+    "series": "clima/climate_timeseries.csv"
+  },
+  "review_status": "Mapeo técnico verificado contra P1.9; pendiente revisión semántica por Persona 1.",
+  "impact_unit_note": "variable_unit describe la variable de entrada; las contribuciones SHAP de yield-v1 están en t/ha.",
+  "features": {
+    "precip_total_mm_2022": {
+      "friendly_name": "Precipitación acumulada · 2022",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_mean_mm_2022": {
+      "friendly_name": "Precipitación mensual media · 2022",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmin_mean_c_2022": {
+      "friendly_name": "Temperatura mínima media · 2022",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmax_mean_c_2022": {
+      "friendly_name": "Temperatura máxima media · 2022",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_mean_c_2022": {
+      "friendly_name": "Amplitud térmica media · 2022",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_std_c_2022": {
+      "friendly_name": "Variabilidad de amplitud térmica · 2022",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_total_mm_2023": {
+      "friendly_name": "Precipitación acumulada · 2023",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_mean_mm_2023": {
+      "friendly_name": "Precipitación mensual media · 2023",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmin_mean_c_2023": {
+      "friendly_name": "Temperatura mínima media · 2023",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmax_mean_c_2023": {
+      "friendly_name": "Temperatura máxima media · 2023",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_mean_c_2023": {
+      "friendly_name": "Amplitud térmica media · 2023",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_std_c_2023": {
+      "friendly_name": "Variabilidad de amplitud térmica · 2023",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_total_mm_2024": {
+      "friendly_name": "Precipitación acumulada · 2024",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_mean_mm_2024": {
+      "friendly_name": "Precipitación mensual media · 2024",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmin_mean_c_2024": {
+      "friendly_name": "Temperatura mínima media · 2024",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmax_mean_c_2024": {
+      "friendly_name": "Temperatura máxima media · 2024",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_mean_c_2024": {
+      "friendly_name": "Amplitud térmica media · 2024",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_std_c_2024": {
+      "friendly_name": "Variabilidad de amplitud térmica · 2024",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_total_mm_2025": {
+      "friendly_name": "Precipitación acumulada · abr–oct 2025",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "precip_mean_mm_2025": {
+      "friendly_name": "Precipitación mensual media · abr–oct 2025",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "tmin_mean_c_2025": {
+      "friendly_name": "Temperatura mínima media · abr–oct 2025",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "tmax_mean_c_2025": {
+      "friendly_name": "Temperatura máxima media · abr–oct 2025",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "amplitud_termica_mean_c_2025": {
+      "friendly_name": "Amplitud térmica media · abr–oct 2025",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "amplitud_termica_std_c_2025": {
+      "friendly_name": "Variabilidad de amplitud térmica · abr–oct 2025",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null
+    },
+    "precip_total_mm_2022_2025": {
+      "friendly_name": "Precipitación acumulada · histórico + ciclo 2025",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "precip_mean_mm_2022_2025": {
+      "friendly_name": "Precipitación mensual media · histórico + ciclo 2025",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmin_mean_c_2022_2025": {
+      "friendly_name": "Temperatura mínima media · histórico + ciclo 2025",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "tmax_mean_c_2022_2025": {
+      "friendly_name": "Temperatura máxima media · histórico + ciclo 2025",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_mean_c_2022_2025": {
+      "friendly_name": "Amplitud térmica media · histórico + ciclo 2025",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    },
+    "amplitud_termica_std_c_2022_2025": {
+      "friendly_name": "Variabilidad de amplitud térmica · histórico + ciclo 2025",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años."
+    }
+  }
+}

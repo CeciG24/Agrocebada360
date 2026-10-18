@@ -249,3 +249,21 @@ def test_declared_explanation_file_missing_is_operational_error(real_delivery):
         response = client.get('/explain/002')
         assert response.status_code == 503
         assert response.json()['error']['code'] == 'EXPLANATION_UNAVAILABLE'
+
+
+def test_friendly_names_change_only_presentation_and_keep_explanation_identity(real_delivery, monkeypatch):
+    from api.app.services import feature_labels
+    install_explanation(real_delivery)
+    original = json.loads((real_delivery.delivery_path / 'explanations.json').read_text())['002']
+    monkeypatch.setattr(feature_labels, 'load_feature_labels', lambda *args: {'rain': 'Nombre de prueba'})
+    with TestClient(create_app(real_delivery)) as client:
+        body = client.get('/explain/002').json()
+        assert body['features'][0]['friendly_name'] == 'Nombre de prueba'
+        assert body['features'][1]['friendly_name'] == 'temp'  # feature sin traducción
+        for returned, before in zip(body['features'], original['features']):
+            assert {k: v for k, v in returned.items() if k != 'friendly_name'} == {
+                k: v for k, v in before.items() if k != 'friendly_name'}
+        assert body['base_value'] == original['base_value']
+        assert body['explained_output'] == original['explained_output']
+        assert body['model_version'] == original['model_version']
+        assert client.get('/predict/002').json()['prediction'] == pytest.approx(body['explained_output'])

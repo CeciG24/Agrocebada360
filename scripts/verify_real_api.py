@@ -15,6 +15,8 @@ from fastapi.testclient import TestClient
 from api.app.core.config import Settings
 from api.app.main import create_app
 from ml import inference
+from ml.artifact_contract import sha256
+from api.app.services.feature_labels import load_feature_labels
 
 
 def verify(data_root, delivery):
@@ -31,6 +33,9 @@ def verify(data_root, delivery):
         return original(path)
 
     settings = Settings(mode='real', data_root=Path(data_root), delivery_path=Path(delivery))
+    schema_path = Path(delivery) / 'model/feature_schema.json'
+    schema = json.loads(schema_path.read_text(encoding='utf-8'))
+    labels = load_feature_labels(schema['model_sha256'], sha256(schema_path))
     with patch.object(inference, '_deserialize', counted), TestClient(create_app(settings)) as client:
         response = client.get('/health')
         assert response.status_code == 200
@@ -65,6 +70,8 @@ def verify(data_root, delivery):
                 assert explanation['status'] == 'available' and explanation['meta'] == prediction['meta']
                 assert explanation['model_version'] == prediction['model_version']
                 assert explanation['output_space'] == prediction['unit'] and len(explanation['features']) == 30
+                for feature in explanation['features']:
+                    assert feature['friendly_name'] == labels.get(feature['feature'], feature['feature'])
                 explained = explanation['base_value'] + math.fsum(f['impact'] for f in explanation['features'])
                 explanation_errors.append(abs(explained - prediction['prediction']))
         assert max(errors) < 1e-8 and len(loads) == 1
@@ -76,11 +83,12 @@ def verify(data_root, delivery):
             response = client.get(route)
             assert response.status_code == 404 and response.json()['error']['code'] == 'PARCEL_NOT_FOUND'
         assert client.get('/parcels?include_geometry=invalid').status_code == 422
-    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12'], 'transport': 'FastAPI TestClient HTTP/ASGI',
+    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12', 'P4.13'], 'transport': 'FastAPI TestClient HTTP/ASGI',
             'n_parcels': len(ids), 'n_predictions_checked': len(errors),
             'n_geometries': sum(p['geometry'] is not None for p in mapped['items']),
             'prediction_max_error': max(errors), 'deserializations': len(loads),
             'n_explanations_checked': len(explanation_errors), 'explanation_max_error': max(explanation_errors),
+            'n_feature_labels': len(labels),
             'health': health, 'unknown_ids_rejected': True, 'http_training_forbidden': True,
             'api_contract_version': '0.1.0', 'model_version': expected.model_version.iloc[0]}
 
