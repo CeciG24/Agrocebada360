@@ -1,12 +1,14 @@
 """Catálogo real y pipeline congelado; ninguna consulta entrena o recarga archivos."""
 import csv
 import logging
+import math
 from pathlib import Path
 
 from api.app.core.errors import ServiceError
 from api.app.schemas.common import Meta
 from api.app.schemas.parcels import ParcelDetail, ParcelList, ParcelMapItem, ParcelMapList, ParcelSummary
 from api.app.schemas.prediction import Prediction
+from api.app.schemas.explanation import Explanation, RECONSTRUCTION_ATOL, unavailable_explanation
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +20,35 @@ class RealService:
         self.parcels: dict[str, ParcelMapItem] = {}
         self.data_ready = False
         self._pipeline = None
+        self._explanations = {}
+        self._explanation_failed = False
+
+    def _load_explanations(self, manifest):
+        from ml.model_bundle import read_json
+        from ml.artifact_contract import sha256
+        expected_hash = manifest['files_sha256'].get('explanations.json')
+        if expected_hash is None:
+            return  # Entrega sin módulo SHAP: ausencia esperada, no error operativo.
+        path = self.delivery_path / 'explanations.json'
+        if sha256(path) != expected_hash:
+            raise ValueError('Las explicaciones no corresponden a la entrega integrada.')
+        rows = read_json(path)
+        if not isinstance(rows, dict) or set(rows) - set(self.parcels):
+            raise ValueError('IDs de explicación incompatibles con el catálogo.')
+        validated = {}
+        for parcel_id, payload in rows.items():
+            explanation = Explanation.model_validate(payload)
+            if explanation.parcel_id != parcel_id or explanation.meta != Meta(mode='real'):
+                raise ValueError('Contexto de explicación incompatible con la fuente real.')
+            if explanation.status == 'available':
+                if (explanation.model_version != self._pipeline.model_version
+                        or explanation.output_space != self._pipeline.unit
+                        or set(f.feature for f in explanation.features) != set(self._pipeline.feature_names)
+                        or not math.isclose(explanation.explained_output, self._pipeline.predict(parcel_id),
+                                            rel_tol=0, abs_tol=RECONSTRUCTION_ATOL)):
+                    raise ValueError('La explicación no corresponde a las features/salida del modelo cargado.')
+            validated[parcel_id] = explanation
+        self._explanations = validated  # Publicación atómica: nada parcial si falla una fila.
 
     @property
     def model_loaded(self) -> bool:
@@ -89,6 +120,12 @@ class RealService:
         except Exception:
             self._pipeline = None
             logger.exception('Catálogo REAL disponible, pero el modelo no pudo inicializarse')
+        if self.model_loaded:
+            try:
+                self._load_explanations(manifest)
+            except Exception:
+                self._explanations, self._explanation_failed = {}, True
+                logger.exception('El módulo de explicación REAL no pudo inicializarse')
 
     def require_data(self):
         if not self.data_ready:
@@ -126,3 +163,9 @@ class RealService:
         except ModelNotLoaded:
             logger.exception('El modelo REAL no está cargado')
             raise ServiceError(503, 'MODEL_UNAVAILABLE', 'El modelo no está disponible.') from None
+
+    def get_explanation(self, parcel_id):
+        self.get_parcel(parcel_id)
+        if not self.model_loaded or self._explanation_failed:
+            raise ServiceError(503, 'EXPLANATION_UNAVAILABLE', 'La explicación no está disponible.')
+        return self._explanations.get(parcel_id) or unavailable_explanation(parcel_id, 'real')

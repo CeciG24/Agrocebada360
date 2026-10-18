@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, Path, Query, Request, Response
 from api.app.schemas.common import ErrorResponse, Health
 from api.app.schemas.parcels import ParcelDetail, ParcelList, ParcelMapList
 from api.app.schemas.prediction import Prediction
+from api.app.schemas.explanation import Explanation
 from api.app.services.base import ParcelService
 
 router = APIRouter()
@@ -45,3 +46,8 @@ def parcel(id: ParcelID, service: Service) -> ParcelDetail:
 @router.get("/predict/{id}", response_model=Prediction, responses=ERRORS)
 def predict(id: ParcelID, service: Service) -> Prediction:
     return service.get_prediction(id)
+
+
+@router.get("/explain/{id}", response_model=Explanation, responses=ERRORS)
+def explain(id: ParcelID, service: Service) -> Explanation:
+    return service.get_explanation(id)

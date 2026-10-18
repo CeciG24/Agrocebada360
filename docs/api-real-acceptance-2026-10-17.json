@@ -2,7 +2,8 @@
   "status": "passed",
   "tasks": [
     "P4.8",
-    "P4.9"
+    "P4.9",
+    "P4.12"
   ],
   "transport": "FastAPI TestClient HTTP/ASGI",
   "n_parcels": 197,
@@ -10,6 +11,8 @@
   "n_geometries": 197,
   "prediction_max_error": 1.7763568394002505e-15,
   "deserializations": 1,
+  "n_explanations_checked": 59,
+  "explanation_max_error": 2.6645352591003757e-15,
   "health": {
     "status": "ok",
     "mode": "real",

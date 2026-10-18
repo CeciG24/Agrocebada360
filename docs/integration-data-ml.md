@@ -118,8 +118,8 @@ versionan este perfil interno de adaptación; no se atribuyen al productor.
 La API mantiene mock por defecto y ya permite conectar este paquete mediante
 `CEBADA_MODE=real`, `CEBADA_DATA` y `CEBADA_DELIVERY` (P4.8/P4.9). Ver
 [api/README.md](../api/README.md) para iniciar el servicio y comprobar su health.
-Las cuatro rutas existentes conservan el contrato; conectar explicabilidad
-mediante HTTP sigue siendo P4.12. Las pruebas de artefactos de esta sección son
+Las rutas de predicción/catálogo conservan el contrato; P4.12 añade la ruta ya
+definida `/explain/{id}` con sus ausencias y errores explícitos. Las pruebas de artefactos de esta sección son
 distintas de la aceptación HTTP registrada en `api-real-acceptance-2026-10-17.json`.
 
 ## Verificación

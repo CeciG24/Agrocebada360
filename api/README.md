@@ -1,7 +1,7 @@
-# API Cebada360 — P4.8/P4.9
+# API Cebada360 — P4.8/P4.9/P4.12
 
-La API conserva el contrato público 0.1.0 y sus cuatro rutas: `/health`, `/parcels`,
-`/parcel/{id}` y `/predict/{id}`. El modo por defecto es `mock`; configurar `real`
+La API conserva el contrato público 0.1.0 e implementa `/health`, `/parcels`,
+`/parcel/{id}`, `/predict/{id}` y `/explain/{id}`. El modo por defecto es `mock`; configurar `real`
 requiere rutas explícitas a datos y entrega integrada. Un fallo real nunca activa mocks.
 
 Desde la raíz del repositorio, con una entrega creada mediante
@@ -62,6 +62,38 @@ La suite `tests/test_real_api.py` cubre además fallos de modelo, integridad,
 procedencia, configuración y falta de features sin fallback.
 La aceptación del 17 de octubre pasó con 197 parcelas/geometrías y 59 predicciones,
 error máximo `1.78e-15` y una única deserialización. La suite conjunta terminó con
-179 pruebas aprobadas. El reporte es `docs/api-real-acceptance-2026-10-17.json`.
+191 pruebas aprobadas tras P4.12. El reporte es `docs/api-real-acceptance-2026-10-17.json`.
 El frontend puede usar estas cuatro rutas con el modo demo local desactivado;
-explicabilidad, riesgo y agregados regionales aún requieren sus integraciones HTTP.
+riesgo y agregados regionales aún requieren sus integraciones HTTP.
+
+## Explicabilidad P4.12
+
+`GET /explain/{id}` sirve contribuciones verificadas y cacheadas al iniciar:
+hash del archivo vinculado a la entrega, modelo, features exactas, escala,
+contexto real, signo, orden y reconstrucción con tolerancia absoluta `1e-8`.
+La salida reconstruida también se compara con el predictor cargado. El servicio
+no ejecuta SHAP ni lee artefactos en cada petición; devuelve todas las contribuciones,
+para que la interfaz pueda seleccionar las principales sin perder la identidad SHAP.
+
+Hay 59 explicaciones precalculadas. Para un ID conocido sin explicación, devuelve
+200 con `status=unavailable`, `reason=EXPLANATION_NOT_READY`, contexto null y
+`features=[]`. ID desconocido: 404. Si un archivo declarado falta, está corrupto
+o pertenece a otro modelo, devuelve 503 `EXPLANATION_UNAVAILABLE`, manteniendo
+predicción y catálogo disponibles. Health conserva sus indicadores de datos/modelo;
+no certifica disponibilidad de todos los módulos opcionales. Mock devuelve
+ausencia explícita, sin inventar contribuciones.
+
+Para probar el frontend por proxy, abrir
+`http://127.0.0.1:5173/parcela/AGC_003?demo=0`. Esta parcela dispone de explicación;
+`AGC_001` permite probar ausencia esperada. Levantar Vite desde `frontend/`:
+
+```powershell
+$env:VITE_API_TARGET = "http://127.0.0.1:8000"
+node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5173 --strictPort
+node scripts/check-api.mjs http://127.0.0.1:5173 AGC_003
+```
+
+La comprobación del navegador validó el dashboard, el detalle con 30 contribuciones,
+el origen `API · real` y la vista móvil de 390 px sin overflow ni errores JavaScript.
+Riesgo continúa como aviso de módulo pendiente. Los nombres técnicos de features
+son el fallback del contrato mientras se acuerda el diccionario de P4.13.

@@ -123,6 +123,11 @@ class InferencePipeline:
         self._require_loaded()
         return self._schema["prediction_unit"]
 
+    @property
+    def feature_names(self):
+        self._require_loaded()
+        return tuple(self._schema["features"])
+
     def _validate_schema(self, schema):
         try:
             return validate_feature_schema(schema)

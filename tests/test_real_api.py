@@ -176,3 +176,76 @@ def test_configuration_requires_explicit_real_paths_and_rejects_unknown_mode(mon
         get_settings()
     monkeypatch.delenv('CEBADA_MODE')
     assert get_settings().mode == 'mock'
+
+
+def install_explanation(settings, mutate=None):
+    row = {'parcel_id': '002', 'status': 'available', 'reason': None, 'method': 'shap',
+           'model_version': 'yield-v1', 'output_space': 't/ha', 'base_value': 0., 'explained_output': 45.,
+           'features': [{'feature': 'rain', 'friendly_name': 'rain', 'impact': 40., 'direction': 'positive'},
+                        {'feature': 'temp', 'friendly_name': 'temp', 'impact': 5., 'direction': 'positive'}],
+           'meta': {'mode': 'real', 'contract_version': '0.1.0', 'cycle': '2025-04/2025-10', 'data_cutoff': '2025-10-31'}}
+    if mutate:
+        mutate(row)
+    path = settings.delivery_path / 'explanations.json'
+    write(path, {'002': row})
+    manifest_path = settings.delivery_path / 'integration_manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    manifest['files_sha256']['explanations.json'] = sha256(path)
+    write(manifest_path, manifest)
+
+
+def test_real_explanation_matches_prediction_and_is_cached(real_delivery, monkeypatch):
+    install_explanation(real_delivery)
+    with TestClient(create_app(real_delivery)) as client:
+        from ml import model_bundle
+        monkeypatch.setattr(model_bundle, 'read_json', lambda *a: pytest.fail('No file reads during requests'))
+        monkeypatch.setattr(client.app.state.service._pipeline._model, 'fit', lambda *a: pytest.fail('No training'))
+        prediction = client.get('/predict/002').json()
+        for _ in range(3):
+            body = client.get('/explain/002').json()
+            assert body['status'] == 'available'
+            assert body['explained_output'] == pytest.approx(prediction['prediction'])
+            assert body['model_version'] == prediction['model_version']
+            assert body['base_value'] + sum(f['impact'] for f in body['features']) == body['explained_output']
+        assert client.get('/explain/001').json()['status'] == 'unavailable'
+        assert client.get('/explain/unknown').status_code == 404
+        assert client.get('/explain/%20').status_code == 422
+
+
+def test_no_explanation_module_is_expected_absence(real_delivery):
+    with TestClient(create_app(real_delivery)) as client:
+        response = client.get('/explain/002')
+        assert response.status_code == 200
+        assert response.json()['reason'] == 'EXPLANATION_NOT_READY'
+        assert response.json()['features'] == []
+
+
+@pytest.mark.parametrize('damage', ['version', 'scale', 'output', 'features', 'sign', 'sort', 'context', 'sum', 'id'])
+def test_invalid_explanations_do_not_disable_prediction(real_delivery, damage):
+    def mutate(row):
+        if damage == 'version': row['model_version'] = 'yield-v2'
+        if damage == 'scale': row['output_space'] = 'log-yield'
+        if damage == 'output':
+            row['base_value'], row['explained_output'] = 5., 50.  # aditividad válida pero otro predictor
+        if damage == 'features': row['features'][0]['feature'] = 'unknown'
+        if damage == 'sign': row['features'][0]['direction'] = 'negative'
+        if damage == 'sort': row['features'].reverse()
+        if damage == 'context': row['meta']['mode'] = 'mock'
+        if damage == 'sum': row['base_value'] = 1.
+        if damage == 'id': row['parcel_id'] = '001'
+    install_explanation(real_delivery, mutate)
+    with TestClient(create_app(real_delivery), raise_server_exceptions=False) as client:
+        response = client.get('/explain/002')
+        assert response.status_code == 503
+        assert response.json()['error']['code'] == 'EXPLANATION_UNAVAILABLE'
+        assert client.get('/predict/002').status_code == 200
+        assert client.get('/health').status_code == 200
+
+
+def test_declared_explanation_file_missing_is_operational_error(real_delivery):
+    install_explanation(real_delivery)
+    (real_delivery.delivery_path / 'explanations.json').unlink()
+    with TestClient(create_app(real_delivery), raise_server_exceptions=False) as client:
+        response = client.get('/explain/002')
+        assert response.status_code == 503
+        assert response.json()['error']['code'] == 'EXPLANATION_UNAVAILABLE'

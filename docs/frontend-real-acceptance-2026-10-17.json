@@ -1,0 +1,82 @@
+{
+  "mode": "real",
+  "browser": "Chrome headless via bundled Playwright",
+  "dashboardLoaded": true,
+  "explanationId": "AGC_003",
+  "features": 30,
+  "model": "yield-v1",
+  "mobileWidth": {
+    "viewport": 390,
+    "content": 390
+  },
+  "errors": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:5173/parcels?include_geometry=true",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/parcel/AGC_001",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/risk/AGC_001",
+      "status": 404
+    },
+    {
+      "url": "http://127.0.0.1:5173/predict/AGC_001",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/explain/AGC_001",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/parcel/AGC_003",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/parcels?include_geometry=true",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/risk/AGC_003",
+      "status": 404
+    },
+    {
+      "url": "http://127.0.0.1:5173/risk/AGC_003",
+      "status": 404
+    },
+    {
+      "url": "http://127.0.0.1:5173/predict/AGC_003",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/explain/AGC_003",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/explain/AGC_003",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/predict/AGC_003",
+      "status": 200
+    }
+  ],
+  "status": "passed",
+  "python_tests_passed": 191,
+  "frontend_tests_passed": 15,
+  "frontend_lint": "passed",
+  "frontend_url": "http://127.0.0.1:5173/parcela/AGC_003?demo=0",
+  "api_url": "http://127.0.0.1:8000",
+  "screenshots_local": [
+    "data\\integrated\\verified-2026-10-17\\dashboard-real.png",
+    "data\\integrated\\verified-2026-10-17\\explanation-real-desktop.png",
+    "data\\integrated\\verified-2026-10-17\\explanation-real-mobile.png"
+  ],
+  "pending_modules": [
+    "risk",
+    "regions"
+  ]
+}

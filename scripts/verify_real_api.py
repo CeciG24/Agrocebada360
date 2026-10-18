@@ -2,6 +2,7 @@
 import argparse
 import json
 import logging
+import math
 from pathlib import Path
 import sys
 from unittest.mock import patch
@@ -21,6 +22,7 @@ def verify(data_root, delivery):
     root = Path(__file__).resolve().parents[1]
     expected = pd.read_csv(root / 'ml/results/predictions_raw.csv', dtype={'parcel_id': str})
     errors = []
+    explanation_errors = []
     loads = []
     original = inference._deserialize
 
@@ -57,15 +59,28 @@ def verify(data_root, delivery):
                 assert prediction['model_version'] == row.model_version
                 assert all(prediction[key] is None for key in ['lower', 'upper', 'interval_level', 'interval_method'])
                 errors.append(abs(prediction['prediction'] - row.rendimiento_pred_t_ha))
+                response = client.get('/explain/' + row.parcel_id)
+                assert response.status_code == 200
+                explanation = response.json()
+                assert explanation['status'] == 'available' and explanation['meta'] == prediction['meta']
+                assert explanation['model_version'] == prediction['model_version']
+                assert explanation['output_space'] == prediction['unit'] and len(explanation['features']) == 30
+                explained = explanation['base_value'] + math.fsum(f['impact'] for f in explanation['features'])
+                explanation_errors.append(abs(explained - prediction['prediction']))
         assert max(errors) < 1e-8 and len(loads) == 1
-        for route in ['/parcel/unknown-id', '/predict/unknown-id']:
+        assert max(explanation_errors) < 1e-8
+        split = json.loads((root / 'ml/split/official_ids_v1.json').read_text())
+        unavailable = client.get('/explain/' + split['train_ids'][0])
+        assert unavailable.status_code == 200 and unavailable.json()['reason'] == 'EXPLANATION_NOT_READY'
+        for route in ['/parcel/unknown-id', '/predict/unknown-id', '/explain/unknown-id']:
             response = client.get(route)
             assert response.status_code == 404 and response.json()['error']['code'] == 'PARCEL_NOT_FOUND'
         assert client.get('/parcels?include_geometry=invalid').status_code == 422
-    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9'], 'transport': 'FastAPI TestClient HTTP/ASGI',
+    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12'], 'transport': 'FastAPI TestClient HTTP/ASGI',
             'n_parcels': len(ids), 'n_predictions_checked': len(errors),
             'n_geometries': sum(p['geometry'] is not None for p in mapped['items']),
             'prediction_max_error': max(errors), 'deserializations': len(loads),
+            'n_explanations_checked': len(explanation_errors), 'explanation_max_error': max(explanation_errors),
             'health': health, 'unknown_ids_rejected': True, 'http_training_forbidden': True,
             'api_contract_version': '0.1.0', 'model_version': expected.model_version.iloc[0]}
 

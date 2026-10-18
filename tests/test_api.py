@@ -22,7 +22,7 @@ def assert_error(response, status, code):
 
 def test_only_requested_routes(client):
     assert {route.path for route in client.app.routes} == {
-        "/health", "/parcels", "/parcel/{id}", "/predict/{id}",
+        "/health", "/parcels", "/parcel/{id}", "/predict/{id}", "/explain/{id}",
     }
 
 
@@ -104,7 +104,7 @@ def test_unknown_parcel(client, path):
     assert_error(client.get(path), 404, "PARCEL_NOT_FOUND")
 
 
-@pytest.mark.parametrize("path", ["/unknown", "/explain/mock-001", "/docs"])
+@pytest.mark.parametrize("path", ["/unknown", "/docs"])
 def test_unknown_route(client, path):
     assert_error(client.get(path), 404, "ROUTE_NOT_FOUND")
 
@@ -164,3 +164,13 @@ def test_loaded_once_per_lifespan(monkeypatch):
         for _ in range(3):
             assert client.get("/predict/mock-001").status_code == 200
         assert len(calls) == 1
+
+
+def test_mock_explanation_is_explicitly_unavailable(client):
+    response = client.get('/explain/mock-001')
+    assert response.status_code == 200
+    body = response.json()
+    assert body['status'] == 'unavailable' and body['reason'] == 'EXPLANATION_NOT_READY'
+    assert body['features'] == [] and body['model_version'] is None
+    assert body['meta']['mode'] == 'mock'
+    assert_error(client.get('/explain/unknown'), 404, 'PARCEL_NOT_FOUND')

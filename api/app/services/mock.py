@@ -6,6 +6,7 @@ from api.app.schemas.parcels import (
     ParcelDetail, ParcelList, ParcelMapItem, ParcelMapList, ParcelSummary, Polygon,
 )
 from api.app.schemas.prediction import Prediction
+from api.app.schemas.explanation import unavailable_explanation
 
 
 class MockService:
@@ -66,3 +67,7 @@ class MockService:
         if prediction is None:
             raise ServiceError(503, "PREDICTION_UNAVAILABLE", "La predicción no está disponible.")
         return prediction
+
+    def get_explanation(self, parcel_id: str):
+        self.get_parcel(parcel_id)
+        return unavailable_explanation(parcel_id, 'mock')
