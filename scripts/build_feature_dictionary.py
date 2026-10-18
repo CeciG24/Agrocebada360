@@ -42,6 +42,7 @@ def build():
         raise ValueError('Cambió el cálculo P1.9: revisar las traducciones antes de regenerar.')
     schema_path = ROOT / 'ml/models/feature_schema.json'
     schema = json.loads(schema_path.read_text(encoding='utf-8'))
+    data_dictionary_source = json.loads((ROOT / 'docs/persona1-data-dictionary-source.json').read_text(encoding='utf-8'))
     features = {}
     for window, (period, start, end, coverage, historical) in WINDOWS.items():
         for base, (name, unit, transformation, definition) in MEASURES.items():
@@ -62,7 +63,11 @@ def build():
         'source': {'path': SOURCE, 'function': 'calcular_features', 'sha256': digest(ROOT / SOURCE),
                    'sha256_lf': AUDITED_SOURCE_SHA256_LF,
                    'series': 'clima/climate_timeseries.csv'},
-        'review_status': 'Mapeo técnico verificado contra P1.9; pendiente revisión semántica por Persona 1.',
+        'documentary_source': {'file': data_dictionary_source['source_file'],
+                               'sha256': data_dictionary_source['sha256'],
+                               'normalized_path': 'docs/persona1-data-dictionary-source.json',
+                               'reconciliation': 'docs/data-dictionary-review-2026-10-18.md'},
+        'review_status': 'Mapeo técnico verificado contra P1.9 y contrastado con el diccionario entregado por Persona 1; no implica aprobación explícita de estas etiquetas ni carácter oficial de FIRA.',
         'impact_unit_note': 'variable_unit describe la variable de entrada; las contribuciones SHAP de yield-v1 están en t/ha.',
         'features': {feature: features[feature] for feature in schema['features']},
     }
@@ -71,7 +76,7 @@ def build():
     destination.write_text(json.dumps(document, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     lines = ['# Diccionario de variables del modelo — P4.13', '',
              'Versión interna `feature-labels-v1`. Cubre las 30 features de `yield-v1` / `features-v1`.', '',
-             'Los nombres se derivan del cálculo P1.9 auditado. Falta la revisión semántica de Persona 1; no se atribuyen como nomenclatura oficial de FIRA.', '',
+             'Los nombres se derivan del cálculo P1.9 auditado y se contrastaron con `DICCIONARIO_DE_DATOS.docx` entregado por Persona 1. Las 30 variables coinciden en significado, unidad y periodo. La entrega del documento no implica aprobación explícita de estas etiquetas ni nomenclatura oficial de FIRA. Véase [la comparación y complementos](data-dictionary-review-2026-10-18.md).', '',
              'El catálogo ejecutable está en `api/app/catalogs/feature_labels.json`. Incluye definiciones, unidades, fórmulas, ventanas y hashes del cálculo/modelo/schema. Se regenera con `python scripts/build_feature_dictionary.py`; si cambia el cálculo o el conjunto de features, se detiene para revisión.', '',
              'En 2025 se usa abril–octubre. La ventana conjunta incluye 2022–2024 y abril–octubre de 2025, sin enero–marzo de 2025. Los históricos representan contexto ambiental, no historial de cebada. La media conjunta pondera por observación mensual disponible, no por año.', '',
              '**Las unidades de entrada (mm o °C) no son las unidades del impacto SHAP:** las contribuciones de este predictor siguen expresadas en t/ha. No se cambian identificadores, impactos, orden, versiones ni la identidad de reconstrucción.', '',

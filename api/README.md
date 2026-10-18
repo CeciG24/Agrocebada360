@@ -102,8 +102,11 @@ Riesgo continúa como aviso de módulo pendiente.
 El catálogo `api/app/catalogs/feature_labels.json` documenta las 30 variables
 climáticas de yield-v1: nombre, definición, unidad de entrada, fórmula y ventana.
 Ver [diccionario de variables](../docs/model-feature-dictionary.md).
-Las etiquetas se basan en el cálculo P1.9 auditado y quedan pendientes de revisión
-semántica por Persona 1; no son nombres oficiales atribuidos a FIRA.
+Las etiquetas se basan en el cálculo P1.9 auditado y se contrastaron con el
+diccionario entregado por Persona 1; coinciden en significado, unidades y periodos.
+Ver [comparación y complementos](../docs/data-dictionary-review-2026-10-18.md).
+La entrega del documento no equivale a aprobación explícita de las etiquetas ni
+les atribuye carácter oficial de FIRA.
 
 La API las aplica al cargar SHAP únicamente si coinciden los hashes del modelo y
 schema. Cambia solo `friendly_name`, después de verificar contribuciones, escala,

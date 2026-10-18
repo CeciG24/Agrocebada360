@@ -2,7 +2,7 @@
 
 Versión interna `feature-labels-v1`. Cubre las 30 features de `yield-v1` / `features-v1`.
 
-Los nombres se derivan del cálculo P1.9 auditado. Falta la revisión semántica de Persona 1; no se atribuyen como nomenclatura oficial de FIRA.
+Los nombres se derivan del cálculo P1.9 auditado y se contrastaron con `DICCIONARIO_DE_DATOS.docx` entregado por Persona 1. Las 30 variables coinciden en significado, unidad y periodo. La entrega del documento no implica aprobación explícita de estas etiquetas ni nomenclatura oficial de FIRA. Véase [la comparación y complementos](data-dictionary-review-2026-10-18.md).
 
 El catálogo ejecutable está en `api/app/catalogs/feature_labels.json`. Incluye definiciones, unidades, fórmulas, ventanas y hashes del cálculo/modelo/schema. Se regenera con `python scripts/build_feature_dictionary.py`; si cambia el cálculo o el conjunto de features, se detiene para revisión.
 

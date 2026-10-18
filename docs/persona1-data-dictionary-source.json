@@ -1,0 +1,525 @@
+{
+  "source_file": "DICCIONARIO_DE_DATOS.docx",
+  "sha256": "9944d5a2388840c8490952c77d9347f8a45b7052a692a62c2cf84da6bc29315b",
+  "provenance": "Documento entregado por Persona 1 a través del usuario; no se atribuye carácter oficial de FIRA.",
+  "paragraphs": [
+    "Diccionario de datos — Agrocebada360",
+    "Objetivo. Describir las columnas de features_master.csv y la variable objetivo rendimiento_t_ha, conservando los nombres técnicos actuales.",
+    "Resumen por grupo",
+    "Convenciones de sufijos",
+    "1. Identificación y ubicación",
+    "2. Variables satelitales",
+    "Cada índice se entrega con seis estadísticos calculados sobre las observaciones de la parcela dentro de la ventana del ciclo: _mean, _median, _max, _min, _std y _range. El nombre de columna sigue el patrón <sensor>_<indice>_<estadístico> (por ejemplo sentinel2_ndvi_mean).",
+    "2.1 Sentinel-2 (132 columnas: 22 índices × 6 estadísticos)",
+    "2.2 Landsat (6 columnas)",
+    "2.3 Planet (24 columnas: 4 índices × 6 estadísticos)",
+    "3. Fenología y estadísticas temporales",
+    "Se calculan para sentinel2_ndvi y planet_ndvi (7 métricas × 2 sensores = 14 columnas). Fuente: series satelitales por sensor. Periodo: ciclo 2025-04-01 a 2025-10-31.",
+    "4. Clima",
+    "4.1 Variables base",
+    "4.2 Periodos",
+    "5. Topografía",
+    "6. Variable objetivo (target)",
+    "Notas de uso",
+    "El modelo consume un subconjunto de 30 features; no todas las columnas del maestro se utilizan como variables de entrada.",
+    "Las fórmulas de los índices satelitales son las de la fuente de datos; no se asume una formulación distinta.",
+    "slope_mean se expresa en grados, conforme al raster de pendiente utilizado.",
+    "_decay_rate puede estar vacío cuando no existen observaciones válidas posteriores al pico.",
+    "Los valores de Planet y de Sentinel-2 no son equivalentes aunque compartan nombre de índice; no deben fusionarse.",
+    "No renombrar columnas de datos sin actualizar el esquema y los consumidores del dataset."
+  ],
+  "tables": [
+    [
+      [
+        "Grupo",
+        "Columnas",
+        "Contenido"
+      ],
+      [
+        "Identificación y ubicación",
+        "7",
+        "Identificador, partición, municipio, estado, superficie y centroide."
+      ],
+      [
+        "Variables satelitales",
+        "162",
+        "Seis estadísticos por índice: Sentinel-2 (22 índices), Landsat (VI6T) y Planet (4 índices)."
+      ],
+      [
+        "Fenología y estadísticas temporales",
+        "14",
+        "Siete métricas temporales sobre NDVI de Sentinel-2 y siete sobre NDVI de Planet."
+      ],
+      [
+        "Clima",
+        "30",
+        "Seis variables por cada uno de cinco periodos (2022, 2023, 2024, 2025 y 2022_2025)."
+      ],
+      [
+        "Topografía",
+        "2",
+        "Elevación media y pendiente media."
+      ],
+      [
+        "Total de columnas del maestro",
+        "215",
+        "Más la variable objetivo rendimiento_t_ha (documentada por separado)."
+      ]
+    ],
+    [
+      [
+        "Sufijo",
+        "Interpretación propuesta"
+      ],
+      [
+        "_mean",
+        "Media"
+      ],
+      [
+        "_median",
+        "Mediana"
+      ],
+      [
+        "_max / _min",
+        "Máximo / mínimo"
+      ],
+      [
+        "_std",
+        "Desviación estándar"
+      ],
+      [
+        "_range",
+        "Rango (máximo menos mínimo)"
+      ],
+      [
+        "_peak / _peak_date / _peak_doy",
+        "Pico fenológico, fecha y día del año"
+      ],
+      [
+        "_auc",
+        "Área bajo la curva temporal"
+      ],
+      [
+        "_growth_rate / _decay_rate",
+        "Tasa de crecimiento / descenso"
+      ]
+    ],
+    [
+      [
+        "Nombre técnico",
+        "Nombre amigable",
+        "Descripción",
+        "Tipo",
+        "Unidad"
+      ],
+      [
+        "parcel_id",
+        "Identificador de parcela",
+        "Código único utilizado para relacionar la información de una misma parcela entre archivos.",
+        "Texto",
+        "No aplica"
+      ],
+      [
+        "dataset_split",
+        "Partición del conjunto de datos",
+        "Partición asignada a la parcela, por ejemplo ENTRENAMIENTO o PREDICCION.",
+        "Texto",
+        "No aplica"
+      ],
+      [
+        "municipio",
+        "Municipio",
+        "Municipio asociado a la parcela.",
+        "Texto",
+        "No aplica"
+      ],
+      [
+        "estado",
+        "Estado",
+        "Entidad federativa asociada a la parcela.",
+        "Texto",
+        "No aplica"
+      ],
+      [
+        "area_ha",
+        "Superficie de la parcela",
+        "Superficie de la parcela expresada en hectáreas.",
+        "Decimal",
+        "ha"
+      ],
+      [
+        "centroid_lat",
+        "Latitud del centroide",
+        "Coordenada geográfica del centroide de la parcela.",
+        "Decimal",
+        "Grados decimales"
+      ],
+      [
+        "centroid_lon",
+        "Longitud del centroide",
+        "Coordenada geográfica del centroide de la parcela.",
+        "Decimal",
+        "Grados decimales"
+      ]
+    ],
+    [
+      [
+        "Prefijo en el archivo",
+        "Nombre / categoría",
+        "¿Qué representa?",
+        "Columnas"
+      ],
+      [
+        "sentinel2_ndvi_*",
+        "Normalized Difference Vegetation Index",
+        "Indicador general de presencia, vigor y actividad de vegetación verde.",
+        "6"
+      ],
+      [
+        "sentinel2_evi_*",
+        "Enhanced Vegetation Index",
+        "Índice de vigor vegetal diseñado para reducir parte de la influencia del suelo y de efectos atmosféricos.",
+        "6"
+      ],
+      [
+        "sentinel2_crc_*",
+        "Crop Residue Cover Index",
+        "Respuesta espectral asociada con cobertura de residuos de cultivo sobre la superficie.",
+        "6"
+      ],
+      [
+        "sentinel2_mcrc_*",
+        "Modified Crop Residue Cover",
+        "Variante modificada de índices orientados a detectar residuos de cultivo.",
+        "6"
+      ],
+      [
+        "sentinel2_ndsvi_*",
+        "Normalized Difference Senescent Vegetation Index",
+        "Índice sensible a vegetación senescente y material vegetal no fotosintético.",
+        "6"
+      ],
+      [
+        "sentinel2_srndi_*",
+        "Shortwave Red Normalized Difference Index",
+        "Contrasta información del infrarrojo de onda corta con la región roja del espectro.",
+        "6"
+      ],
+      [
+        "sentinel2_mra_*",
+        "MRA (nomenclatura del proveedor)",
+        "Variable espectral entregada bajo la abreviatura MRA.",
+        "6"
+      ],
+      [
+        "sentinel2_lai_*",
+        "Leaf Area Index",
+        "Variable biofísica que representa la cantidad de superficie foliar respecto de la superficie del terreno.",
+        "6"
+      ],
+      [
+        "sentinel2_fapar_*",
+        "Fraction of Absorbed Photosynthetically Active Radiation",
+        "Fracción de la radiación fotosintéticamente activa absorbida por la vegetación.",
+        "6"
+      ],
+      [
+        "sentinel2_savi_*",
+        "Soil-Adjusted Vegetation Index",
+        "Índice de vegetación que reduce la influencia del brillo del suelo.",
+        "6"
+      ],
+      [
+        "sentinel2_ndti_*",
+        "Normalized Difference Tillage Index",
+        "Índice basado en el infrarrojo de onda corta para caracterizar suelo, residuos y condiciones de labranza.",
+        "6"
+      ],
+      [
+        "sentinel2_sti_*",
+        "Simple Tillage Index",
+        "Relación espectral utilizada para caracterizar residuos y condiciones de labranza.",
+        "6"
+      ],
+      [
+        "sentinel2_ndwi_*",
+        "Normalized Difference Water Index",
+        "Índice relacionado con agua o humedad a partir del contraste entre bandas espectrales.",
+        "6"
+      ],
+      [
+        "sentinel2_endwi_*",
+        "Enhanced Normalized Difference Water Index",
+        "Variante «enhanced» de un índice normalizado de agua/humedad.",
+        "6"
+      ],
+      [
+        "sentinel2_msi_*",
+        "Moisture Stress Index",
+        "Índice sensible al contenido de agua de la vegetación y al estrés hídrico.",
+        "6"
+      ],
+      [
+        "sentinel2_emsi_*",
+        "Enhanced Moisture Stress Index",
+        "Variante orientada a ampliar la sensibilidad a cambios de humedad o estrés de la vegetación.",
+        "6"
+      ],
+      [
+        "sentinel2_dswi2_*",
+        "Disease-Water Stress Index 2",
+        "Índice espectral desarrollado para detectar cambios relacionados con estrés hídrico y condición vegetal.",
+        "6"
+      ],
+      [
+        "sentinel2_dswi3_*",
+        "Disease-Water Stress Index 3",
+        "Variante de la familia Disease-Water Stress Index con distinta combinación de bandas.",
+        "6"
+      ],
+      [
+        "sentinel2_dswi4_*",
+        "Disease-Water Stress Index 4",
+        "Índice de la misma familia que utiliza un contraste espectral diferente.",
+        "6"
+      ],
+      [
+        "sentinel2_dswi5_*",
+        "Disease-Water Stress Index 5",
+        "Índice multibanda orientado a caracterizar condición vegetal y estrés hídrico.",
+        "6"
+      ],
+      [
+        "sentinel2_nddi_*",
+        "Normalized Difference Drought Index",
+        "Índice que integra información de vegetación y humedad para caracterizar condiciones de sequedad.",
+        "6"
+      ],
+      [
+        "sentinel2_enddi_*",
+        "Enhanced Normalized Difference Drought Index",
+        "Variante «enhanced» de un índice de sequedad que incorpora una señal hídrica complementaria.",
+        "6"
+      ]
+    ],
+    [
+      [
+        "Prefijo en el archivo",
+        "Nombre / categoría",
+        "¿Qué representa?",
+        "Columnas"
+      ],
+      [
+        "landsat_vi6t_*",
+        "VI6T",
+        "Índice espectral-térmico proporcionado para las observaciones Landsat. Combina información de una banda espectral con información térmica de la superficie.",
+        "6"
+      ]
+    ],
+    [
+      [
+        "Prefijo en el archivo",
+        "Nombre / categoría",
+        "¿Qué representa?",
+        "Columnas"
+      ],
+      [
+        "planet_ndvi_*",
+        "Normalized Difference Vegetation Index",
+        "Indicador general de vigor y presencia de vegetación verde.",
+        "6"
+      ],
+      [
+        "planet_evi_*",
+        "Enhanced Vegetation Index",
+        "Indicador de vigor vegetal con ajustes para reducir parte de los efectos del fondo y la atmósfera.",
+        "6"
+      ],
+      [
+        "planet_lai_*",
+        "Leaf Area Index",
+        "Variable biofísica asociada con la superficie foliar respecto de la superficie del terreno.",
+        "6"
+      ],
+      [
+        "planet_msavi_*",
+        "Modified Soil-Adjusted Vegetation Index",
+        "Índice de vegetación que busca reducir la influencia del suelo.",
+        "6"
+      ]
+    ],
+    [
+      [
+        "Sufijo",
+        "Nombre amigable",
+        "Descripción",
+        "Tipo",
+        "Unidad"
+      ],
+      [
+        "_peak",
+        "Valor máximo fenológico del índice",
+        "Valor del pico fenológico del índice dentro del periodo considerado.",
+        "Decimal",
+        "Unidad del índice"
+      ],
+      [
+        "_peak_date",
+        "Fecha del pico fenológico",
+        "Fecha asociada al pico de NDVI dentro de la ventana analizada.",
+        "Fecha",
+        "Fecha calendario"
+      ],
+      [
+        "_peak_doy",
+        "Día del año del pico fenológico",
+        "Día del año correspondiente a la fecha del pico fenológico.",
+        "Entero",
+        "Día del año (1–366)"
+      ],
+      [
+        "_auc",
+        "Área bajo la curva temporal",
+        "Área bajo la curva temporal del índice.",
+        "Decimal",
+        "Unidad del índice"
+      ],
+      [
+        "_growth_rate",
+        "Tasa de crecimiento del índice.",
+        "Tasa estimada de crecimiento del índice.",
+        "Decimal",
+        "Unidad del índice"
+      ],
+      [
+        "_decay_rate",
+        "Tasa de descenso del índice",
+        "Tasa estimada de descenso después del pico. Puede faltar si no existen observaciones posteriores válidas.",
+        "Decimal",
+        "Unidad del índice"
+      ],
+      [
+        "_std_temporal",
+        "Desviación estándar temporal del índice",
+        "Desviación estándar temporal del índice para las observaciones consideradas.",
+        "Decimal",
+        "Unidad del índice"
+      ]
+    ],
+    [
+      [
+        "Variable base",
+        "Descripción",
+        "Tipo",
+        "Unidad"
+      ],
+      [
+        "precip_total_mm",
+        "Precipitación acumulada del periodo indicado, en milímetros",
+        "Decimal",
+        "mm"
+      ],
+      [
+        "precip_mean_mm",
+        "Media de precipitación mensual del periodo indicado, en milímetros.",
+        "Decimal",
+        "mm"
+      ],
+      [
+        "tmin_mean_c",
+        "Media de la temperatura mínima del periodo indicado.",
+        "Decimal",
+        "°C"
+      ],
+      [
+        "tmax_mean_c",
+        "Media de la temperatura máxima del periodo indicado.",
+        "Decimal",
+        "°C"
+      ],
+      [
+        "amplitud_termica_mean_c",
+        "Media de la amplitud térmica del periodo indicado.",
+        "Decimal",
+        "°C"
+      ],
+      [
+        "amplitud_termica_std_c",
+        "Desviación estándar de la amplitud térmica del periodo indicado.",
+        "Decimal",
+        "°C"
+      ]
+    ],
+    [
+      [
+        "Sufijo",
+        "Columnas",
+        "Periodo"
+      ],
+      [
+        "_2022",
+        "6",
+        "Agregado del año 2022."
+      ],
+      [
+        "_2023",
+        "6",
+        "Agregado del año 2023."
+      ],
+      [
+        "_2024",
+        "6",
+        "Agregado del año 2024."
+      ],
+      [
+        "_2025",
+        "6",
+        "Abril–octubre de 2025; excluye noviembre y diciembre."
+      ],
+      [
+        "_2022_2025",
+        "6",
+        "Agregado del periodo 2022–2025; para 2025 solo se consideran abril–octubre."
+      ]
+    ],
+    [
+      [
+        "Nombre técnico",
+        "Nombre amigable",
+        "Descripción",
+        "Unidad",
+        "Fuente"
+      ],
+      [
+        "elevation_mean",
+        "Elevación media",
+        "Elevación media de la parcela, calculada a partir de los valores del raster de elevación.",
+        "m",
+        "Raster de elevación INEGI CEM4 de 120 m; script scripts_limpieza/p1_6.py"
+      ],
+      [
+        "slope_mean",
+        "Pendiente media",
+        "Pendiente media del terreno dentro de la parcela, calculada a partir del raster de pendiente.",
+        "Grados (°)",
+        "Pendiente_INEGI_CEM4_120m_grados.tif; script scripts_limpieza/p1_6.py"
+      ]
+    ],
+    [
+      [
+        "Nombre técnico",
+        "Nombre amigable",
+        "Descripción",
+        "Unidad",
+        "Fuente"
+      ],
+      [
+        "rendimiento_t_ha",
+        "Rendimiento de cebada",
+        "Rendimiento de cebada por parcela, en toneladas por hectárea. Es la variable objetivo del modelo: debe estar disponible para las parcelas de entrenamiento y permanecer desconocida para las parcelas de predicción.",
+        "t/ha",
+        "DATASET_RETO_AGRO_2026/ID_area_rendimiento_70_30_Reto_AgroCebada.csv, columna RENDIMIENTO_T_HA; preparado en targets/rendimiento.csv"
+      ]
+    ]
+  ]
+}

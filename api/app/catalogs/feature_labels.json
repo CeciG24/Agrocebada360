@@ -14,7 +14,13 @@
     "sha256_lf": "263b89d2701d1b510df592ebb4546a3c207469f973707b1cd6dd27b8052aa10b",
     "series": "clima/climate_timeseries.csv"
   },
-  "review_status": "Mapeo técnico verificado contra P1.9; pendiente revisión semántica por Persona 1.",
+  "documentary_source": {
+    "file": "DICCIONARIO_DE_DATOS.docx",
+    "sha256": "9944d5a2388840c8490952c77d9347f8a45b7052a692a62c2cf84da6bc29315b",
+    "normalized_path": "docs/persona1-data-dictionary-source.json",
+    "reconciliation": "docs/data-dictionary-review-2026-10-18.md"
+  },
+  "review_status": "Mapeo técnico verificado contra P1.9 y contrastado con el diccionario entregado por Persona 1; no implica aprobación explícita de estas etiquetas ni carácter oficial de FIRA.",
   "impact_unit_note": "variable_unit describe la variable de entrada; las contribuciones SHAP de yield-v1 están en t/ha.",
   "features": {
     "precip_total_mm_2022": {
