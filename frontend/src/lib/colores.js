@@ -1,4 +1,6 @@
 // Verde más intenso = mayor rendimiento. Escala discreta para tiles.
+export const COLOR_SIN_RESULTADO = '#33443c';
+
 export function colorPorRendimiento(t) {
   if (t >= 5.0) return '#16a34a';   // moss-600
   if (t >= 4.5) return '#15803d';   // moss-700

@@ -93,5 +93,5 @@ export function procesarGeometria(geometry, proyectar) {
     }
   }
   if (!d) return null;
-  return { d, cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, ancho: maxX - minX };
+  return { d, cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, ancho: maxX - minX, alto: maxY - minY };
 }

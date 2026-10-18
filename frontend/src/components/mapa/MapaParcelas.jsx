@@ -1,14 +1,15 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Panel } from '../common/Panel';
 import { LeyendaRendimiento } from './LeyendaRendimiento';
-import { colorPorRendimiento } from '../../lib/colores';
+import { colorPorRendimiento, COLOR_SIN_RESULTADO } from '../../lib/colores';
 import { construirProyeccion, procesarGeometria } from '../../lib/geo';
+import { useTamanoPx } from '../../lib/useTamanoPx';
 // ---------- Constantes ----------
-const SIN_DATO = '#1c241f';
+const SIN_DATO = COLOR_SIN_RESULTADO;
 const COLOR_RIESGO = { bajo: '#15803d', medio: '#b45309', alto: '#b91c1c' };
 const ETIQUETA_RIESGO = { bajo: 'Riesgo bajo', medio: 'Riesgo medio', alto: 'Riesgo alto' };
 const K_MIN = 1;
-const K_MAX = 8;
+const K_MAX = 32;
 const VISTA_INICIAL = { k: 1, x: 0, y: 0 };
 const DIRECCIONES = {
   ArrowRight: [1, 0],
@@ -53,14 +54,14 @@ function vecinoEn(items, actualId, [dx, dy], porId) {
 // ---------- Capa de polígonos (memoizada: no se redibuja al mover el mouse) ----------
 const CapaParcelas = memo(function CapaParcelas({ items, colores, tabbableId, seleccionadaId }) {
   return (
-    <g stroke="#0a0f0d" strokeWidth="1" strokeLinejoin="round" fillRule="evenodd">
+    <g strokeWidth="0.85" strokeLinejoin="round" fillRule="evenodd">
       {items.map((it) => (
         <path
           key={it.id}
           data-id={it.id}
           d={it.d}
           fill={colores.get(it.id) ?? SIN_DATO}
-          fillOpacity={colores.has(it.id) ? 1 : 0.55}
+          stroke={colores.has(it.id) ? '#b1cdbb' : '#82958a'}
           vectorEffect="non-scaling-stroke"
           role="button"
           aria-label={it.etiqueta}
@@ -99,7 +100,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
   const [vista, setVista] = useState(VISTA_INICIAL);
   const [hover, setHover] = useState(null); // { id, x, y, flip }
 
-  const svgRef = useRef(null);
+  const [svgRef, tamano] = useTamanoPx();
   const cajaRef = useRef(null);
   const arrastre = useRef(null);
   const movido = useRef(false);
@@ -134,12 +135,9 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
     const m = new Map();
     for (const p of parcelas) {
       if (modo === 'riesgo') {
-        m.set(p.id, COLOR_RIESGO[p.riesgo] ?? SIN_DATO);
-      } else {
-        m.set(
-          p.id,
-          Number.isFinite(p.rendimiento_t_ha) ? colorPorRendimiento(p.rendimiento_t_ha) : SIN_DATO,
-        );
+        if (COLOR_RIESGO[p.riesgo]) m.set(p.id, COLOR_RIESGO[p.riesgo]);
+      } else if (Number.isFinite(p.rendimiento_t_ha)) {
+        m.set(p.id, colorPorRendimiento(p.rendimiento_t_ha));
       }
     }
     return m;
@@ -155,10 +153,24 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
   const parcelaHover = hover ? porId.get(hover.id) : null;
   const parcelaSel = porId.get(seleccionadaId);
 
-  // Etiquetas con el código solo cuando la celda es lo bastante grande
-  const celda = proy ? Math.sqrt((proy.ancho * proy.alto) / Math.max(items.length, 1)) : 0;
-  const mostrarEtiquetas = celda * vista.k >= 110;
-  const tamEtiqueta = limitar(celda * 0.18, 9, 28);
+  // Una sola etiqueta, con tamaño constante en pantalla y fuera del grupo de zoom.
+  const escalaBase = proy ? Math.max(Math.min(tamano.w / proy.ancho, tamano.h / proy.alto), 0.001) : 1;
+  const seleccionadoX = itemSel ? itemSel.cx * vista.k + vista.x : 0;
+  const seleccionadoY = itemSel ? itemSel.cy * vista.k + vista.y : 0;
+  const seleccionVisible = itemSel && seleccionadoX >= 0 && seleccionadoX <= proy.ancho
+    && seleccionadoY >= 0 && seleccionadoY <= proy.alto;
+  const anchoEtiqueta = ((itemSel?.id.length ?? 0) * 7.5 + 24) / escalaBase;
+  const etiquetaX = proy ? limitar(seleccionadoX, anchoEtiqueta / 2 + 4 / escalaBase,
+    proy.ancho - anchoEtiqueta / 2 - 4 / escalaBase) : 0;
+  const etiquetaY = seleccionadoY < 42 / escalaBase ? seleccionadoY + 24 / escalaBase : seleccionadoY - 24 / escalaBase;
+
+  const centrarSeleccion = () => {
+    if (!itemSel || !proy) return;
+    const k = limitar(Math.min(tamano.w * 0.55 / Math.max(itemSel.ancho * escalaBase, 1),
+      tamano.h * 0.55 / Math.max(itemSel.alto * escalaBase, 1)), K_MIN, K_MAX);
+    setVista(ajustar({ k, x: proy.ancho / 2 - itemSel.cx * k, y: proy.alto / 2 - itemSel.cy * k }, proy));
+    setHover(null);
+  };
 
   // ---------- Zoom ----------
   const zoomEn = useCallback(
@@ -179,7 +191,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
         return ajustar({ k, x: cx - (cx - v.x) * rel, y: cy - (cy - v.y) * rel }, proy);
       });
     },
-    [proy],
+    [proy, svgRef],
   );
 
   // Ctrl/⌘ + rueda (o pellizco en trackpad) acerca; la rueda sola sigue haciendo scroll de la página
@@ -193,7 +205,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
     };
     svg.addEventListener('wheel', onWheel, { passive: false });
     return () => svg.removeEventListener('wheel', onWheel);
-  }, [zoomEn]);
+  }, [zoomEn, svgRef]);
 
   // ---------- Puntero ----------
   const alPresionar = (e) => {
@@ -363,36 +375,25 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
               />
             )}
 
-            {mostrarEtiquetas && (
-              <g
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={tamEtiqueta}
-                fontWeight="600"
-                pointerEvents="none"
-              >
-                {items.map(
-                  (it) =>
-                    porId.has(it.id) && (
-                      <text
-                        key={it.id}
-                        x={it.cx}
-                        y={it.cy}
-                        fill="#ffffff"
-                        fillOpacity="0.95"
-                        stroke="#0a0f0d"
-                        strokeOpacity="0.6"
-                        strokeWidth={tamEtiqueta * 0.18}
-                        paintOrder="stroke"
-                      >
-                        {it.codigo}
-                      </text>
-                    ),
-                )}
-              </g>
-            )}
           </g>
+          {seleccionVisible && (
+            <g pointerEvents="none" aria-hidden="true" data-selected-label={itemSel.id}>
+              <circle cx={seleccionadoX} cy={seleccionadoY} r={8 / escalaBase}
+                fill="none" stroke="#d8e7dc" strokeWidth={1 / escalaBase} strokeOpacity="0.8" />
+              <line x1={seleccionadoX} y1={seleccionadoY} x2={etiquetaX} y2={etiquetaY}
+                stroke="#d8e7dc" strokeWidth={1 / escalaBase} strokeOpacity="0.6" />
+              <rect x={etiquetaX - anchoEtiqueta / 2} y={etiquetaY - 13 / escalaBase}
+                width={anchoEtiqueta} height={26 / escalaBase} rx={6 / escalaBase}
+                fill="#172a20" stroke="#d8e7dc" strokeWidth={1 / escalaBase} />
+              <text x={etiquetaX} y={etiquetaY} fill="#f2f7f3" fontSize={12 / escalaBase}
+                fontWeight="600" textAnchor="middle" dominantBaseline="central">{itemSel.id}</text>
+            </g>
+          )}
         </svg>
+
+        <div className="pointer-events-none absolute left-3 top-3 rounded-md border border-ink-600 bg-ink-950/90 px-2 py-1 text-[11px] text-text-mid">
+          {vista.k === 1 ? 'Vista general' : `Zoom ${vista.k.toFixed(1)}×`} · {sintetica ? 'geometría de ejemplo' : 'contornos reales'}
+        </div>
 
         {/* Tooltip (solo mouse/lápiz) */}
         {hover && (
@@ -431,6 +432,9 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
           </BotonControl>
           <BotonControl etiqueta="Alejar" onClick={() => zoomEn(1 / 1.5)} disabled={vista.k <= K_MIN}>
             −
+          </BotonControl>
+          <BotonControl etiqueta="Centrar parcela seleccionada" onClick={centrarSeleccion} disabled={!itemSel}>
+            ◎
           </BotonControl>
           <BotonControl
             etiqueta="Restablecer vista"
@@ -474,7 +478,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
                 {ETIQUETA_RIESGO[nivel]}
               </span>
             ))}
-            <span className="inline-flex items-center gap-1.5"><span className="h-3 w-5 rounded-sm bg-ink-600" aria-hidden="true" />Sin riesgo disponible</span>
+            <span className="inline-flex items-center gap-1.5"><span className="h-3 w-5 rounded-sm border border-[#82958a]" style={{ backgroundColor: SIN_DATO }} aria-hidden="true" />Sin riesgo disponible</span>
           </div>
         ) : (
           <LeyendaRendimiento />
@@ -485,7 +489,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
           </p>
         )}
         <p className="text-sm text-text-lo">
-          Toca una parcela para abrir su ficha.{' '}
+          Selecciona una parcela para ver su etiqueta y consultar su estimación. Usa ◎ para centrarla.{' '}
           <span className="[@media(hover:none)]:hidden">Ctrl + rueda para acercar, o usa los botones.</span>
           <span className="hidden [@media(hover:none)]:inline">Usa + y − para acercar.</span>
         </p>
