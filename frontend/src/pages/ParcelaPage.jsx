@@ -68,7 +68,7 @@ export function ParcelaPage() {
           <div><h1 className="text-3xl font-semibold">{parcela.id}</h1>
             <p className="text-text-mid">{parcela.meta ? `Región: ${parcela.region ?? 'no disponible'}` : parcela.municipio}</p>
           </div>
-          <RiskBadge nivel={cierre ? parcela.riesgo : null} />
+          <RiskBadge nivel={cierre ? parcela.riesgo : null} revision={Boolean(parcela.risk_method_version)} />
           {cortes.length > 0 && <SelectorCorte valor={corte} onChange={setCorte} />}
         </div>
         {[...avisos, ...(parcela.avisos ?? [])].map((aviso) => <p key={aviso} role="status" className="text-sm text-amber-300">{aviso}</p>)}

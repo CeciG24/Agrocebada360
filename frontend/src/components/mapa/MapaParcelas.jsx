@@ -8,6 +8,7 @@ import { useTamanoPx } from '../../lib/useTamanoPx';
 const SIN_DATO = COLOR_SIN_RESULTADO;
 const COLOR_RIESGO = { bajo: '#15803d', medio: '#b45309', alto: '#b91c1c' };
 const ETIQUETA_RIESGO = { bajo: 'Riesgo bajo', medio: 'Riesgo medio', alto: 'Riesgo alto' };
+const ETIQUETA_REVISION = { bajo: 'Sin alerta combinada', medio: 'Revisión media', alto: 'Prioridad alta' };
 const K_MIN = 1;
 const K_MAX = 32;
 const VISTA_INICIAL = { k: 1, x: 0, y: 0 };
@@ -96,6 +97,7 @@ function BotonControl({ children, etiqueta, onClick, disabled }) {
 // Mapa de parcelas: polígonos reales como SVG (sin tiles → funciona offline)
 // ============================================================
 export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, onAbrir }) {
+  const etiquetasRiesgo = parcelas.some((p) => p.risk_method_version) ? ETIQUETA_REVISION : ETIQUETA_RIESGO;
   const [modo, setModo] = useState('rendimiento'); // 'rendimiento' | 'riesgo'
   const [vista, setVista] = useState(VISTA_INICIAL);
   const [hover, setHover] = useState(null); // { id, x, y, flip }
@@ -124,12 +126,12 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
         ...g,
         codigo: p?.codigo ?? id.split('_').pop(),
         etiqueta: p
-          ? `Parcela ${id}, ${Number.isFinite(p.rendimiento_t_ha) ? `${p.rendimiento_t_ha} ${p.prediction_unit ?? 't/ha'}` : 'rendimiento no disponible'}, ${ETIQUETA_RIESGO[p.riesgo] ?? 'riesgo sin clasificar'}`
+          ? `Parcela ${id}, ${Number.isFinite(p.rendimiento_t_ha) ? `${p.rendimiento_t_ha} ${p.prediction_unit ?? 't/ha'}` : 'rendimiento no disponible'}, ${etiquetasRiesgo[p.riesgo] ?? 'riesgo sin clasificar'}`
           : `Parcela ${id}, sin datos`,
       });
     }
     return lista;
-  }, [geometrias, proy, porId]);
+  }, [geometrias, proy, porId, etiquetasRiesgo]);
 
   const colores = useMemo(() => {
     const m = new Map();
@@ -416,7 +418,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
             {parcelaHover ? (
               <div className="mt-0.5 text-text-mid">
                 {Number.isFinite(parcelaHover.rendimiento_t_ha) ? `${parcelaHover.rendimiento_t_ha.toFixed(4)} ${parcelaHover.prediction_unit ?? 't/ha'}` : 'Rendimiento no disponible'} ·{' '}
-                {ETIQUETA_RIESGO[parcelaHover.riesgo] ?? 'riesgo sin clasificar'}
+                {etiquetasRiesgo[parcelaHover.riesgo] ?? 'riesgo sin clasificar'}
               </div>
             ) : (
               <div className="mt-0.5 text-text-lo">Sin datos de rendimiento</div>
@@ -454,7 +456,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
             <div className="truncate font-semibold text-text-hi">{parcelaSel.id}</div>
             <div className="text-text-mid">
               {Number.isFinite(parcelaSel.rendimiento_t_ha) ? `${parcelaSel.rendimiento_t_ha.toFixed(4)} ${parcelaSel.prediction_unit ?? 't/ha'}` : 'Rendimiento no disponible'} ·{' '}
-              {ETIQUETA_RIESGO[parcelaSel.riesgo] ?? 'riesgo sin clasificar'}
+              {etiquetasRiesgo[parcelaSel.riesgo] ?? 'riesgo sin clasificar'}
             </div>
           </div>
           <button
@@ -475,7 +477,7 @@ export function MapaParcelas({ parcelas, geometrias, seleccionadaId, onSelect, o
             {Object.entries(COLOR_RIESGO).map(([nivel, color]) => (
               <span key={nivel} className="inline-flex items-center gap-1.5">
                 <span className="h-3 w-5 rounded-sm" style={{ backgroundColor: color }} />
-                {ETIQUETA_RIESGO[nivel]}
+                {etiquetasRiesgo[nivel]}
               </span>
             ))}
             <span className="inline-flex items-center gap-1.5"><span className="h-3 w-5 rounded-sm border border-[#82958a]" style={{ backgroundColor: SIN_DATO }} aria-hidden="true" />Sin riesgo disponible</span>

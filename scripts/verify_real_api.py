@@ -1,5 +1,6 @@
 """Aceptación HTTP P4.8/P4.9 sobre una entrega integrada de confianza."""
 import argparse
+from collections import Counter
 import json
 import logging
 import math
@@ -25,6 +26,10 @@ def verify(data_root, delivery):
     expected = pd.read_csv(root / 'ml/results/predictions_raw.csv', dtype={'parcel_id': str})
     errors = []
     explanation_errors = []
+    risk_levels = []
+    risk_source = pd.read_csv(root / 'ml/results/rol3/riesgo_yield_v1/predicciones_riesgo_yield_v1.csv',
+                              dtype={'parcel_id': str}).set_index('parcel_id')
+    from ml.risk_adapter import METHOD_VERSION, PRIORITY_LEVELS
     loads = []
     original = inference._deserialize
 
@@ -74,21 +79,34 @@ def verify(data_root, delivery):
                     assert feature['friendly_name'] == labels.get(feature['feature'], feature['feature'])
                 explained = explanation['base_value'] + math.fsum(f['impact'] for f in explanation['features'])
                 explanation_errors.append(abs(explained - prediction['prediction']))
+                response = client.get('/risk/' + row.parcel_id)
+                assert response.status_code == 200
+                risk = response.json()
+                assert risk['status'] == 'available' and risk['meta'] == prediction['meta']
+                assert risk['model_version'] == prediction['model_version']
+                assert risk['method_version'] == METHOD_VERSION
+                assert risk['level'] == PRIORITY_LEVELS[risk_source.loc[row.parcel_id, 'prioridad_revision']]
+                assert 'no es una probabilidad' in risk['description']
+                risk_levels.append(risk['level'])
         assert max(errors) < 1e-8 and len(loads) == 1
         assert max(explanation_errors) < 1e-8
         split = json.loads((root / 'ml/split/official_ids_v1.json').read_text())
         unavailable = client.get('/explain/' + split['train_ids'][0])
         assert unavailable.status_code == 200 and unavailable.json()['reason'] == 'EXPLANATION_NOT_READY'
-        for route in ['/parcel/unknown-id', '/predict/unknown-id', '/explain/unknown-id']:
+        unavailable = client.get('/risk/' + split['train_ids'][0])
+        assert unavailable.status_code == 200 and unavailable.json()['reason'] == 'RISK_NOT_READY'
+        for route in ['/parcel/unknown-id', '/predict/unknown-id', '/explain/unknown-id', '/risk/unknown-id']:
             response = client.get(route)
             assert response.status_code == 404 and response.json()['error']['code'] == 'PARCEL_NOT_FOUND'
         assert client.get('/parcels?include_geometry=invalid').status_code == 422
-    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12', 'P4.13'], 'transport': 'FastAPI TestClient HTTP/ASGI',
+    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12', 'P4.13', 'P4.14'], 'transport': 'FastAPI TestClient HTTP/ASGI',
             'n_parcels': len(ids), 'n_predictions_checked': len(errors),
             'n_geometries': sum(p['geometry'] is not None for p in mapped['items']),
             'prediction_max_error': max(errors), 'deserializations': len(loads),
             'n_explanations_checked': len(explanation_errors), 'explanation_max_error': max(explanation_errors),
             'n_feature_labels': len(labels),
+            'n_risks_checked': len(risk_levels), 'risk_levels': dict(Counter(risk_levels)),
+            'risk_method_version': METHOD_VERSION,
             'health': health, 'unknown_ids_rejected': True, 'http_training_forbidden': True,
             'api_contract_version': '0.1.0', 'model_version': expected.model_version.iloc[0]}
 

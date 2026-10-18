@@ -194,6 +194,101 @@ def install_explanation(settings, mutate=None):
     write(manifest_path, manifest)
 
 
+def install_risk(settings, mutate=None):
+    from ml.risk_adapter import METHOD_VERSION, PRIORITY_LEVELS, description
+    schema = json.loads((settings.delivery_path / 'model/feature_schema.json').read_text())
+    row = {'parcel_id': '002', 'status': 'available', 'reason': None, 'level': 'high',
+           'method_version': METHOD_VERSION, 'model_version': 'yield-v1',
+           'description': description('Prioridad alta de revision'),
+           'meta': {'mode': 'real', 'contract_version': '0.1.0', 'cycle': '2025-04/2025-10', 'data_cutoff': '2025-10-31'}}
+    method = {'method_version': METHOD_VERSION, 'priority_levels': PRIORITY_LEVELS,
+              'model_version': 'yield-v1', 'model_sha256': schema['model_sha256'],
+              'data_version': schema['data_version'], 'reference_predictions': {'002': 45.}}
+    if mutate:
+        mutate(row, method)
+    write(settings.delivery_path / 'risks.json', {'002': row})
+    write(settings.delivery_path / 'risk_method.json', method)
+    path = settings.delivery_path / 'integration_manifest.json'
+    manifest = json.loads(path.read_text())
+    for name in ['risks.json', 'risk_method.json']:
+        manifest['files_sha256'][name] = sha256(settings.delivery_path / name)
+    write(path, manifest)
+
+
+def test_risk_available_unavailable_errors_and_cached_read(real_delivery, monkeypatch):
+    install_risk(real_delivery)
+    with TestClient(create_app(real_delivery)) as client:
+        from ml import model_bundle
+        monkeypatch.setattr(model_bundle, 'read_json', lambda *a: pytest.fail('No reads during HTTP'))
+        monkeypatch.setattr(client.app.state.service._pipeline, 'predict', lambda *a: pytest.fail('No inference during risk HTTP'))
+        for _ in range(3):
+            response = client.get('/risk/002')
+            assert response.status_code == 200
+            body = response.json()
+            assert body['level'] == 'high' and body['status'] == 'available'
+            assert set(body) == {'parcel_id', 'status', 'reason', 'level', 'method_version', 'model_version', 'description', 'meta'}
+            assert body['meta']['mode'] == 'real'
+        missing = client.get('/risk/001')
+        assert missing.status_code == 200 and missing.json()['reason'] == 'RISK_NOT_READY'
+        assert missing.json()['level'] is None
+        assert client.get('/risk/unknown').status_code == 404
+        assert client.get('/risk/%20').status_code == 422
+
+
+def test_risk_optional_for_old_deliveries_and_mock(real_delivery):
+    for settings, parcel_id in [(real_delivery, '002'), (Settings(), 'mock-001')]:
+        with TestClient(create_app(settings)) as client:
+            response = client.get('/risk/' + parcel_id)
+            assert response.status_code == 200
+            assert response.json()['status'] == 'unavailable'
+            assert response.json()['reason'] == 'RISK_NOT_READY'
+            assert response.json()['meta']['mode'] == settings.mode
+
+
+@pytest.mark.parametrize('damage', ['level', 'id', 'model', 'hash', 'data', 'method', 'context', 'description', 'prediction'])
+def test_bad_risk_is_atomic_and_does_not_disable_other_modules(real_delivery, damage):
+    def mutate(row, method):
+        if damage == 'level': row['level'] = 'low'
+        if damage == 'id': row['parcel_id'] = '001'
+        if damage == 'model': row['model_version'] = 'other'
+        if damage == 'hash': method['model_sha256'] = 'wrong'
+        if damage == 'data': method['data_version'] = 'wrong'
+        if damage == 'method': method['priority_levels'] = {}
+        if damage == 'context': row['meta']['mode'] = 'mock'
+        if damage == 'description': row['description'] = 'Probabilidad de pérdida: 99%'
+        if damage == 'prediction': method['reference_predictions']['002'] = 46.
+    install_risk(real_delivery, mutate)
+    install_explanation(real_delivery)
+    with TestClient(create_app(real_delivery), raise_server_exceptions=False) as client:
+        assert client.get('/risk/002').status_code == 503
+        assert client.get('/risk/002').json()['error']['code'] == 'RISK_UNAVAILABLE'
+        assert client.get('/risk/001').status_code == 503
+        assert client.get('/predict/002').status_code == 200
+        assert client.get('/explain/002').status_code == 200
+        assert client.get('/health').status_code == 200
+
+
+@pytest.mark.parametrize('damage', ['missing', 'hash', 'incomplete', 'coverage', 'declared_without_files'])
+def test_declared_risk_damage_is_operational_error(real_delivery, damage):
+    install_risk(real_delivery)
+    path = real_delivery.delivery_path / 'risks.json'
+    if damage == 'missing': path.unlink()
+    if damage == 'hash': path.write_text('{}')
+    if damage in ['incomplete', 'coverage', 'declared_without_files']:
+        path = real_delivery.delivery_path / 'integration_manifest.json'
+        manifest = json.loads(path.read_text())
+        if damage == 'incomplete': del manifest['files_sha256']['risk_method.json']
+        if damage == 'coverage': manifest['n_eval'] = 2
+        if damage == 'declared_without_files':
+            for name in ['risks.json', 'risk_method.json']:
+                del manifest['files_sha256'][name]
+            manifest['advanced'] = {'risk': {'status': 'available'}}
+        write(path, manifest)
+    with TestClient(create_app(real_delivery)) as client:
+        response = client.get('/risk/002')
+        assert response.status_code == 503 and response.json()['error']['code'] == 'RISK_UNAVAILABLE'
+
+
 def test_real_explanation_matches_prediction_and_is_cached(real_delivery, monkeypatch):
     install_explanation(real_delivery)
     with TestClient(create_app(real_delivery)) as client:

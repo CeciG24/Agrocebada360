@@ -34,9 +34,10 @@ export function ParcelaDetalle({ parcela, onVerDetalle }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {rango ? <div className="rounded-xl border border-ink-700 p-3"><RangoProbable estimado={rendimiento} rango={rango} unit={unit} level={parcela.interval_level} method={parcela.interval_method} /></div>
               : <PendingState compact title="Intervalo pendiente" description="La fuente aún no entrega un intervalo para esta estimación." />}
-            {parcela.riesgo ? <div className="flex items-center justify-between gap-3 rounded-xl border border-ink-700 p-3"><div><p className="text-xs text-text-mid">Riesgo productivo</p><p className="mt-1 text-xs text-text-mid">Complemento de interpretación</p></div><RiskBadge nivel={parcela.riesgo} /></div>
+            {parcela.riesgo ? <div className="flex items-center justify-between gap-3 rounded-xl border border-ink-700 p-3"><div><p className="text-xs text-text-mid">{parcela.risk_method_version ? 'Prioridad de revisión' : 'Riesgo productivo'}</p><p className="mt-1 text-xs text-text-mid">Complemento de interpretación</p></div><RiskBadge nivel={parcela.riesgo} revision={Boolean(parcela.risk_method_version)} /></div>
               : <PendingState compact title="Riesgo pendiente" description="Sin clasificación disponible. No equivale a riesgo bajo." />}
           </div>
+          {parcela.riesgo_descripcion && <p className="text-xs leading-relaxed text-text-mid">{parcela.riesgo_descripcion} Método: {parcela.risk_method_version}.</p>}
         </section>
         <section className="space-y-3 border-t border-ink-700 pt-5" aria-label="Tres factores principales">
           <div className="flex items-center justify-between gap-3"><h3 className="section-label">03 / Explicación</h3><span className="text-[10px] font-semibold uppercase tracking-wider text-moss-500">Top 3 factores</span></div>

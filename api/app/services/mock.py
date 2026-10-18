@@ -7,6 +7,7 @@ from api.app.schemas.parcels import (
 )
 from api.app.schemas.prediction import Prediction
 from api.app.schemas.explanation import unavailable_explanation
+from api.app.schemas.risk import unavailable_risk
 
 
 class MockService:
@@ -71,3 +72,7 @@ class MockService:
     def get_explanation(self, parcel_id: str):
         self.get_parcel(parcel_id)
         return unavailable_explanation(parcel_id, 'mock')
+
+    def get_risk(self, parcel_id: str):
+        self.get_parcel(parcel_id)
+        return unavailable_risk(parcel_id, 'mock')

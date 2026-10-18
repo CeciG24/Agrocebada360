@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 META = {'mode': 'real', 'contract_version': '0.1.0', 'cycle': '2025-04/2025-10', 'data_cutoff': '2025-10-31'}
 TOLERANCE = 1e-8
 DELIVERY_FILES = ['feature_provenance.json', 'explanations.json', 'intervals.json', 'catalog.json', 'model/model_manifest.json']
+RISK_FILES = ['risks.json', 'risk_method.json']
 
 
 def dump(path, data):
@@ -121,8 +122,7 @@ def _advanced(results, schema, predictions):
     return explanations, adapted, {
         'explanation_version': 'linear-shap-adapter-v1', 'reconstruction_atol': TOLERANCE,
         'interval_method_version': 'mean-oof-residual-adapter-v1',
-        'risk': {'status': 'unavailable', 'reason': 'RISK_NOT_READY', 'method_version': None,
-                 'pending': 'ML avanzado debe aprobar mapeo low/medium/high y versión de metodología.'},
+        'risk': {'status': 'unavailable', 'reason': 'RISK_NOT_READY', 'method_version': None},
         'version_scope': 'Versiones del perfil interno de adaptación; no se atribuyen como versiones del productor.',
         'producer_files_sha256': {p.relative_to(results).as_posix(): sha256(p) for p in paths.values()},
     }
@@ -158,6 +158,15 @@ def prepare_delivery(data_root, out, *, models=None, results=None):
     explanations, intervals, advanced = _advanced(results, schema, predictions)
     dump(out / 'explanations.json', explanations)
     dump(out / 'intervals.json', intervals)
+    risk_files = []
+    if (results / 'rol3/riesgo_yield_v1/predicciones_riesgo_yield_v1.csv').exists():
+        from ml.risk_adapter import adapt_risk, METHOD_VERSION
+        risks, risk_method = adapt_risk(results, schema, predictions)
+        dump(out / 'risks.json', risks)
+        dump(out / 'risk_method.json', risk_method)
+        risk_files = RISK_FILES
+        advanced['risk'] = {'status': 'available', 'reason': None, 'method_version': METHOD_VERSION,
+                            'scope': risk_method['scope'], 'n_assessments': len(risks)}
     parcels, geometry_status = _catalog(root, catalog.parcel_id.tolist())
     dump(out / 'catalog.json', parcels)
     # La fuente no define regiones ni polígonos en el CSV. No se infiere municipio -> región.
@@ -167,7 +176,7 @@ def prepare_delivery(data_root, out, *, models=None, results=None):
         'feature_schema_version': schema['feature_schema_version'], 'data_version': schema['data_version'],
         'model_sha256': schema['model_sha256'], 'n_parcels': len(catalog), 'n_eval': len(predictions),
         'split_status': split['status'], 'split_sha256': sha256(ROOT / 'ml/split/official_ids_v1.json'),
-        'files_sha256': {name: sha256(out / name) for name in DELIVERY_FILES},
+        'files_sha256': {name: sha256(out / name) for name in DELIVERY_FILES + risk_files},
         'advanced': advanced, 'geometry': geometry_status, 'regions': 'unavailable; region=null',
         'intervals_enabled_by_default': False,
     }
@@ -182,7 +191,8 @@ class IntegratedArtifacts:
         manifest = read_json(delivery / 'integration_manifest.json')
         if manifest['integration_format_version'] != 'integration-v1':
             raise DataHandoffError('Formato de integración incompatible.')
-        if set(manifest['files_sha256']) != set(DELIVERY_FILES):
+        declared = set(manifest['files_sha256'])
+        if declared not in [set(DELIVERY_FILES), set(DELIVERY_FILES + RISK_FILES)]:
             raise DataHandoffError('Manifiesto de integración incompleto.')
         for name, expected in manifest['files_sha256'].items():
             path = (delivery / name).resolve()
@@ -203,6 +213,9 @@ class IntegratedArtifacts:
         self.pipeline.load_model()
         if set(self.catalog) != set(pd.read_csv(root / 'parcel_master.csv', dtype={'parcel_id': str}).parcel_id):
             raise DataHandoffError('El catálogo empaquetado no coincide con Data.')
+        from api.app.services.risk_artifacts import load_risks
+        self.risks = load_risks(delivery, manifest, self.pipeline, self.catalog,
+                                sha256(delivery / 'model' / report['model_file']))
 
     def _require_parcel(self, parcel_id):
         if parcel_id not in self.catalog:
@@ -225,8 +238,8 @@ class IntegratedArtifacts:
 
     def risk(self, parcel_id):
         self._require_parcel(parcel_id)
-        return {'parcel_id': parcel_id, 'status': 'unavailable', 'reason': 'RISK_NOT_READY',
-                **dict.fromkeys(['level', 'method_version', 'model_version', 'description']), 'meta': dict(META)}
+        from api.app.schemas.risk import unavailable_risk
+        return (self.risks.get(parcel_id) or unavailable_risk(parcel_id, 'real')).model_dump(mode='json')
 
 
 def main():

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "task": "P4.14",
+  "mode": "real",
+  "checked": [
+    {
+      "id": "AGC_029",
+      "level": "high"
+    },
+    {
+      "id": "AGC_003",
+      "level": "medium"
+    },
+    {
+      "id": "AGC_011",
+      "level": "low"
+    }
+  ],
+  "unavailableId": "AGC_001",
+  "mobileWidth": 390,
+  "noOverflow": true,
+  "errors": [],
+  "python_tests_passed": 229,
+  "frontend_tests_passed": 16,
+  "frontend_lint": "passed",
+  "frontend_build": "passed",
+  "frontend_url": "http://127.0.0.1:5173/parcela/AGC_029?demo=0"
+}

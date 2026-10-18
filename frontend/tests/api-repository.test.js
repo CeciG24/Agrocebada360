@@ -11,6 +11,19 @@ const absent = (kind, id) => kind === 'explain' ? {
 const prediction = (id) => ({ parcel_id: id, prediction: 3.123456789, unit: 't/ha', lower: null, upper: null,
   interval_level: null, interval_method: null, model_version: 'yield-v1', meta });
 
+test('conserva prioridad, descripción y metodología de riesgo y rechaza otro modelo', async () => {
+  const risk = { parcel_id: '0001', status: 'available', reason: null, level: 'high',
+    method_version: 'review-priority-adapter-v1', model_version: 'yield-v1',
+    description: 'Prioridad alta de revisión; no es una probabilidad de pérdida.', meta };
+  const { repository } = fixture({ overrides: { '/risk/0001': risk } });
+  const parcel = await repository.getParcelaById('0001');
+  assert.equal(parcel.riesgo, 'alto');
+  assert.equal(parcel.riesgo_descripcion, risk.description);
+  assert.equal(parcel.risk_method_version, risk.method_version);
+  const incompatible = fixture({ overrides: { '/risk/0001': { ...risk, model_version: 'other' } } });
+  await assert.rejects(incompatible.repository.getParcelaById('0001'));
+});
+
 function fixture({ id = '0001', parcels, overrides = {}, context = meta } = {}) {
   const calls = [];
   const items = parcels ?? [{ id, region: 'zona A/1', geometry }];

@@ -9,6 +9,7 @@ from api.app.schemas.common import Meta
 from api.app.schemas.parcels import ParcelDetail, ParcelList, ParcelMapItem, ParcelMapList, ParcelSummary
 from api.app.schemas.prediction import Prediction
 from api.app.schemas.explanation import Explanation, RECONSTRUCTION_ATOL, unavailable_explanation
+from api.app.schemas.risk import unavailable_risk
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,8 @@ class RealService:
         self._explanations = {}
         self._explanation_failed = False
         self._feature_labels = {}
+        self._risks = {}
+        self._risk_failed = False
 
     def _load_explanations(self, manifest):
         from ml.model_bundle import read_json
@@ -125,6 +128,7 @@ class RealService:
                 sha256(self.delivery_path / 'model' / report['model_file']),
                 sha256(self.delivery_path / 'model' / report['feature_schema_file']))
             logger.info('Servicio REAL listo: %d parcelas; modelo %s', len(self.parcels), pipeline.model_version)
+            model_hash = sha256(self.delivery_path / 'model' / report['model_file'])
         except Exception:
             self._pipeline = None
             logger.exception('Catálogo REAL disponible, pero el modelo no pudo inicializarse')
@@ -134,6 +138,12 @@ class RealService:
             except Exception:
                 self._explanations, self._explanation_failed = {}, True
                 logger.exception('El módulo de explicación REAL no pudo inicializarse')
+            try:
+                from api.app.services.risk_artifacts import load_risks
+                self._risks = load_risks(self.delivery_path, manifest, self._pipeline, self.parcels, model_hash)
+            except Exception:
+                self._risks, self._risk_failed = {}, True
+                logger.exception('El módulo de riesgo REAL no pudo inicializarse')
 
     def require_data(self):
         if not self.data_ready:
@@ -177,3 +187,9 @@ class RealService:
         if not self.model_loaded or self._explanation_failed:
             raise ServiceError(503, 'EXPLANATION_UNAVAILABLE', 'La explicación no está disponible.')
         return self._explanations.get(parcel_id) or unavailable_explanation(parcel_id, 'real')
+
+    def get_risk(self, parcel_id):
+        self.get_parcel(parcel_id)
+        if not self.model_loaded or self._risk_failed:
+            raise ServiceError(503, 'RISK_UNAVAILABLE', 'La evaluación de riesgo no está disponible.')
+        return self._risks.get(parcel_id) or unavailable_risk(parcel_id, 'real')

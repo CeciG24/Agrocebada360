@@ -1,7 +1,7 @@
-# API Cebada360 — P4.8/P4.9/P4.12
+# API Cebada360 — P4.8/P4.9/P4.12/P4.14
 
 La API conserva el contrato público 0.1.0 e implementa `/health`, `/parcels`,
-`/parcel/{id}`, `/predict/{id}` y `/explain/{id}`. El modo por defecto es `mock`; configurar `real`
+`/parcel/{id}`, `/predict/{id}`, `/explain/{id}` y `/risk/{id}`. El modo por defecto es `mock`; configurar `real`
 requiere rutas explícitas a datos y entrega integrada. Un fallo real nunca activa mocks.
 
 Desde la raíz del repositorio, con una entrega creada mediante
@@ -11,7 +11,7 @@ Desde la raíz del repositorio, con una entrega creada mediante
 .\.venv\Scripts\python.exe -m pip install -r api/requirements.txt -r ml/requirements-inference.txt
 $env:CEBADA_MODE = "real"
 $env:CEBADA_DATA = (Resolve-Path data/integrated/verified-2026-10-17/data).Path
-$env:CEBADA_DELIVERY = (Resolve-Path data/integrated/verified-2026-10-17/delivery).Path
+$env:CEBADA_DELIVERY = (Resolve-Path data/integrated/p414-2026-10-18/delivery).Path
 .\.venv\Scripts\python.exe -m uvicorn api.app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -53,7 +53,7 @@ Una fuente corrupta de geometrías detectada al cargar no se oculta devolviendo 
 Verificación de la entrega real, sin depender de un servidor ya levantado:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/verify_real_api.py --data-root data/integrated/verified-2026-10-17/data --delivery data/integrated/verified-2026-10-17/delivery --report data/integrated/verified-2026-10-17/api-acceptance.json
+.\.venv\Scripts\python.exe scripts/verify_real_api.py --data-root data/integrated/verified-2026-10-17/data --delivery data/integrated/p414-2026-10-18/delivery --report data/integrated/p414-2026-10-18/api-acceptance.json
 ```
 
 El test recorre catálogo y detalles, compara las 59 predicciones con ML, comprueba
@@ -63,8 +63,8 @@ procedencia, configuración y falta de features sin fallback.
 La aceptación del 17 de octubre pasó con 197 parcelas/geometrías y 59 predicciones,
 error máximo `1.78e-15` y una única deserialización. La suite conjunta terminó con
 191 pruebas aprobadas tras P4.12. El reporte es `docs/api-real-acceptance-2026-10-17.json`.
-El frontend puede usar estas cuatro rutas con el modo demo local desactivado;
-riesgo y agregados regionales aún requieren sus integraciones HTTP.
+El frontend puede usar las rutas implementadas con el modo demo local desactivado;
+los agregados regionales aún requieren su integración HTTP.
 
 ## Explicabilidad P4.12
 
@@ -95,7 +95,7 @@ node scripts/check-api.mjs http://127.0.0.1:5173 AGC_003
 
 La comprobación del navegador validó el dashboard, el detalle con 30 contribuciones,
 el origen `API · real` y la vista móvil de 390 px sin overflow ni errores JavaScript.
-Riesgo continúa como aviso de módulo pendiente.
+P4.14 añade las prioridades de revisión verificadas cuando la entrega incorpora su módulo.
 
 ## Nombres amigables P4.13
 
@@ -123,3 +123,24 @@ Aceptación P4.13 del 18 de octubre: 201 pruebas Python, 15 de frontend, lint y
 build aprobados; 30 nombres comprobados en 59 explicaciones y navegador en
 escritorio/móvil. Evidencia en `docs/api-real-acceptance-2026-10-18.json` y
 `docs/feature-labels-acceptance-2026-10-18.json`.
+
+## Prioridades de revisión P4.14
+
+`GET /risk/{id}` sirve las evaluaciones P3.9 verificadas para yield-v1:
+4 prioridades altas, 17 medias y 38 sin alerta combinada. Utiliza la metodología
+interna `review-priority-adapter-v1`. Los niveles no son probabilidades de pérdida
+ni riesgo crediticio; `low` se presenta como “Sin alerta combinada”.
+
+La entrega nueva debe generarse antes de usar la ruta `CEBADA_DELIVERY` del ejemplo;
+las entregas antiguas siguen funcionando con riesgo `unavailable`. Ver
+[método, fuentes, regeneración y estados HTTP](../docs/risk-integration.md).
+Los artefactos opcionales `risks.json` y `risk_method.json` se validan y cachean al
+iniciar. Ausencia esperada: 200 `RISK_NOT_READY`; corrupción declarada: 503
+`RISK_UNAVAILABLE`, sin deshabilitar predicción ni SHAP. Las 138 parcelas de
+entrenamiento no reciben evaluaciones inventadas. Mock declara ausencia explícita.
+
+Aceptación: 229 pruebas Python y 16 de frontend aprobadas; lint/build correctos,
+59 evaluaciones HTTP contrastadas con Persona 3 y navegador desktop/móvil sin
+errores. Evidencia: `docs/risk-api-acceptance-2026-10-18.json`,
+`docs/risk-integration-acceptance-2026-10-18.json` y
+`docs/risk-browser-acceptance-2026-10-18.json`.

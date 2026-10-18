@@ -33,7 +33,10 @@ def verify(data_root, delivery):
         assert explanation['output_space'] == prediction.unit
         assert len(explanation['features']) == 30
         reconstruction.append(abs(explanation['base_value'] + sum(f['impact'] for f in explanation['features']) - prediction.prediction))
-        assert artifacts.risk(parcel_id)['status'] == 'unavailable'
+        risk = artifacts.risk(parcel_id)
+        assert risk['status'] == ('available' if artifacts.risks else 'unavailable')
+        if artifacts.risks:
+            assert risk['model_version'] == prediction.model_version
     assert max(errors) < 1e-8 and max(reconstruction) < 1e-8
     assert artifacts.explain(ids['train_ids'][0])['reason'] == 'EXPLANATION_NOT_READY'
     for parcel in artifacts.catalog.values():
@@ -51,7 +54,7 @@ def verify(data_root, delivery):
             'prediction_max_error': float(np.max(errors)),
             'explanation_max_error': float(np.max(reconstruction)),
             'model_version': artifacts.pipeline.model_version,
-            'mode': 'real', 'api_activated': False, 'risk_available': False,
+            'mode': 'real', 'api_activated': False, 'risk_available': bool(artifacts.risks),
             'intervals_default': False, 'unknown_ids_rejected': True,
             'train_explanation_unavailable': True}
 
