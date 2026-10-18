@@ -12,7 +12,7 @@ import numpy as np
 
 # Rutas principales del proyecto y de los scripts de preparación.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR = PROJECT_ROOT / "scrpts_limpieza"
+SCRIPTS_DIR = PROJECT_ROOT / "scripts_limpieza"
 CLEAN_DIR = PROJECT_ROOT / "DATASET_RETO_AGRO_2026_LIMPIO"
 
 # Scripts que se ejecutan para reconstruir y auditar los datos.

@@ -11,7 +11,7 @@ import pandas as pd
 
 # Definir las rutas principales del proyecto.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR = PROJECT_ROOT / "scrpts_limpieza"
+SCRIPTS_DIR = PROJECT_ROOT / "scripts_limpieza"
 CLEAN_DIR = PROJECT_ROOT / "DATASET_RETO_AGRO_2026_LIMPIO"
 
 # Establecer el periodo del ciclo agrícola utilizado para las variables.
