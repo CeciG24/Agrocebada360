@@ -5,6 +5,7 @@ import { RangoProbable } from './RangoProbable';
 import { FeatureHighlights } from './FeatureHighlights';
 import { EmptyState } from '../common/EmptyState';
 import { esNum, fmtNum } from '../../lib/format';
+import { regionLabel } from '../../lib/regions';
 
 export function ParcelaDetalle({ parcela, onVerDetalle }) {
   if (!parcela) return <Panel><EmptyState titulo="Selecciona una parcela" detalle="Su rendimiento, incertidumbre y principales factores aparecerán aquí." /></Panel>;
@@ -17,7 +18,7 @@ export function ParcelaDetalle({ parcela, onVerDetalle }) {
     <Panel className="overflow-hidden">
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-ink-700 px-5 py-4">
         <div className="min-w-0"><p className="section-label">Parcela seleccionada</p><h2 className="mt-1 break-all text-xl font-semibold">{parcela.id}</h2></div>
-        <span className="status-chip">{parcela.meta ? `Región ${parcela.region ?? 'pendiente'}` : parcela.municipio ?? 'Ubicación pendiente'}</span>
+        <span className="status-chip">{parcela.meta ? `Región ${regionLabel(parcela.region) ?? 'pendiente'}` : parcela.municipio ?? 'Ubicación pendiente'}</span>
       </div>
       <div className="space-y-5 p-5">
         <section className="rounded-xl border border-moss-700/30 bg-moss-900/20 p-4" aria-label="Rendimiento de la parcela">

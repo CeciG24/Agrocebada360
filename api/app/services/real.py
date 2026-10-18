@@ -26,6 +26,9 @@ class RealService:
         self._feature_labels = {}
         self._risks = {}
         self._risk_failed = False
+        self._region_artifact = None
+        self._regions = {}
+        self._region_summary_failed = False
 
     def _load_explanations(self, manifest):
         from ml.model_bundle import read_json
@@ -90,9 +93,14 @@ class RealService:
         parcels = {i: ParcelMapItem.model_validate(row) for i, row in catalog.items()}
         if any(key != parcel.id for key, parcel in parcels.items()) or not parcels:
             raise ValueError('Catálogo vacío o con IDs incompatibles.')
-        # En este perfil no existe fuente autorizada de regiones. No inferir municipio.
-        if any(parcel.region is not None for parcel in parcels.values()):
-            raise ValueError('integration-v1 aún no declara fuente de regiones.')
+        try:
+            from ml.region_adapter import load_regions
+            self._region_artifact = load_regions(self.delivery_path, manifest, self.data_root, parcels)
+        except Exception:
+            # Se conserva catálogo/predicción; no publicar asignaciones regionales sin validar.
+            self._region_artifact = None
+            parcels = {key: parcel.model_copy(update={'region': None}) for key, parcel in parcels.items()}
+            logger.exception('La fuente regional REAL no pudo validarse')
         self.parcels, self.data_ready = parcels, True
         return manifest
 
@@ -144,6 +152,13 @@ class RealService:
             except Exception:
                 self._risks, self._risk_failed = {}, True
                 logger.exception('El módulo de riesgo REAL no pudo inicializarse')
+            if self._region_artifact is not None:
+                try:
+                    from ml.region_adapter import verified_summaries
+                    self._regions = verified_summaries(self._region_artifact, self.parcels, self._pipeline, model_hash)
+                except Exception:
+                    self._regions, self._region_summary_failed = {}, True
+                    logger.exception('El resumen regional REAL no pudo validarse')
 
     def require_data(self):
         if not self.data_ready:
@@ -193,3 +208,13 @@ class RealService:
         if not self.model_loaded or self._risk_failed:
             raise ServiceError(503, 'RISK_UNAVAILABLE', 'La evaluación de riesgo no está disponible.')
         return self._risks.get(parcel_id) or unavailable_risk(parcel_id, 'real')
+
+    def get_region(self, region):
+        self.require_data()
+        if self._region_artifact is None:
+            raise ServiceError(503, 'REGION_DATA_UNAVAILABLE', 'La fuente de regiones no está disponible.')
+        if region not in set(self._region_artifact['assignments'].values()):
+            raise ServiceError(404, 'REGION_NOT_FOUND', 'No se encontró la región solicitada.')
+        if not self.model_loaded or self._region_summary_failed:
+            raise ServiceError(503, 'REGION_SUMMARY_UNAVAILABLE', 'El resumen regional no está disponible.')
+        return self._regions[region]

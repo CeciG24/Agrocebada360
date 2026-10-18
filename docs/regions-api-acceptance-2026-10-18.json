@@ -1,0 +1,97 @@
+{
+  "status": "passed",
+  "tasks": [
+    "P4.8",
+    "P4.9",
+    "P4.12",
+    "P4.13",
+    "P4.14",
+    "P4.15"
+  ],
+  "transport": "FastAPI TestClient HTTP/ASGI",
+  "n_parcels": 197,
+  "n_predictions_checked": 59,
+  "n_geometries": 197,
+  "prediction_max_error": 1.7763568394002505e-15,
+  "deserializations": 1,
+  "n_explanations_checked": 59,
+  "explanation_max_error": 2.6645352591003757e-15,
+  "n_feature_labels": 30,
+  "n_risks_checked": 59,
+  "risk_levels": {
+    "medium": 17,
+    "low": 38,
+    "high": 4
+  },
+  "risk_method_version": "review-priority-adapter-v1",
+  "regions": [
+    {
+      "region": "hgo-apan",
+      "parcel_count": 19,
+      "predicted_count": 4,
+      "mean_prediction": 4.344609282555713,
+      "unit": "t/ha",
+      "model_version": "yield-v1",
+      "meta": {
+        "contract_version": "0.1.0",
+        "mode": "real",
+        "cycle": "2025-04/2025-10",
+        "data_cutoff": "2025-10-31"
+      }
+    },
+    {
+      "region": "hgo-tulancingo",
+      "parcel_count": 32,
+      "predicted_count": 11,
+      "mean_prediction": 3.576375457915914,
+      "unit": "t/ha",
+      "model_version": "yield-v1",
+      "meta": {
+        "contract_version": "0.1.0",
+        "mode": "real",
+        "cycle": "2025-04/2025-10",
+        "data_cutoff": "2025-10-31"
+      }
+    },
+    {
+      "region": "pue-chignahuapan",
+      "parcel_count": 100,
+      "predicted_count": 29,
+      "mean_prediction": 4.4510787763246675,
+      "unit": "t/ha",
+      "model_version": "yield-v1",
+      "meta": {
+        "contract_version": "0.1.0",
+        "mode": "real",
+        "cycle": "2025-04/2025-10",
+        "data_cutoff": "2025-10-31"
+      }
+    },
+    {
+      "region": "tlx-poniente-calpulalpan",
+      "parcel_count": 46,
+      "predicted_count": 15,
+      "mean_prediction": 2.9515505601762255,
+      "unit": "t/ha",
+      "model_version": "yield-v1",
+      "meta": {
+        "contract_version": "0.1.0",
+        "mode": "real",
+        "cycle": "2025-04/2025-10",
+        "data_cutoff": "2025-10-31"
+      }
+    }
+  ],
+  "n_regions_checked": 4,
+  "health": {
+    "status": "ok",
+    "mode": "real",
+    "contract_version": "0.1.0",
+    "model_loaded": true,
+    "data_ready": true
+  },
+  "unknown_ids_rejected": true,
+  "http_training_forbidden": true,
+  "api_contract_version": "0.1.0",
+  "model_version": "yield-v1"
+}

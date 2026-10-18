@@ -30,7 +30,7 @@ def real_delivery(tmp_path):
     root, delivery = tmp_path / 'data', tmp_path / 'delivery'
     delivery.mkdir()
     files = {
-        'parcel_master.csv': 'parcel_id,dataset_split\n001,ENTRENAMIENTO\n002,PREDICCION\n',
+        'parcel_master.csv': 'parcel_id,dataset_split,estado,municipio\n001,ENTRENAMIENTO,Hidalgo,Almoloya\n002,PREDICCION,Hidalgo,Singuilucan\n',
         'features/features_master.csv': 'parcel_id,rain,temp\n001,2,3\n002,4,5\n',
         'targets/rendimiento.csv': 'parcel_id,rendimiento_t_ha\n001,5\n002,\n',
         'topografia/topography_master.csv': 'parcel_id\n001\n002\n',
@@ -192,6 +192,93 @@ def install_explanation(settings, mutate=None):
     manifest = json.loads(manifest_path.read_text())
     manifest['files_sha256']['explanations.json'] = sha256(path)
     write(manifest_path, manifest)
+
+
+def install_regions(settings, mutate=None):
+    from ml.region_adapter import build_regions
+    schema = json.loads((settings.delivery_path / 'model/feature_schema.json').read_text())
+    artifact = build_regions(settings.data_root, schema, {'002': 45.})
+    catalog_path = settings.delivery_path / 'catalog.json'
+    catalog = json.loads(catalog_path.read_text())
+    for key, region in artifact['assignments'].items():
+        catalog[key]['region'] = region
+    if mutate:
+        mutate(artifact, catalog)
+    write(catalog_path, catalog)
+    write(settings.delivery_path / 'regions.json', artifact)
+    manifest_path = settings.delivery_path / 'integration_manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    for name in ['catalog.json', 'regions.json']:
+        manifest['files_sha256'][name] = sha256(settings.delivery_path / name)
+    manifest['regions'] = {'definition_version': 'state-regions-v1', 'summary_population': 'evaluation_predictions_only'}
+    write(manifest_path, manifest)
+
+
+def test_regions_partial_and_zero_coverage_are_cached_without_training(real_delivery, monkeypatch):
+    install_regions(real_delivery)
+    with TestClient(create_app(real_delivery)) as client:
+        from ml import model_bundle
+        monkeypatch.setattr(model_bundle, 'read_json', lambda *a: pytest.fail('No file reads during HTTP'))
+        monkeypatch.setattr(client.app.state.service._pipeline, 'predict', lambda *a: pytest.fail('No inference during regional HTTP'))
+        for _ in range(3):
+            response = client.get('/regions/hgo-tulancingo')
+            assert response.status_code == 200
+            body = response.json()
+            assert set(body) == {'region', 'parcel_count', 'predicted_count', 'mean_prediction', 'unit', 'model_version', 'meta'}
+            assert body['parcel_count'] == body['predicted_count'] == 1
+            assert body['mean_prediction'] == 45. and body['unit'] == 't/ha'
+        zero = client.get('/regions/hgo-apan').json()
+        assert zero['parcel_count'] == 1 and zero['predicted_count'] == 0
+        assert all(zero[key] is None for key in ['mean_prediction', 'unit', 'model_version'])
+        assert client.get('/regions/unknown').json()['error']['code'] == 'REGION_NOT_FOUND'
+        assert client.get('/regions/%20').status_code == 422
+        assert client.get('/parcels?region=hgo-apan').json()['items'] == [{'id': '001', 'region': 'hgo-apan'}]
+
+
+def test_old_delivery_has_explicit_regional_source_absence(real_delivery):
+    with TestClient(create_app(real_delivery)) as client:
+        response = client.get('/regions/hgo-apan')
+        assert response.status_code == 503 and response.json()['error']['code'] == 'REGION_DATA_UNAVAILABLE'
+        assert all(row['region'] is None for row in client.get('/parcels').json()['items'])
+
+
+@pytest.mark.parametrize('damage', ['assignment', 'policy', 'dataset', 'population', 'context', 'duplicate_group'])
+def test_invalid_region_source_is_not_published_and_keeps_predictions(real_delivery, damage):
+    def mutate(artifact, catalog):
+        if damage == 'assignment': catalog['002']['region'] = 'unknown'
+        if damage == 'policy': artifact['policy_sha256'] = 'wrong'
+        if damage == 'dataset': artifact['data_version'] = 'wrong'
+        if damage == 'population': artifact['evaluation_predictions']['001'] = 23.
+        if damage == 'context': artifact['meta']['mode'] = 'mock'
+        if damage == 'duplicate_group': artifact['policy']['regions'][0]['municipios_presentes'].append('Singuilucan')
+    install_regions(real_delivery, mutate)
+    with TestClient(create_app(real_delivery)) as client:
+        response = client.get('/regions/hgo-tulancingo')
+        assert response.status_code == 503 and response.json()['error']['code'] == 'REGION_DATA_UNAVAILABLE'
+        assert all(row['region'] is None for row in client.get('/parcels').json()['items'])
+        assert client.get('/predict/002').status_code == 200
+
+
+@pytest.mark.parametrize('damage', ['prediction', 'model', 'model_hash'])
+def test_incompatible_regional_predictions_do_not_replace_point_predictions(real_delivery, damage):
+    def mutate(artifact, catalog):
+        if damage == 'prediction': artifact['evaluation_predictions']['002'] = 99.
+        if damage == 'model': artifact['model_version'] = 'other'
+        if damage == 'model_hash': artifact['model_sha256'] = 'other'
+    install_regions(real_delivery, mutate)
+    with TestClient(create_app(real_delivery)) as client:
+        response = client.get('/regions/hgo-tulancingo')
+        assert response.status_code == 503 and response.json()['error']['code'] == 'REGION_SUMMARY_UNAVAILABLE'
+        assert client.get('/predict/002').json()['prediction'] == pytest.approx(45.)
+        assert client.get('/parcel/002').json()['region'] == 'hgo-tulancingo'
+
+
+def test_declared_region_file_missing_does_not_disable_point_prediction(real_delivery):
+    install_regions(real_delivery)
+    (real_delivery.delivery_path / 'regions.json').unlink()
+    with TestClient(create_app(real_delivery)) as client:
+        assert client.get('/regions/hgo-tulancingo').json()['error']['code'] == 'REGION_DATA_UNAVAILABLE'
+        assert client.get('/predict/002').status_code == 200
 
 
 def install_risk(settings, mutate=None):

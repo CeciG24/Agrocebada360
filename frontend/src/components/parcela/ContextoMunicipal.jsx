@@ -1,14 +1,16 @@
 import { fmtT, fmtTons, esNum } from '../../lib/format';
+import { regionLabel } from '../../lib/regions';
 
 export function ContextoMunicipal({ contexto, parcela }) {
   if (!contexto) return null;
 
   if ('region' in contexto) return (
     <div className="space-y-3">
-      <h3 className="text-base text-text-mid">Región {contexto.region}</h3>
+      <h3 className="text-base text-text-mid">Región {regionLabel(contexto.region)}</h3>
       <p>Cobertura: {contexto.predicted_count} / {contexto.parcel_count} parcelas con predicción.</p>
       <p>Media por parcela: {contexto.predicted_count > 0 ? `${contexto.mean_prediction.toFixed(4)} ${contexto.unit}` : 'no disponible'}.</p>
       {contexto.model_version && <p className="text-sm text-text-lo">Modelo {contexto.model_version}</p>}
+      {contexto.meta?.mode === 'real' && <p className="text-sm text-text-lo">Media de las predicciones de evaluación del dataset; no representa a todos los productores de la región.</p>}
     </div>
   );
 

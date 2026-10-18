@@ -52,7 +52,27 @@ def verify(data_root, delivery):
         ids = [p['id'] for p in plain['items']]
         assert ids == sorted(set(ids)) and len(ids) == mapped['total']
         assert all(set(p) == {'id', 'region'} for p in plain['items'])
-        assert all(p['region'] is None for p in plain['items'])
+        region_keys = sorted({p['region'] for p in plain['items'] if p['region'] is not None})
+        regional_results = []
+        expected_predictions = expected.set_index('parcel_id').rendimiento_pred_t_ha.to_dict()
+        with patch.object(client.app.state.service._pipeline, 'predict', side_effect=AssertionError('Regional HTTP cannot infer')):
+            for key in region_keys:
+                members = [p['id'] for p in plain['items'] if p['region'] == key]
+                values = [expected_predictions[i] for i in members if i in expected_predictions]
+                response = client.get('/regions/' + key)
+                assert response.status_code == 200
+                summary = response.json()
+                assert summary['parcel_count'] == len(members) and summary['predicted_count'] == len(values)
+                assert summary['meta'] == plain['meta']
+                if values:
+                    assert abs(summary['mean_prediction'] - math.fsum(values) / len(values)) < 1e-8
+                    assert summary['unit'] == 't/ha' and summary['model_version'] == expected.model_version.iloc[0]
+                regional_results.append(summary)
+        if region_keys:
+            assert sum(row['parcel_count'] for row in regional_results) == len(ids)
+            assert sum(row['predicted_count'] for row in regional_results) == len(expected)
+            assert client.get('/regions/unknown-id').json()['error']['code'] == 'REGION_NOT_FOUND'
+            assert client.get('/regions/%20').status_code == 422
         for parcel in mapped['items']:
             response = client.get('/parcel/' + parcel['id'])
             assert response.status_code == 200
@@ -99,7 +119,7 @@ def verify(data_root, delivery):
             response = client.get(route)
             assert response.status_code == 404 and response.json()['error']['code'] == 'PARCEL_NOT_FOUND'
         assert client.get('/parcels?include_geometry=invalid').status_code == 422
-    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12', 'P4.13', 'P4.14'], 'transport': 'FastAPI TestClient HTTP/ASGI',
+    return {'status': 'passed', 'tasks': ['P4.8', 'P4.9', 'P4.12', 'P4.13', 'P4.14'] + (['P4.15'] if region_keys else []), 'transport': 'FastAPI TestClient HTTP/ASGI',
             'n_parcels': len(ids), 'n_predictions_checked': len(errors),
             'n_geometries': sum(p['geometry'] is not None for p in mapped['items']),
             'prediction_max_error': max(errors), 'deserializations': len(loads),
@@ -107,6 +127,7 @@ def verify(data_root, delivery):
             'n_feature_labels': len(labels),
             'n_risks_checked': len(risk_levels), 'risk_levels': dict(Counter(risk_levels)),
             'risk_method_version': METHOD_VERSION,
+            'regions': regional_results, 'n_regions_checked': len(region_keys),
             'health': health, 'unknown_ids_rejected': True, 'http_training_forbidden': True,
             'api_contract_version': '0.1.0', 'model_version': expected.model_version.iloc[0]}
 

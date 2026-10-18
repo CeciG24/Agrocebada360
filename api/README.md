@@ -1,7 +1,7 @@
-# API Cebada360 — P4.8/P4.9/P4.12/P4.14
+# API Cebada360 — P4.8/P4.9/P4.12/P4.14/P4.15
 
 La API conserva el contrato público 0.1.0 e implementa `/health`, `/parcels`,
-`/parcel/{id}`, `/predict/{id}`, `/explain/{id}` y `/risk/{id}`. El modo por defecto es `mock`; configurar `real`
+`/parcel/{id}`, `/predict/{id}`, `/explain/{id}`, `/risk/{id}` y `/regions/{region}`. El modo por defecto es `mock`; configurar `real`
 requiere rutas explícitas a datos y entrega integrada. Un fallo real nunca activa mocks.
 
 Desde la raíz del repositorio, con una entrega creada mediante
@@ -11,7 +11,7 @@ Desde la raíz del repositorio, con una entrega creada mediante
 .\.venv\Scripts\python.exe -m pip install -r api/requirements.txt -r ml/requirements-inference.txt
 $env:CEBADA_MODE = "real"
 $env:CEBADA_DATA = (Resolve-Path data/integrated/verified-2026-10-17/data).Path
-$env:CEBADA_DELIVERY = (Resolve-Path data/integrated/p414-2026-10-18/delivery).Path
+$env:CEBADA_DELIVERY = (Resolve-Path data/integrated/p415-2026-10-18/delivery).Path
 .\.venv\Scripts\python.exe -m uvicorn api.app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -32,7 +32,8 @@ productores, target, features, superficies ni otros atributos internos.
 `/parcels?include_geometry=true` entrega el mapa completo en una petición.
 Sin ese parámetro no incluye la clave geometry. Una geometría ausente de origen
 puede ser null; un catálogo inválido o inaccesible produce un error operativo.
-Las regiones permanecen null hasta contar con su fuente autorizada. Un filtro
+P4.15 asigna cuatro regiones mediante una política documentada; una entrega antigua
+sin fuente mantiene region=null. Un filtro
 sin coincidencias devuelve `items=[]`, `total=0`, como establece el listado.
 
 Estados operativos:
@@ -53,7 +54,7 @@ Una fuente corrupta de geometrías detectada al cargar no se oculta devolviendo 
 Verificación de la entrega real, sin depender de un servidor ya levantado:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/verify_real_api.py --data-root data/integrated/verified-2026-10-17/data --delivery data/integrated/p414-2026-10-18/delivery --report data/integrated/p414-2026-10-18/api-acceptance.json
+.\.venv\Scripts\python.exe scripts/verify_real_api.py --data-root data/integrated/verified-2026-10-17/data --delivery data/integrated/p415-2026-10-18/delivery --report data/integrated/p415-2026-10-18/api-acceptance.json
 ```
 
 El test recorre catálogo y detalles, compara las 59 predicciones con ML, comprueba
@@ -63,8 +64,8 @@ procedencia, configuración y falta de features sin fallback.
 La aceptación del 17 de octubre pasó con 197 parcelas/geometrías y 59 predicciones,
 error máximo `1.78e-15` y una única deserialización. La suite conjunta terminó con
 191 pruebas aprobadas tras P4.12. El reporte es `docs/api-real-acceptance-2026-10-17.json`.
-El frontend puede usar las rutas implementadas con el modo demo local desactivado;
-los agregados regionales aún requieren su integración HTTP.
+El frontend puede usar las rutas implementadas con el modo demo local desactivado,
+incluidos los agregados regionales documentados en P4.15.
 
 ## Explicabilidad P4.12
 
@@ -144,3 +145,25 @@ Aceptación: 229 pruebas Python y 16 de frontend aprobadas; lint/build correctos
 errores. Evidencia: `docs/risk-api-acceptance-2026-10-18.json`,
 `docs/risk-integration-acceptance-2026-10-18.json` y
 `docs/risk-browser-acceptance-2026-10-18.json`.
+
+## Regiones P4.15
+
+`GET /regions/{region}` resume las predicciones de evaluación por las cuatro
+regiones acordadas: Apan, Tulancingo, Chignahuapan y Poniente–Calpulalpan.
+La definición `state-regions-v1`, las fuentes y su alcance están documentados en
+[P4.15](../docs/regional-integration.md). El catálogo público publica claves
+regionales estables; no añade campos. Las coberturas son 4/19, 11/32, 29/100 y
+15/46. Son medias por parcela del dataset, sin ponderación por superficie.
+
+Región conocida sin predicciones: 200 con media/unidad/modelo null. Región
+desconocida: 404. Fuente regional ausente/incompatible: 503
+`REGION_DATA_UNAVAILABLE`. Predicciones/modelo incompatibles: 503
+`REGION_SUMMARY_UNAVAILABLE`. Un fallo regional no cambia las predicciones
+puntuales ni activa mocks. La API mock ofrece resúmenes exclusivamente sintéticos.
+
+La vista `/regional?demo=0` incluye filtro por estado, nombres legibles, fuentes,
+gráfica, cobertura y aviso de muestra pequeña. Se verificaron 249 pruebas Python,
+16 de frontend, lint/build y navegador escritorio/móvil. Evidencias en
+`docs/regions-api-acceptance-2026-10-18.json`,
+`docs/regions-integration-acceptance-2026-10-18.json` y
+`docs/regions-browser-acceptance-2026-10-18.json`.

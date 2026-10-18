@@ -1,0 +1,72 @@
+{
+  "status": "research_proposal_not_activated",
+  "research_date": "2026-10-18",
+  "proposal_version": "regionalization-proposal-v1",
+  "scope": "Agrupación para visualizar parcelas del dataset; no regiones definidas por FIRA ni estimaciones representativas del territorio completo.",
+  "parcel_master_sha256": "1213afe83a23b62cc330c7c377a2d930ac2fa25c90ddb87d81d9bc2a8fc363a3",
+  "mapping_rule": "Coincidencia exacta por (estado, municipio), a partir de los atributos entregados; no se validaron intersecciones con límites municipales.",
+  "coverage": {
+    "parcels": 197,
+    "municipalities": 9,
+    "evaluation_parcels": 59
+  },
+  "regions": [
+    {
+      "region_key": "hgo-apan",
+      "region_label": "Apan · Hidalgo",
+      "state": "Hidalgo",
+      "official_reference": "Región X: Apan",
+      "municipios_presentes": [
+        "Almoloya",
+        "Apan",
+        "Emiliano Zapata",
+        "Tepeapulco"
+      ],
+      "region_source": "https://sigeh.hidalgo.gob.mx/pags/info_reg/",
+      "parcel_count": 19,
+      "training_count": 15,
+      "evaluation_count": 4
+    },
+    {
+      "region_key": "hgo-tulancingo",
+      "region_label": "Tulancingo · Hidalgo",
+      "state": "Hidalgo",
+      "official_reference": "Región II: Tulancingo",
+      "municipios_presentes": [
+        "Cuautepec de Hinojosa",
+        "Singuilucan"
+      ],
+      "region_source": "https://sigeh.hidalgo.gob.mx/pags/info_reg/",
+      "parcel_count": 32,
+      "training_count": 21,
+      "evaluation_count": 11
+    },
+    {
+      "region_key": "pue-chignahuapan",
+      "region_label": "Chignahuapan · Puebla",
+      "state": "Puebla",
+      "official_reference": "Microrregión 3: Chignahuapan; referencia cartográfica 2026",
+      "municipios_presentes": [
+        "Chignahuapan"
+      ],
+      "region_source": "https://sei.puebla.gob.mx/mapas/mapas/microrregion-3-chignahuapan-1",
+      "parcel_count": 100,
+      "training_count": 71,
+      "evaluation_count": 29
+    },
+    {
+      "region_key": "tlx-poniente-calpulalpan",
+      "region_label": "Poniente–Calpulalpan · Tlaxcala",
+      "state": "Tlaxcala",
+      "official_reference": "Región Poniente–Calpulalpan; PED 2021–2027, figura 27; Periódico Oficial 05-02-2025, p.69",
+      "municipios_presentes": [
+        "Calpulalpan",
+        "Nanacamilpa de Mariano Arista"
+      ],
+      "region_source": "https://publicaciones.tlaxcala.gob.mx/indices/Peri6-10a2025.pdf",
+      "parcel_count": 46,
+      "training_count": 31,
+      "evaluation_count": 15
+    }
+  ]
+}

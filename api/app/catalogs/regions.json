@@ -1,0 +1,53 @@
+{
+  "region_definition_version": "state-regions-v1",
+  "scope": "Decisión interna Cebada360 basada en referencias estatales; no regionalización de FIRA. Solo resumen de las parcelas del dataset.",
+  "approved_on": "2026-10-18",
+  "summary_population": "evaluation_predictions_only",
+  "regions": [
+    {
+      "region_key": "hgo-apan",
+      "region_label": "Apan · Hidalgo",
+      "state": "Hidalgo",
+      "official_reference": "Región X: Apan",
+      "municipios_presentes": [
+        "Almoloya",
+        "Apan",
+        "Emiliano Zapata",
+        "Tepeapulco"
+      ],
+      "region_source": "https://sigeh.hidalgo.gob.mx/pags/info_reg/"
+    },
+    {
+      "region_key": "hgo-tulancingo",
+      "region_label": "Tulancingo · Hidalgo",
+      "state": "Hidalgo",
+      "official_reference": "Región II: Tulancingo",
+      "municipios_presentes": [
+        "Cuautepec de Hinojosa",
+        "Singuilucan"
+      ],
+      "region_source": "https://sigeh.hidalgo.gob.mx/pags/info_reg/"
+    },
+    {
+      "region_key": "pue-chignahuapan",
+      "region_label": "Chignahuapan · Puebla",
+      "state": "Puebla",
+      "official_reference": "Microrregión 3: Chignahuapan; referencia cartográfica 2026",
+      "municipios_presentes": [
+        "Chignahuapan"
+      ],
+      "region_source": "https://sei.puebla.gob.mx/mapas/mapas/microrregion-3-chignahuapan-1"
+    },
+    {
+      "region_key": "tlx-poniente-calpulalpan",
+      "region_label": "Poniente–Calpulalpan · Tlaxcala",
+      "state": "Tlaxcala",
+      "official_reference": "Región Poniente–Calpulalpan; PED 2021–2027, figura 27; Periódico Oficial 05-02-2025, p.69",
+      "municipios_presentes": [
+        "Calpulalpan",
+        "Nanacamilpa de Mariano Arista"
+      ],
+      "region_source": "https://publicaciones.tlaxcala.gob.mx/indices/Peri6-10a2025.pdf"
+    }
+  ]
+}

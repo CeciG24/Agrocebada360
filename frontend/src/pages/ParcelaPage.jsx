@@ -1,3 +1,4 @@
+import { regionLabel } from '../lib/regions';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Panel } from '../components/common/Panel';
@@ -66,7 +67,7 @@ export function ParcelaPage() {
       <Panel className="p-4 sm:p-6 space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div><h1 className="text-3xl font-semibold">{parcela.id}</h1>
-            <p className="text-text-mid">{parcela.meta ? `Región: ${parcela.region ?? 'no disponible'}` : parcela.municipio}</p>
+            <p className="text-text-mid">{parcela.meta ? `Región: ${regionLabel(parcela.region) ?? 'no disponible'}` : parcela.municipio}</p>
           </div>
           <RiskBadge nivel={cierre ? parcela.riesgo : null} revision={Boolean(parcela.risk_method_version)} />
           {cortes.length > 0 && <SelectorCorte valor={corte} onChange={setCorte} />}

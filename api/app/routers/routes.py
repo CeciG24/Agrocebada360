@@ -7,6 +7,7 @@ from api.app.schemas.parcels import ParcelDetail, ParcelList, ParcelMapList
 from api.app.schemas.prediction import Prediction
 from api.app.schemas.explanation import Explanation
 from api.app.schemas.risk import Risk
+from api.app.schemas.regions import RegionSummary
 from api.app.services.base import ParcelService
 
 router = APIRouter()
@@ -57,3 +58,8 @@ def explain(id: ParcelID, service: Service) -> Explanation:
 @router.get("/risk/{id}", response_model=Risk, responses=ERRORS)
 def risk(id: ParcelID, service: Service) -> Risk:
     return service.get_risk(id)
+
+
+@router.get('/regions/{region}', response_model=RegionSummary, responses=ERRORS)
+def region_summary(region: Annotated[str, Path(min_length=1, pattern=r'\S')], service: Service) -> RegionSummary:
+    return service.get_region(region)

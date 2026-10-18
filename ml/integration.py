@@ -21,6 +21,7 @@ META = {'mode': 'real', 'contract_version': '0.1.0', 'cycle': '2025-04/2025-10',
 TOLERANCE = 1e-8
 DELIVERY_FILES = ['feature_provenance.json', 'explanations.json', 'intervals.json', 'catalog.json', 'model/model_manifest.json']
 RISK_FILES = ['risks.json', 'risk_method.json']
+REGION_FILES = ['regions.json']
 
 
 def dump(path, data):
@@ -168,16 +169,22 @@ def prepare_delivery(data_root, out, *, models=None, results=None):
         advanced['risk'] = {'status': 'available', 'reason': None, 'method_version': METHOD_VERSION,
                             'scope': risk_method['scope'], 'n_assessments': len(risks)}
     parcels, geometry_status = _catalog(root, catalog.parcel_id.tolist())
+    from ml.region_adapter import build_regions
+    regions = build_regions(root, schema, predictions)
+    for parcel_id, region in regions['assignments'].items():
+        parcels[parcel_id]['region'] = region
+    dump(out / 'regions.json', regions)
     dump(out / 'catalog.json', parcels)
-    # La fuente no define regiones ni polígonos en el CSV. No se infiere municipio -> región.
     manifest = {
         'integration_format_version': 'integration-v1',
         'contract_version': schema['contract_version'], 'model_version': schema['model_version'],
         'feature_schema_version': schema['feature_schema_version'], 'data_version': schema['data_version'],
         'model_sha256': schema['model_sha256'], 'n_parcels': len(catalog), 'n_eval': len(predictions),
         'split_status': split['status'], 'split_sha256': sha256(ROOT / 'ml/split/official_ids_v1.json'),
-        'files_sha256': {name: sha256(out / name) for name in DELIVERY_FILES + risk_files},
-        'advanced': advanced, 'geometry': geometry_status, 'regions': 'unavailable; region=null',
+        'files_sha256': {name: sha256(out / name) for name in DELIVERY_FILES + risk_files + REGION_FILES},
+        'advanced': advanced, 'geometry': geometry_status,
+        'regions': {'definition_version': regions['region_definition_version'],
+                    'summary_population': 'evaluation_predictions_only'},
         'intervals_enabled_by_default': False,
     }
     dump(out / 'integration_manifest.json', manifest)
@@ -192,7 +199,8 @@ class IntegratedArtifacts:
         if manifest['integration_format_version'] != 'integration-v1':
             raise DataHandoffError('Formato de integración incompatible.')
         declared = set(manifest['files_sha256'])
-        if declared not in [set(DELIVERY_FILES), set(DELIVERY_FILES + RISK_FILES)]:
+        if declared not in [set(DELIVERY_FILES + risk + region)
+                            for risk in [[], RISK_FILES] for region in [[], REGION_FILES]]:
             raise DataHandoffError('Manifiesto de integración incompleto.')
         for name, expected in manifest['files_sha256'].items():
             path = (delivery / name).resolve()
@@ -216,6 +224,12 @@ class IntegratedArtifacts:
         from api.app.services.risk_artifacts import load_risks
         self.risks = load_risks(delivery, manifest, self.pipeline, self.catalog,
                                 sha256(delivery / 'model' / report['model_file']))
+        from api.app.schemas.parcels import ParcelMapItem
+        from ml.region_adapter import load_regions, verified_summaries
+        parcels = {key: ParcelMapItem.model_validate(row) for key, row in self.catalog.items()}
+        self.region_artifact = load_regions(delivery, manifest, root, parcels)
+        self.regions = verified_summaries(self.region_artifact, parcels, self.pipeline,
+                                          sha256(delivery / 'model' / report['model_file'])) if self.region_artifact else {}
 
     def _require_parcel(self, parcel_id):
         if parcel_id not in self.catalog:

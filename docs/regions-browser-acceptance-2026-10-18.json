@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "task": "P4.15",
+  "realRegions": 4,
+  "coverage": [
+    "4/19",
+    "11/32",
+    "29/100",
+    "15/46"
+  ],
+  "stateFilters": [
+    "Hidalgo",
+    "Puebla",
+    "Tlaxcala"
+  ],
+  "smallSampleWarning": true,
+  "mobileWidth": 390,
+  "noOverflow": true,
+  "parcelRiskPreserved": true,
+  "mockChecked": true,
+  "errors": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:5173/regions/hgo-apan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/pue-chignahuapan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/hgo-tulancingo",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/tlx-poniente-calpulalpan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/hgo-apan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/pue-chignahuapan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/hgo-tulancingo",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/tlx-poniente-calpulalpan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/tlx-poniente-calpulalpan",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:5173/regions/tlx-poniente-calpulalpan",
+      "status": 200
+    }
+  ],
+  "python_tests_passed": 249,
+  "frontend_tests_passed": 16,
+  "frontend_lint": "passed",
+  "frontend_build": "passed",
+  "frontend_url": "http://127.0.0.1:5173/regional?demo=0"
+}

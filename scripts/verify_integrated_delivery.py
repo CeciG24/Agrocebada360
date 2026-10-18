@@ -41,7 +41,7 @@ def verify(data_root, delivery):
     assert artifacts.explain(ids['train_ids'][0])['reason'] == 'EXPLANATION_NOT_READY'
     for parcel in artifacts.catalog.values():
         ParcelMapItem.model_validate(parcel)
-        assert parcel['region'] is None
+        assert parcel['region'] in artifacts.regions if artifacts.regions else parcel['region'] is None
     for method in [artifacts.predict, artifacts.explain, artifacts.risk]:
         try:
             method('unknown-id')
@@ -55,6 +55,9 @@ def verify(data_root, delivery):
             'explanation_max_error': float(np.max(reconstruction)),
             'model_version': artifacts.pipeline.model_version,
             'mode': 'real', 'api_activated': False, 'risk_available': bool(artifacts.risks),
+            'n_regions': len(artifacts.regions),
+            'regional_parcels': sum(row.parcel_count for row in artifacts.regions.values()),
+            'regional_predictions': sum(row.predicted_count for row in artifacts.regions.values()),
             'intervals_default': False, 'unknown_ids_rejected': True,
             'train_explanation_unavailable': True}
 

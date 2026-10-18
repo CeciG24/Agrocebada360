@@ -8,6 +8,7 @@ from api.app.schemas.parcels import (
 from api.app.schemas.prediction import Prediction
 from api.app.schemas.explanation import unavailable_explanation
 from api.app.schemas.risk import unavailable_risk
+from api.app.schemas.regions import RegionSummary
 
 
 class MockService:
@@ -19,6 +20,7 @@ class MockService:
         self.parcels: dict[str, ParcelMapItem] = {}
         self.predictions: dict[str, Prediction] = {}
         self.data_ready = False
+        self.regions = {}
 
     def load(self) -> None:
         for index in range(197):
@@ -38,6 +40,8 @@ class MockService:
                 unit="mock_unit", lower=None, upper=None, interval_level=None,
                 interval_method=None, model_version="mock-v1", meta=Meta(mode="mock"),
             )
+        from api.app.services.region_summary import summarize_regions
+        self.regions = summarize_regions(self.parcels, self.predictions, 'mock')
         self.data_ready = True
 
     def require_data(self) -> None:
@@ -76,3 +80,9 @@ class MockService:
     def get_risk(self, parcel_id: str):
         self.get_parcel(parcel_id)
         return unavailable_risk(parcel_id, 'mock')
+
+    def get_region(self, region: str) -> RegionSummary:
+        self.require_data()
+        if region not in self.regions:
+            raise ServiceError(404, 'REGION_NOT_FOUND', 'No se encontró la región solicitada.')
+        return self.regions[region]

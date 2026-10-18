@@ -22,7 +22,7 @@ def assert_error(response, status, code):
 
 def test_only_requested_routes(client):
     assert {route.path for route in client.app.routes} == {
-        "/health", "/parcels", "/parcel/{id}", "/predict/{id}", "/explain/{id}", "/risk/{id}",
+        "/health", "/parcels", "/parcel/{id}", "/predict/{id}", "/explain/{id}", "/risk/{id}", '/regions/{region}',
     }
 
 

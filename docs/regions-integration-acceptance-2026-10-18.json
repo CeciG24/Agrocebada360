@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "n_parcels": 197,
+  "n_eval": 59,
+  "n_geometries": 197,
+  "prediction_max_error": 1.7763568394002505e-15,
+  "explanation_max_error": 2.6645352591003757e-15,
+  "model_version": "yield-v1",
+  "mode": "real",
+  "api_activated": false,
+  "risk_available": true,
+  "n_regions": 4,
+  "regional_parcels": 197,
+  "regional_predictions": 59,
+  "intervals_default": false,
+  "unknown_ids_rejected": true,
+  "train_explanation_unavailable": true,
+  "region_definition_version": "state-regions-v1",
+  "summary_population": "evaluation_predictions_only",
+  "integration_manifest_sha256": "5621f1f264b1e188b9feb708614a4dc46af84810dde6ac67bc3d5d0607b811fe",
+  "region_policy_sha256": "1f847cf1bed57d4462026a1a7e274281de42826383f25799f1a6bca48e3afcd0"
+}
