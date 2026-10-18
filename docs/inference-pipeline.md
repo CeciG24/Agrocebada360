@@ -162,3 +162,7 @@ Las pruebas cubren carga única, ID opaco, columnas extra, orden, versiones,
 modelo directo/empaquetado, manifest, cambios de archivos, procedencia,
 histórico/estático, faltantes, salida finita y preprocesamiento por nombre.
 Usan fixtures sintéticos; no aprueban el dataset/modelo reales pendientes.
+
+La integración del 17 de octubre añade aceptación con el dataset y modelo reales
+mediante `ml.data_handoff` y `ml.integration`, además de los fixtures anteriores.
+Las instrucciones y límites están en [integration-data-ml.md](integration-data-ml.md).

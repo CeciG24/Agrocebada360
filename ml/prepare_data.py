@@ -25,6 +25,8 @@ from src import config as C
 from src.provenance import sha256_file
 
 CANON = {   # nombre de archivo -> ruta canónica relativa
+    "parcels.geojson": "geometria/parcels.geojson",
+    "geometry_metadata.json": "geometria/geometry_metadata.json",
     "parcel_master.csv": "parcel_master.csv",
     "features_master.csv": "features/features_master.csv",
     "fenologia_features.csv": "features/fenologia_features.csv",
@@ -73,7 +75,9 @@ def main():
     else:
         sys.exit(f"--src debe ser un .zip o una carpeta: {src}")
     found, dup = {}, {}
-    for p in sorted(base.rglob("*.csv")):
+    for p in sorted(base.rglob("*")):
+        if not p.is_file() or (p.suffix != ".csv" and p.name not in ("parcels.geojson", "geometry_metadata.json")):
+            continue
         rel = p.relative_to(base)
         if any(part in ("__MACOSX", ".git") for part in rel.parts) or p.name.startswith("._"):
             manifest["ignored"].append(str(rel)); continue

@@ -2,12 +2,12 @@
 
 Entrada : CEBADA_DATA (carpeta DATASET_RETO_AGRO_2026_LIMPIO)
 Salida  : results/data_audit.json  (+ resumen en consola). Exit code 1 si falla el corte temporal.
-Versión : audit-v1 (contrato 0.1.0)
+Versión : audit-v2-climate (contrato 0.3.0)
 
 Qué verifica:
   1. Estructura: IDs str/únicos/consistentes, 138/59, sin NaN/inf, sin target en eval.
-  2. Corte: filas de series crudas posteriores a DATA_CUTOFF y si features_master las usa
-     (recalcula agregados con distintas ventanas y ve cuál reproduce lo entregado).
+  2. Diagnóstico histórico: filas posteriores al corte y comparación de ventanas en una muestra.
+  3. Puerta yield-v1: recalcula TODAS las features climáticas requeridas en TODOS los IDs y vincula fuentes.
 """
 import json, sys
 import numpy as np, pandas as pd
@@ -67,8 +67,24 @@ precip_ok = (m["precip_total_mm_2025"]["abr–oct 2025"] == 40 or m["precip_tota
 peaks_ok = all(pd.to_datetime(rep["peak_dates"][c]["max"]) <= cut for c in ("sentinel2_ndvi_peak_date", "planet_ndvi_peak_date"))
 
 rep["cutoff_ok"] = bool(ndvi_s2_ok and ndvi_pl_ok and precip_ok and peaks_ok)
+# La muestra anterior es diagnóstico histórico, no puerta suficiente para yield-v1.
+# Recalcular TODAS las variables requeridas y enlazar sus fuentes concretas.
+try:
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ml.data_handoff import climate_provenance
+    schema = json.loads((C.MODELS / "feature_schema.json").read_text(encoding="utf-8"))
+    provenance = climate_provenance(root, schema)
+    rep["required_model_features_validation"] = {
+        "valid": True, "n_features": len(provenance["features"]), "n_parcels": len(fm),
+        "profile": provenance["provenance_format_version"], "model_sha256": schema["model_sha256"],
+    }
+    rep["source_files_sha256"] = provenance["source_files_sha256"]
+except Exception as exc:
+    rep["required_model_features_validation"] = {"valid": False, "reason": str(exc)}
+    rep["cutoff_ok"] = False
 C.RESULTS.mkdir(parents=True, exist_ok=True)
-(C.RESULTS / "data_audit.json").write_text(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
+(C.RESULTS / "data_audit.json").write_text(json.dumps(rep, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
 print(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
 print("\nCORTE TEMPORAL:", "OK" if rep["cutoff_ok"] else "VIOLADO (ver feature_window_match: los agregados usan datos posteriores al corte / otros ciclos)")
 sys.exit(0 if rep["cutoff_ok"] else 1)

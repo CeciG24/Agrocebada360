@@ -4,6 +4,7 @@ Proyecto: Cebada360
 """
 
 from pathlib import Path
+import os
 import subprocess
 import sys
 import pandas as pd
@@ -11,8 +12,9 @@ import pandas as pd
 
 # Definir las rutas principales del proyecto.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR = PROJECT_ROOT / "scrpts_limpieza"
-CLEAN_DIR = PROJECT_ROOT / "DATASET_RETO_AGRO_2026_LIMPIO"
+SCRIPTS_DIR = PROJECT_ROOT / "scripts_limpieza"
+WORK_DIR = Path(os.environ.get("CEBADA_PREP_WORKDIR", PROJECT_ROOT)).resolve()
+CLEAN_DIR = WORK_DIR / "DATASET_RETO_AGRO_2026_LIMPIO"
 
 # Establecer el periodo del ciclo agrícola utilizado para las variables.
 DATA_CUTOFF = "2025-10-31"
@@ -51,6 +53,7 @@ def ejecutar_pipeline():
     Si alguno falla, detiene la reconstrucción para evitar continuar
     con archivos que podrían estar incompletos o desactualizados.
     """
+    CLEAN_DIR.mkdir(parents=True, exist_ok=True)
     print("AGROCEBADA — Reconstrucción de features")
     print(f"Ciclo satelital: {CYCLE_START} a {DATA_CUTOFF}")
 
@@ -70,7 +73,7 @@ def ejecutar_pipeline():
         # y desde la raíz del proyecto.
         resultado = subprocess.run(
             [sys.executable, str(script)],
-            cwd=PROJECT_ROOT,
+            cwd=WORK_DIR,
             check=False,
         )
 

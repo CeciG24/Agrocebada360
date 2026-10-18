@@ -219,6 +219,8 @@ def cargar_shapefile():
 
     # Conteo de las geometrías vacías que no representan un polígono válido
     geometria_vacia = gdf.geometry.is_empty.sum()
+    if not gdf.geometry.is_valid.all():
+        raise ValueError("El Shapefile contiene geometrías con topología inválida.")
 
     # Interrupcion del proceso si existen geometrías vacías
     if geometria_vacia > 0:

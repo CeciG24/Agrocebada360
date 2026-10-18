@@ -96,7 +96,7 @@ el hash del JSON exacto. Un manifiesto proporcionado siempre debe ser válido.
 Se conserva el soporte previo de metadata embebida y manifiestos legacy; no se
 migran automáticamente schemas 0.1.0 ni se fabrican campos oficiales.
 
-## Entrega pendiente de Data
+## Procedencia de Data
 
 El CSV y su procedencia permanecen separados del modelo. Data debe proporcionar
 `data_version`, SHA256 del CSV y metadata por cada feature seleccionada: fuente,
@@ -108,7 +108,7 @@ El manifiesto de rutas de `prepare_data.py` y el sello parcial `data_audit.json`
 no sustituyen esa procedencia. No se generan fechas o fuentes a partir de los
 nombres de columnas para conseguir que el modelo cargue.
 
-## Evidencia de la entrega actual
+## Evidencia inicial — 16 de octubre
 
 Se empaquetaron los originales de `origin/ml`, commit
 `2c7402650db6c830a7ba7e783836821a7353d719`, en la carpeta local ignorada
@@ -137,3 +137,14 @@ procedencia. No convierte ese fixture en aceptación del dataset real.
 artefactos actuales de ML. El perfil queda documentado para acuerdo del equipo;
 no se afirma aprobación de otros integrantes. Aceptar datos reales y activar
 `/predict` quedan pendientes de Data y de 4.8.
+
+## Integración comprobada — 17 de octubre
+
+El perfil climático P1.9 ya dispone de un adaptador que verifica sus 30 features
+en todos los IDs, genera procedencia respaldada por fuentes y carga el paquete
+mediante `InferencePipeline`. Se reconstruyó el dataset desde los archivos
+originales y se documentó la compatibilidad numérica/bytes antes de reutilizar el
+modelo. La aceptación real de 59 predicciones y explicaciones está en
+`integration-acceptance-2026-10-17.json`; instrucciones completas en
+[integration-data-ml.md](integration-data-ml.md). Activar el servicio HTTP sigue
+siendo P4.8; los resultados previos se conservan como evidencia histórica.

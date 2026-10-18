@@ -4,7 +4,9 @@ Por qué existe (audit-2026-10-14, Persona 2, pendiente 4): `data_audit.json` no
 que auditó; un dataset distinto habría podido heredar un "OK". Aquí se define:
   - dataset_fingerprint(): hash de features_master + rendimiento + parcel_master  -> `data_version` (contrato §12)
   - audit_state():          ¿la auditoría guardada es válida PARA ESTE dataset? (cutoff_ok + sello de hash coincide)
-`audit_data.py` no se modifica; `stamp_audit.py` agrega el sello de hash a su resultado.
+`audit_data.py` comprueba además las features requeridas y sus fuentes completas;
+`stamp_audit.py` agrega el sello de hash a su resultado. data_version conserva el
+formato publicado; source_files_sha256 invalida evidencia si cambian las fuentes.
 """
 import hashlib
 import json
@@ -97,6 +99,15 @@ def audit_state(root=None):
         return {"valid": False, "cutoff_ok": True, "data_version": cur["data_version"],
                 "reason": (f"la auditoría corresponde a otro dataset ({fp.get('data_version')}) y el actual es "
                            f"{cur['data_version']}: reejecuta `python audit_data.py` y `python stamp_audit.py`")}
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from ml.data_handoff import verify_sources
+    try:
+        if not audit.get("required_model_features_validation", {}).get("valid"):
+            raise ValueError("falta validación completa de las features del modelo")
+        verify_sources(root, audit)
+    except (OSError, ValueError) as exc:
+        return {"valid": False, "cutoff_ok": True, "data_version": cur["data_version"],
+                "reason": f"evidencia de fuentes ausente u obsoleta: {exc}"}
     return {"valid": True, "cutoff_ok": True, "data_version": cur["data_version"], "reason": "auditoría válida para este dataset"}
 
 

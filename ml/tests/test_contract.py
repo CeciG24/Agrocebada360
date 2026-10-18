@@ -145,12 +145,21 @@ def test_strict_gate_blocks_without_valid_audit(monkeypatch):
 
 
 def test_audit_state_ties_audit_to_dataset_hash(tmp_path, monkeypatch):
+    from ml.data_handoff import INPUTS
     root = tmp_path / "ds"
-    for rel in PV.FINGERPRINT_FILES.values():
+    for rel in INPUTS:
         (root / rel).parent.mkdir(parents=True, exist_ok=True); (root / rel).write_text("a,b\n1,2\n")
     monkeypatch.setattr(C, "RESULTS", tmp_path / "res"); (tmp_path / "res").mkdir()
-    PV.audit_path().write_text(json.dumps({"cutoff_ok": True, "data_fingerprint": PV.dataset_fingerprint(root)}))
+    audit = {"cutoff_ok": True, "data_fingerprint": PV.dataset_fingerprint(root),
+             "required_model_features_validation": {"valid": True},
+             "source_files_sha256": {rel: PV.sha256_file(root / rel) for rel in INPUTS}}
+    PV.audit_path().write_text(json.dumps(audit))
     assert PV.audit_state(root)["valid"]
+    climate = root / 'clima/climate_timeseries.csv'
+    original = climate.read_text()
+    climate.write_text('a,b\n9,9\n')
+    assert not PV.audit_state(root)["valid"]  # Fuente cambió, aunque features y data_version no.
+    climate.write_text(original)
     (root / "parcel_master.csv").write_text("a,b\n9,9\n")           # otro dataset => el "OK" no se hereda
     st = PV.audit_state(root); assert not st["valid"] and "otro dataset" in st["reason"]
     PV.audit_path().write_text(json.dumps({"cutoff_ok": False}))

@@ -1,13 +1,15 @@
 """Sella results/data_audit.json con la huella (hash) del dataset auditado.
 
 Uso (después de la auditoría):   python audit_data.py ; python stamp_audit.py
-Por qué: audit_data.py (que NO se modifica) no registra qué archivo auditó. Sin sello, `train_final_model.py`,
+Por qué: el sello enlaza la auditoría completa a los archivos concretos. Sin sello, `train_final_model.py`,
 `generate_predictions.py` y `make_baseline_predictions.py` se niegan a exportar (audit-2026-10-14, Persona 2, pend. 4).
 
 Reglas: no sella si la auditoría dice cutoff_ok=false, si apunta a otra carpeta de datos, o si es anterior a los
 archivos del dataset (auditoría obsoleta). Exit code 1 en esos casos.
 """
 import json, sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from datetime import datetime, timezone
 from src import config as C
 from src.provenance import audit_path, dataset_fingerprint, sha256_file, read_json_tolerant, FINGERPRINT_FILES
@@ -18,6 +20,13 @@ if not p.exists():
 audit = read_json_tolerant(p)      # audit_data.py puede haberlo escrito en cp1252 (Windows)
 if not audit.get("cutoff_ok"):
     sys.exit("La auditoría reporta cutoff_ok=false: no se sella. Corrige el dataset (Rol 1) y reejecuta audit_data.py")
+from ml.data_handoff import verify_sources
+try:
+    if not audit.get("required_model_features_validation", {}).get("valid"):
+        raise ValueError("falta validación de todas las features requeridas; reejecuta audit_data.py")
+    verify_sources(C.DATA_ROOT, audit)
+except (OSError, ValueError) as exc:
+    sys.exit(f"No se sella evidencia incompleta u obsoleta: {exc}")
 if str(audit.get("data_root")) != str(C.DATA_ROOT):
     sys.exit(f"La auditoría es de {audit.get('data_root')} y el dataset actual es {C.DATA_ROOT}: reejecuta audit_data.py")
 newest = max((C.DATA_ROOT / rel).stat().st_mtime for rel in FINGERPRINT_FILES.values())

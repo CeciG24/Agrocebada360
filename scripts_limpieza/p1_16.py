@@ -4,11 +4,12 @@ Proyecto: Cebada360
 """
 
 from pathlib import Path
+import os
 import pandas as pd
 
 
 # Definir la raíz del proyecto y las rutas de los archivos de entrada y salida.
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(os.environ.get("CEBADA_PREP_WORKDIR", Path(__file__).resolve().parent.parent)).resolve()
 
 RAW_DIR = ROOT / "DATASET_RETO_AGRO_2026"
 CLEAN_DIR = ROOT / "DATASET_RETO_AGRO_2026_LIMPIO"

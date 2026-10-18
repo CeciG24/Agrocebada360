@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "data_version": "sha256:b045a212af57282a",
+  "candidate_data_version": "sha256:7465693024c9dc71",
+  "equivalent_csv_tables": 29,
+  "n_parcels": 197,
+  "n_eval": 59,
+  "n_geometries": 197,
+  "prediction_max_error": 1.7763568394002505e-15,
+  "explanation_max_error": 2.6645352591003757e-15,
+  "model_version": "yield-v1",
+  "mode": "real",
+  "api_activated": false,
+  "risk_available": false,
+  "intervals_default": false,
+  "unknown_ids_rejected": true,
+  "train_explanation_unavailable": true,
+  "verification_root": "data/integrated/verified-2026-10-17",
+  "p47_commit": "a797904",
+  "merge_commits": [
+    "b695967",
+    "6a5023f"
+  ],
+  "ml_commit": "2c7402650db6c830a7ba7e783836821a7353d719",
+  "advanced_commit": "e915fce476ebe74a5f6dbd459c6471a1debaf07d",
+  "data_commit": "2fbca125eb1803f35f02f9e101a8fb4f359242c2",
+  "tests": {
+    "python_passed": 172,
+    "python_seconds": 10.75,
+    "frontend_passed": 15,
+    "frontend_lint": "passed",
+    "frontend_build": "passed"
+  },
+  "original_sources_rebuild": "passed P1.15",
+  "full_required_feature_audit": "passed; all 30 features and 197 IDs",
+  "provenance": {
+    "raw_zip_sha256": "d74dbaba1764e026da8ce38f7f3476f80523f479a6c141827887e09326061bb5",
+    "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6"
+  }
+}

@@ -5,6 +5,8 @@ Proyecto: Cebada360
 
 import pandas as pd
 import geopandas as gpd
+from pathlib import Path
+import json
 
 
 def preparar_parcel_master(ruta_shp):
@@ -21,6 +23,18 @@ def preparar_parcel_master(ruta_shp):
 
     print(f"Parcelas encontradas: {len(gdf)}")
     print(f"CRS original: {gdf.crs}")
+    if gdf.crs is None:
+        raise ValueError("El shapefile no declara su CRS de origen.")
+    source_crs = gdf.crs.to_string()
+    ids = gdf["ID_POLIGON"]
+    if ids.isna().any() or ids.astype(str).str.strip().eq("").any() or ids.duplicated().any():
+        raise ValueError("El shapefile requiere IDs únicos y no vacíos.")
+    if not ids.map(lambda value: isinstance(value, str)).all():
+        raise ValueError("Los IDs deben llegar como string; no se convierten desde números.")
+    if (gdf.geometry.isna().any() or gdf.geometry.is_empty.any()
+            or not gdf.geometry.is_valid.all()
+            or not gdf.geom_type.isin(["Polygon", "MultiPolygon"]).all()):
+        raise ValueError("Geometrías nulas, vacías, inválidas o de tipo no poligonal.")
 
     # Validacion del numero esperado de registros (197 parcelas)
     if len(gdf) != 197:
@@ -73,6 +87,18 @@ def preparar_parcel_master(ruta_shp):
 
     # Definicion de la ruta y exportacion del DataFrame maestro a formato CSV
     ruta_salida = "DATASET_RETO_AGRO_2026_LIMPIO/parcel_master.csv"
+    Path(ruta_salida).parent.mkdir(parents=True, exist_ok=True)
+    # GeoJSON de interoperabilidad: únicamente ID y geometría, sin atributos privados.
+    from shapely import force_2d
+    geometry = gdf[["ID_POLIGON", "geometry"]].rename(columns={"ID_POLIGON": "parcel_id"}).copy()
+    geometry.geometry = geometry.geometry.map(force_2d)
+    Path(ruta_salida).with_name("parcels.geojson").write_text(geometry.to_json(), encoding="utf-8")
+    Path(ruta_salida).with_name("geometry_metadata.json").write_text(json.dumps({
+        "source_crs": source_crs, "api_crs": "EPSG:4326", "n_parcels": len(gdf),
+        "validation": "nonempty valid Polygon/MultiPolygon; unique string IDs",
+        "coordinate_order": "longitude, latitude", "dimensions": 2,
+        "source": str(ruta_shp),
+    }, indent=2), encoding="utf-8")
 
     parcel_master.to_csv(
         ruta_salida,

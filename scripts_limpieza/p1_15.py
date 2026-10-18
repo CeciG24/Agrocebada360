@@ -4,6 +4,7 @@ Proyecto: Cebada360
 """
 
 from pathlib import Path
+import os
 import subprocess
 import sys
 import pandas as pd
@@ -12,8 +13,9 @@ import numpy as np
 
 # Rutas principales del proyecto y de los scripts de preparación.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR = PROJECT_ROOT / "scrpts_limpieza"
-CLEAN_DIR = PROJECT_ROOT / "DATASET_RETO_AGRO_2026_LIMPIO"
+SCRIPTS_DIR = PROJECT_ROOT / "scripts_limpieza"
+WORK_DIR = Path(os.environ.get("CEBADA_PREP_WORKDIR", PROJECT_ROOT)).resolve()
+CLEAN_DIR = WORK_DIR / "DATASET_RETO_AGRO_2026_LIMPIO"
 
 # Scripts que se ejecutan para reconstruir y auditar los datos.
 BUILD_SCRIPT = SCRIPTS_DIR / "build_features.py"
@@ -90,7 +92,7 @@ def ejecutar_script(ruta, descripcion):
     # Ejecutar el script usando el mismo intérprete de Python.
     resultado = subprocess.run(
         [sys.executable, str(ruta)],
-        cwd=PROJECT_ROOT
+        cwd=WORK_DIR
     )
 
     # Un código distinto de cero indica que ocurrió un error.
@@ -116,7 +118,7 @@ def validar_archivos():
     # Revisar cada archivo requerido por el pipeline.
     for archivo in ARCHIVOS_REQUERIDOS:
         if not archivo.is_file():
-            print(f"[FALTA] {archivo.relative_to(PROJECT_ROOT)}")
+            print(f"[FALTA] {archivo.relative_to(WORK_DIR)}")
             faltantes.append(archivo)
 
         elif archivo.stat().st_size == 0:
@@ -125,7 +127,7 @@ def validar_archivos():
 
         else:
             print(
-                f"[OK] {archivo.relative_to(PROJECT_ROOT)} "
+                f"[OK] {archivo.relative_to(WORK_DIR)} "
                 f"({archivo.stat().st_size / 1024:.2f} KB)"
             )
 

@@ -28,7 +28,7 @@ def _find_data_root():
 
 
 DATA_ROOT = _find_data_root()
-RESULTS = ML_DIR / "results"
+RESULTS = Path(os.environ.get("CEBADA_RESULTS", ML_DIR / "results"))
 MODELS = ML_DIR / "models"            # contrato §7: models/yield_model_<v>.joblib + models/feature_schema.json
 SPLIT_DIR = ML_DIR / "split"          # listas oficiales de IDs versionadas (contrato §2.6, §14)
 OFFICIAL_IDS_FILE = SPLIT_DIR / "official_ids_v1.json"
