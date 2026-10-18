@@ -18,14 +18,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         logging.basicConfig(level=config.log_level)
-        service = MockService()
+        if config.mode == "real":
+            from api.app.services.real import RealService
+            service = RealService(config.data_root, config.delivery_path)
+        else:
+            service = MockService()
         app.state.service = service
         try:
             service.load()
-            logger.info("Catálogo MOCK inicializado: %d parcelas sintéticas", len(service.parcels))
+            logger.info("Inicialización de servicio %s: data_ready=%s, model_loaded=%s",
+                        config.mode, service.data_ready, service.model_loaded)
         except Exception:
             service.data_ready = False
-            logger.exception("No se pudo inicializar el catálogo MOCK")
+            logger.exception("No se pudo inicializar el servicio %s", config.mode)
         yield
 
     app = FastAPI(title="Cebada360", version="0.1.0", lifespan=lifespan,

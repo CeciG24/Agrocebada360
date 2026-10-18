@@ -151,7 +151,9 @@ entrena ni imputa fuera del modelo. Nunca se sustituyen errores por mocks.
 | `ParcelNotFound` | ID string válido ausente del catálogo |
 | `PredictionUnavailable` | Parcela sin features utilizables o salida inválida |
 
-La traducción HTTP queda para integrar el servicio real; la API usa `MockService`.
+La traducción HTTP se implementa en `api/app/services/real.py` (P4.8/P4.9).
+La API selecciona `RealService` con configuración explícita; el valor por defecto
+continúa siendo `MockService`. Ver [api/README.md](../api/README.md).
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r ml/requirements-inference.txt

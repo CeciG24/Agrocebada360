@@ -1,0 +1,16 @@
+from typing import Protocol
+
+from api.app.schemas.parcels import ParcelDetail, ParcelList, ParcelMapList
+from api.app.schemas.prediction import Prediction
+
+
+class ParcelService(Protocol):
+    data_ready: bool
+
+    @property
+    def model_loaded(self) -> bool: ...
+
+    def load(self) -> None: ...
+    def list_parcels(self, region: str | None, include_geometry: bool) -> ParcelList | ParcelMapList: ...
+    def get_parcel(self, parcel_id: str) -> ParcelDetail: ...
+    def get_prediction(self, parcel_id: str) -> Prediction: ...

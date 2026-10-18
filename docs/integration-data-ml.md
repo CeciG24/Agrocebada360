@@ -115,10 +115,12 @@ registra los hashes de sus archivos para poder continuar sin reinterpretarlos.
 Los identificadores `linear-shap-adapter-v1` y `mean-oof-residual-adapter-v1`
 versionan este perfil interno de adaptación; no se atribuyen al productor.
 
-Esta integración prepara los adaptadores para el servicio HTTP. **La API continúa
-en mock por defecto y no se han modificado endpoints.** Conectar el servicio real,
-su configuración/health y las rutas de explicación corresponde a P4.8/P4.12;
-no se afirma que ese E2E HTTP esté cerrado por estas pruebas de artefactos.
+La API mantiene mock por defecto y ya permite conectar este paquete mediante
+`CEBADA_MODE=real`, `CEBADA_DATA` y `CEBADA_DELIVERY` (P4.8/P4.9). Ver
+[api/README.md](../api/README.md) para iniciar el servicio y comprobar su health.
+Las cuatro rutas existentes conservan el contrato; conectar explicabilidad
+mediante HTTP sigue siendo P4.12. Las pruebas de artefactos de esta sección son
+distintas de la aceptación HTTP registrada en `api-real-acceptance-2026-10-17.json`.
 
 ## Verificación
 

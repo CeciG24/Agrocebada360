@@ -9,6 +9,10 @@ from api.app.schemas.prediction import Prediction
 
 
 class MockService:
+    @property
+    def model_loaded(self) -> bool:
+        return False
+
     def __init__(self) -> None:
         self.parcels: dict[str, ParcelMapItem] = {}
         self.predictions: dict[str, Prediction] = {}

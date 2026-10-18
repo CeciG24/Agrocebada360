@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "tasks": [
+    "P4.8",
+    "P4.9"
+  ],
+  "transport": "FastAPI TestClient HTTP/ASGI",
+  "n_parcels": 197,
+  "n_predictions_checked": 59,
+  "n_geometries": 197,
+  "prediction_max_error": 1.7763568394002505e-15,
+  "deserializations": 1,
+  "health": {
+    "status": "ok",
+    "mode": "real",
+    "contract_version": "0.1.0",
+    "model_loaded": true,
+    "data_ready": true
+  },
+  "unknown_ids_rejected": true,
+  "http_training_forbidden": true,
+  "api_contract_version": "0.1.0",
+  "model_version": "yield-v1"
+}

@@ -146,5 +146,6 @@ mediante `InferencePipeline`. Se reconstruyó el dataset desde los archivos
 originales y se documentó la compatibilidad numérica/bytes antes de reutilizar el
 modelo. La aceptación real de 59 predicciones y explicaciones está en
 `integration-acceptance-2026-10-17.json`; instrucciones completas en
-[integration-data-ml.md](integration-data-ml.md). Activar el servicio HTTP sigue
-siendo P4.8; los resultados previos se conservan como evidencia histórica.
+[integration-data-ml.md](integration-data-ml.md). P4.8/P4.9 añaden un servicio HTTP
+real configurable, documentado en [api/README.md](../api/README.md). Los resultados
+previos se conservan como evidencia histórica.
