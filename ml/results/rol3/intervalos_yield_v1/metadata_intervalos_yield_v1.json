@@ -1,0 +1,25 @@
+{
+  "model_version": "yield-v1",
+  "experiment": "E4_clima",
+  "algorithm": "ridge",
+  "data_version": "sha256:b045a212af57282a",
+  "oof_source": "results\\oof\\E4_clima__ridge.csv",
+  "oof_method": "Promedio OOF de CV aleatoria repetida",
+  "n_calibration_residuals": 138,
+  "n_evaluation": 59,
+  "nominal_level": 0.9,
+  "alpha": 0.1,
+  "quantile_rank": 126,
+  "mae_oof_t_ha": 0.35360539682901326,
+  "rmse_oof_t_ha": 0.512451352374437,
+  "margin_t_ha": 0.8879868008536755,
+  "interval_width_t_ha": 1.775973601707351,
+  "descriptive_oof_coverage": 0.9130434782608695,
+  "descriptive_oof_covered": 126,
+  "limitations": [
+    "No existe conjunto independiente de calibracion.",
+    "La cobertura OOF es descriptiva, no una garantia conformal.",
+    "No se ha validado la cobertura espacial de yield-v1.",
+    "La seguridad temporal de todas las variables no esta certificada."
+  ]
+}

@@ -1,42 +1,23 @@
 {
-  "version": "ensemble-v1",
-  "exp": "E5_fusion",
-  "n_features": 207,
-  "params_source": "tuned",
-  "member_params": {
-    "extratrees": {
-      "n_estimators": 500,
-      "min_samples_leaf": 3,
-      "max_features": 0.33,
-      "max_depth": 12
-    },
-    "rf": {
-      "n_estimators": 500,
-      "min_samples_leaf": 3,
-      "max_samples": 0.9,
-      "max_features": 0.1,
-      "max_depth": 12
-    },
-    "catboost": {
-      "rsm": 0.5,
-      "learning_rate": 0.02,
-      "l2_leaf_reg": 20,
-      "iterations": 500,
-      "depth": 3
-    }
-  },
+  "version": "ensemble-v2",
+  "exp": "E4_clima",
+  "n_features": 30,
+  "params_source": "default",
+  "evaluation_independent": true,
+  "member_params": {},
   "members": [
+    "elasticnet",
+    "catboost",
     "extratrees",
-    "rf",
-    "catboost"
+    "rf"
   ],
-  "best_single": "extratrees",
+  "best_single": "elasticnet",
   "decision": {
-    "variant": "weighted",
+    "variant": "mean",
     "keep": false,
-    "mean_gain_rmse": -0.0018395100836108736,
-    "win_rate": 0.2,
-    "spatial_delta_rmse": 8.452131732172852e-05,
+    "mean_gain_rmse": -0.0001059280494587811,
+    "win_rate": 0.6,
+    "spatial_delta_rmse": 0.012959540308834727,
     "n_repeats": 10,
     "criteria": {
       "min_gain": 0.005,
@@ -47,40 +28,91 @@
   },
   "final_choice": {
     "type": "single",
-    "model": "extratrees"
+    "model": "elasticnet"
   },
   "rmse_cv_mean": {
-    "extratrees": 0.5235667892583563,
-    "rf": 0.5321039444403041,
-    "catboost": 0.537268315455677,
-    "mean": 0.5267780641829489,
-    "weighted": 0.5254062993419671
+    "elasticnet": 0.5157625719349661,
+    "catboost": 0.5172221203425748,
+    "extratrees": 0.519691020381821,
+    "rf": 0.5290562203201926,
+    "mean": 0.5158684999844249,
+    "weighted_nested": 0.5181268868953595
   },
   "rmse_spatial": {
-    "extratrees": 0.7771325206501732,
-    "rf": 0.8085149811309132,
-    "catboost": 0.8248542143681933,
-    "mean": 0.7949955972676843,
-    "weighted": 0.777217041967495
+    "elasticnet": 0.7399139345199265,
+    "catboost": 0.8117593786394252,
+    "extratrees": 0.7559723794127368,
+    "rf": 0.8088373804894257,
+    "mean": 0.7528734748287612,
+    "weighted_nested": 0.821761344488885
+  },
+  "weights_nested_mean": {
+    "elasticnet": 0.6679862643747864,
+    "catboost": 0.2134403437740855,
+    "extratrees": 0.0844215877682986,
+    "rf": 0.0341518040828298
   },
   "residual_corr": {
-    "extratrees": {
-      "extratrees": 1.0,
-      "rf": 0.986,
-      "catboost": 0.971
-    },
-    "rf": {
-      "extratrees": 0.986,
-      "rf": 1.0,
-      "catboost": 0.988
+    "elasticnet": {
+      "elasticnet": 1.0,
+      "catboost": 0.97,
+      "extratrees": 0.989,
+      "rf": 0.977
     },
     "catboost": {
-      "extratrees": 0.971,
-      "rf": 0.988,
-      "catboost": 1.0
+      "elasticnet": 0.97,
+      "catboost": 1.0,
+      "extratrees": 0.984,
+      "rf": 0.979
+    },
+    "extratrees": {
+      "elasticnet": 0.989,
+      "catboost": 0.984,
+      "extratrees": 1.0,
+      "rf": 0.988
+    },
+    "rf": {
+      "elasticnet": 0.977,
+      "catboost": 0.979,
+      "extratrees": 0.988,
+      "rf": 1.0
     }
   },
-  "data_cutoff_verified": true,
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": [
+      "--repeats",
+      "10"
+    ],
+    "exp": "E4_clima",
+    "models": [
+      "elasticnet",
+      "catboost",
+      "extratrees",
+      "rf"
+    ],
+    "repeats": 10,
+    "fast": false,
+    "params": "default"
+  },
   "provisional": false,
-  "note": ""
+  "note": "Pesos finales = simplex sobre el OOF completo (receta que reproduce train_final_model.py); la estimación de 'weighted_nested' ajusta los pesos dentro de cada fold externo, sin fuga."
 }

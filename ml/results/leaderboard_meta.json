@@ -1,0 +1,51 @@
+{
+  "data_version": "sha256:b045a212af57282a",
+  "contract_version": "0.3.0",
+  "audit_valid_for_dataset": true,
+  "audit_reason": "auditoría válida para este dataset",
+  "provisional": false,
+  "environment": {
+    "python": "3.13.9",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "joblib": "1.6.0",
+      "catboost": "1.2.10",
+      "xgboost": "3.4.1",
+      "lightgbm": "4.7.0"
+    }
+  },
+  "python_argv": [
+    "--repeats",
+    "10"
+  ],
+  "repeats": 10,
+  "fast": false,
+  "exps": [
+    "E0_baseline",
+    "E1_topo",
+    "E2_basico",
+    "E3_planet",
+    "E4_clima",
+    "E5_fusion",
+    "X0_municipio",
+    "X1_geo",
+    "X3_muni_mas_sat",
+    "X2_fusion_mas_geo"
+  ],
+  "models": [
+    "catboost",
+    "dummy_median",
+    "elasticnet",
+    "extratrees",
+    "gbr",
+    "lightgbm",
+    "rf",
+    "ridge",
+    "xgboost"
+  ],
+  "n_labeled": 138
+}

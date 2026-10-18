@@ -1,53 +1,45 @@
-"""Predicciones base del modelo (Rol 2 → Rol 4/5). NO es el modelo final: sirve para integrar API/app ya.
+"""Baseline de integración yield-v0 (Rol 2 -> Rol 4/5). NO es el modelo final: sirve para probar API/app mientras se congela yield-v1.
 
-Entrada : CEBADA_DATA (dataset de Rol 1)
-Salida  : models/yield_model_v0.joblib        (solo el modelo, contrato §5)
-          models/feature_schema.json          (features en orden contractual, unidad, versión, corte)
-          results/predictions_raw.csv         (parcel_id, rendimiento_pred_t_ha, model_version) — 59 filas
-Versión : yield-v0 / features-v0 / contrato 0.1.0
+Entrada : CEBADA_DATA, split/official_ids_v1.json, results/data_audit.json sellada
+Salida  : models/baseline_v0/yield_model_v0.joblib + feature_schema.json   (schema 0.3.0, verificable por hash)
+          results/baseline_v0/predictions_raw.csv                          (parcel_id, rendimiento_pred_t_ha, model_version) — precisión completa
+Versión : yield-v0 / features-v1 / contrato 0.3.0
 
-Las predicciones se calculan RECARGANDO los artefactos guardados (§6), de modo que lo que ve el backend
-es exactamente lo que se escribió en el CSV.
+Cambios frente a la versión 0.1.0 (audit-2026-10-14): schema 0.3.0, precisión completa (antes 3 decimales), exige auditoría válida
+para este dataset, valida contra la lista oficial de IDs (no 59), y vive en carpetas propias para no pisar el modelo final (models/, results/).
+
+Uso:  CEBADA_DATA=... python make_baseline_predictions.py   (--allow-unverified solo para pruebas)
 """
-import json
+import argparse
 import pandas as pd
 import sklearn
 from src import config as C
+from src import contract as K
 from src.data import load, families, columns_for
 from src.models import zoo
-from src import contract as K
+from src.split import ids_sha256, load_official_ids
 
+ap = argparse.ArgumentParser(); ap.add_argument("--allow-unverified", action="store_true"); a = ap.parse_args()
 tr, ev = load(); fam = families(tr)
+off = load_official_ids()
 cols = columns_for("E5_fusion", fam)          # sin geo ni mun_*: no se inventan features
 K.validate_features(tr, cols)
+audit = K.require_valid_audit(allow_unverified=a.allow_unverified)
 
-# Corte temporal §1.7: el estado se registra en el schema; si CEBADA_STRICT_CUTOFF=1 se aborta.
-try:
-    audit = json.loads((C.RESULTS / "data_audit.json").read_text())
-    cutoff_ok = bool(audit["cutoff_ok"])
-except FileNotFoundError:
-    cutoff_ok = None
-if cutoff_ok is not True:
-    msg = ("data_audit.json no existe: corre `python audit_data.py`" if cutoff_ok is None else
-           "El dataset NO respeta el corte " + C.DATA_CUTOFF + " (ver results/data_audit.json)")
-    print("⚠️  " + msg)
-    if C.STRICT_CUTOFF:
-        raise SystemExit("CEBADA_STRICT_CUTOFF=1: no se generan artefactos con datos no verificados al corte")
-
-model = zoo()["ridge"](); model.fit(tr[cols].to_numpy(float), tr[C.TARGET].to_numpy(float))
-schema = K.build_schema(cols, extra={
+model = zoo()["ridge"](); model.fit(tr[cols], tr[C.TARGET].to_numpy(float))
+schema = K.build_schema(cols, model_version=C.BASELINE_MODEL_VERSION, extra={
     "description": "Baseline Ridge sobre E5_fusion (sin geo). No es el modelo final.",
-    "algorithm": "ridge", "experiment": "E5_fusion", "n_train": len(tr),
-    "sklearn_version": sklearn.__version__,
-    "data_cutoff_verified": cutoff_ok,         # True / False / None (sin auditar)
+    "algorithm": "ridge", "experiment": "E5_fusion", "n_train": int(len(tr)),
+    "train_ids_sha256": ids_sha256(list(tr[C.ID])), "sklearn_version": sklearn.__version__,
+    "verified": bool(audit["valid"]),
 })
-mp, sp = K.save_artifacts(model, schema)
+mdir, rdir = C.MODELS / "baseline_v0", C.RESULTS / "baseline_v0"; rdir.mkdir(parents=True, exist_ok=True)
+mp, sp = K.save_artifacts(model, schema, mdir)
 
-model2, schema2 = K.load_artifacts()           # round-trip: se predice con lo guardado
+model2, schema2 = K.load_artifacts(mdir)       # round-trip: se predice con lo guardado
 pred = K.predict_frame(model2, schema2, ev)
-out = pd.DataFrame({C.ID: pred.index, "rendimiento_pred_t_ha": pred.values.round(3), "model_version": schema2["model_version"]})
-K.validate_predictions(out, ev[C.ID])
-C.RESULTS.mkdir(exist_ok=True)
-out.to_csv(C.RESULTS / "predictions_raw.csv", index=False)
-print(f"modelo: {mp.name} | schema: {sp.name} | {len(cols)} features | data_cutoff_verified={cutoff_ok}")
-print(out.rendimiento_pred_t_ha.describe())
+out = pd.DataFrame({C.ID: pred.index.astype(str), C.PRED_COL: pred.values, "model_version": schema2["model_version"]})
+K.validate_predictions(out, off["eval_ids"] if off else ev[C.ID])
+out.to_csv(rdir / "predictions_raw.csv", index=False, float_format="%.17g")
+print(f"baseline {schema2['model_version']}: {mp.name} | {len(cols)} features | verified={schema['verified']}")
+print(out[C.PRED_COL].describe().round(4).to_string())

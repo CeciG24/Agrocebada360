@@ -6,4 +6,8 @@ joblib
 xgboost
 lightgbm
 catboost
-nbformat
+matplotlib      # gráfica de predicción temprana (opcional)
+pytest          # tests
+nbformat        # notebook
+nbconvert       # ejecutar el notebook de forma no interactiva (opcional)
+ipykernel       # kernel para el notebook (opcional)

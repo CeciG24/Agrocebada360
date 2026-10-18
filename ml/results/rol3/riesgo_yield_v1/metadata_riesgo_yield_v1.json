@@ -1,0 +1,26 @@
+{
+  "model_version": "yield-v1",
+  "n_parcels": 59,
+  "n_columns": 14,
+  "n_ood_alerts": 4,
+  "tercile_1": 3.210176393119016,
+  "tercile_2": 4.365824382475769,
+  "relative_levels": {
+    "Intermedio relativo": 26,
+    "Bajo relativo": 21,
+    "Alto relativo": 12
+  },
+  "review_priorities": {
+    "Sin alerta combinada": 38,
+    "Revisar rendimiento estimado": 17,
+    "Prioridad alta de revision": 4
+  },
+  "classification_method": "Terciles de predicciones de evaluacion",
+  "priority_method": "Rendimiento bajo relativo y alerta OOD",
+  "limitations": [
+    "Los terciles son relativos, no umbrales agronomicos.",
+    "Las prioridades no representan probabilidades de perdida.",
+    "Los intervalos exploratorios no garantizan cobertura.",
+    "Una alerta OOD no confirma un error predictivo."
+  ]
+}

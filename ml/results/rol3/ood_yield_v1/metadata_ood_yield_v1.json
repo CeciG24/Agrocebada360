@@ -1,0 +1,22 @@
+{
+  "model_version": "yield-v1",
+  "data_version": "sha256:b045a212af57282a",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "method": "IsolationForest",
+  "n_estimators": 300,
+  "contamination": "auto",
+  "random_state": 42,
+  "n_features": 30,
+  "n_train": 138,
+  "n_evaluation": 59,
+  "threshold_method": "Percentil 5 de score_samples en entrenamiento",
+  "threshold": -0.6319277612298091,
+  "n_alerts": 4,
+  "n_without_alert": 55,
+  "limitations": [
+    "El umbral es operativo y no garantiza 5% de alertas futuras.",
+    "Las alertas no demuestran que una prediccion sea incorrecta.",
+    "El detector utiliza exclusivamente las 30 variables climaticas.",
+    "La seguridad temporal de las variables requiere verificacion."
+  ]
+}

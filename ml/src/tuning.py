@@ -11,6 +11,7 @@ from sklearn.base import clone
 from sklearn.model_selection import KFold, ParameterSampler
 
 from . import config as C
+from .provenance import read_json_tolerant
 from .models import zoo
 
 # Rejillas pequeñas y conservadoras: con 138 filas, espacios grandes solo generan sobreajuste al CV.
@@ -72,4 +73,4 @@ def search(name, X, y, n_iter, n_splits=3, repeats=1, seed=C.SEED):
 def load_best(name, exp="E5_fusion", path=None):
     """Hiperparámetros afinados guardados por tune.py (para P2.7/P2.8/P2.9)."""
     p = Path(path or C.RESULTS / "tuning" / f"{exp}__{name}.json")
-    return json.loads(p.read_text())["best_params"]
+    return read_json_tolerant(p)["best_params"]

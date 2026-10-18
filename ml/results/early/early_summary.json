@@ -1,8 +1,49 @@
 {
-  "version": "early-v1",
+  "version": "early-v2",
   "provisional": false,
-  "data_cutoff_verified": true,
+  "audit_valid_for_dataset": true,
   "params": "default",
+  "evaluation_independent": true,
+  "scope": "curva diagnóstica; no es un modelo por corte ni un endpoint",
+  "provenance": {
+    "data_version": "sha256:b045a212af57282a",
+    "contract_version": "0.3.0",
+    "audit_valid_for_dataset": true,
+    "audit_reason": "auditoría válida para este dataset",
+    "provisional": false,
+    "environment": {
+      "python": "3.13.9",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "scikit-learn": "1.9.1",
+        "joblib": "1.6.0",
+        "catboost": "1.2.10",
+        "xgboost": "3.4.1",
+        "lightgbm": "4.7.0"
+      }
+    },
+    "python_argv": [
+      "--repeats",
+      "10"
+    ],
+    "cuts": [
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre"
+    ],
+    "models": [
+      "ridge",
+      "extratrees",
+      "catboost"
+    ],
+    "repeats": 10,
+    "params": "default"
+  },
   "window_issues": [],
   "notes": [],
   "ceiling_cut": "octubre",
@@ -21,10 +62,10 @@
     },
     "extratrees": {
       "rmse_by_cut": {
-        "junio": 0.5371840311977569,
+        "junio": 0.537184031197757,
         "julio": 0.5271591814204815,
-        "agosto": 0.5291088002324484,
-        "septiembre": 0.5313530363214467,
+        "agosto": 0.5291088002324483,
+        "septiembre": 0.5313530363214466,
         "octubre": 0.5354833513656414
       },
       "earliest_beats_dummy": "junio",

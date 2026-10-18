@@ -1,0 +1,182 @@
+{
+  "modelo": "yield-v1",
+  "experimento": "E4_clima",
+  "parcelas_prediccion": 59,
+  "variables": 30,
+  "verificaciones": {
+    "Version oficial": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Experimento oficial": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "30 variables climaticas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Modelo congelado existente": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHA256 del modelo congelado": {
+      "correcto": true,
+      "detalle": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6"
+    },
+    "59 predicciones oficiales": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "IDs oficiales unicos": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Version en predicciones": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: 59 filas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: IDs unicos": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: mismas parcelas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "OOD: 59 filas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "OOD: IDs unicos": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "OOD: mismas parcelas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: 59 filas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: IDs unicos": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: mismas parcelas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: version yield-v1": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: predicciones oficiales": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "OOD: version yield-v1": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "OOD: predicciones oficiales": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: version yield-v1": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: predicciones oficiales": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: limites inferiores": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: limites superiores": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Intervalos: nivel nominal": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: alertas OOD consistentes": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: score_ood": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: umbral_ood": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: limite_inferior_t_ha": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: limite_superior_t_ha": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Riesgo: margen_exploratorio_t_ha": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: 59 filas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: IDs unicos": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: mismas parcelas": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: 30 contribuciones": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: aditividad": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: reconstruccion de predicciones oficiales": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "SHAP: 30 variables de importancia": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Grafica: 01_predicho_vs_real.png": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Grafica: 02_residuos.png": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Grafica: 03_importancia_shap.png": {
+      "correcto": true,
+      "detalle": ""
+    },
+    "Grafica: 04_rmse_temporal_early_v2.png": {
+      "correcto": true,
+      "detalle": ""
+    }
+  },
+  "errores": [],
+  "resultado": "APROBADO"
+}
