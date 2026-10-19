@@ -29,6 +29,8 @@ dist/
 /data/**
 !/data/.gitkeep
 !/data/README.md
+!/data/deploy/
+!/data/deploy/**
 *.pkl
 *.pickle
 

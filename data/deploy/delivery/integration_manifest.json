@@ -1,0 +1,49 @@
+{
+  "integration_format_version": "integration-v1",
+  "contract_version": "0.3.0",
+  "model_version": "yield-v1",
+  "feature_schema_version": "features-v1",
+  "data_version": "sha256:b045a212af57282a",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "n_parcels": 197,
+  "n_eval": 59,
+  "split_status": "derivada de dataset_split; PENDIENTE confirmar contra la lista oficial de FIRA (contrato §20)",
+  "split_sha256": "38c8b6b1a29449778432164714ed65b6fa26bd7e51696e4c0460627bcbcdbb86",
+  "files_sha256": {
+    "feature_provenance.json": "cb4304d2f99a9e79c283f70e2d9ebb7e9b2f6413c22d3f7e9bbee797379a350d",
+    "explanations.json": "bd0c84d6ce893824d54a0a2dc834ec0aedbed4d1b5d67a0a7e178289074ff0c2",
+    "intervals.json": "f6c6ea10dee8dd1bf1b611fca6d14e7fb1df4cdbf990a867e0563183ac3356a5",
+    "catalog.json": "2320e22c6f5051074263955d3c5150681a905e28c648c251a7603b9e0c9353f8",
+    "model/model_manifest.json": "0036c99b5a1b833f6e70ab545e5a8aa14b3bd7069f4f656a28406604336ce4f9",
+    "risks.json": "973cc0d3a86de7e27c90ca506b4485e1b99e04a0e63c7090bfb7b0069e5fd539",
+    "risk_method.json": "989b4642a00485306b7054702814719ebc72f5576b7b4f8c992cacc6090cb688",
+    "regions.json": "2049f28be6d754566c41ce0aff9b4cb34544606aa5dbbcf9121952edc9672f25"
+  },
+  "advanced": {
+    "explanation_version": "linear-shap-adapter-v1",
+    "reconstruction_atol": 1e-08,
+    "interval_method_version": "mean-oof-residual-adapter-v1",
+    "risk": {
+      "status": "available",
+      "reason": null,
+      "method_version": "review-priority-adapter-v1",
+      "scope": "Prioridades P3.9; mapeo de API definido por el equipo en P4.14, no por FIRA.",
+      "n_assessments": 59
+    },
+    "version_scope": "Versiones del perfil interno de adaptación; no se atribuyen como versiones del productor.",
+    "producer_files_sha256": {
+      "rol3/shap_yield_v1/shap_valores_yield_v1.csv": "8deea3ce43f50aab1af013a4737c63d449b4114f231a2b83d24c0691c5af1198",
+      "rol3/shap_yield_v1/shap_metadata_yield_v1.json": "ff547988654fb681c98a5eda1069d354d1d8aa28cc0a0a4cf1c8044fa5f3266b",
+      "rol3/intervalos_yield_v1/predicciones_intervalos_yield_v1.csv": "0fa6a2f3c89879c6e0c56da67558a3567e0c2a2e9708349957c6e5e4e915af48",
+      "rol3/intervalos_yield_v1/metadata_intervalos_yield_v1.json": "eb29b13ac5a7984e1cae0be9a81ab9b7218c491a59289f4e0e52042d0bd6d59a",
+      "rol3/riesgo_yield_v1/predicciones_riesgo_yield_v1.csv": "49d0af81a524386d0d6bed9895e425e9dbed12035ba8290389b54bbf0c2f9651",
+      "rol3/riesgo_yield_v1/metadata_riesgo_yield_v1.json": "f378467e9878d3f43a79265085732365bf56302d38526dc4ea176c950bd3071e"
+    }
+  },
+  "geometry": "unavailable; geometry=null",
+  "regions": {
+    "definition_version": "state-regions-v1",
+    "summary_population": "evaluation_predictions_only"
+  },
+  "intervals_enabled_by_default": false
+}

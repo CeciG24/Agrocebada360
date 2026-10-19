@@ -1,0 +1,987 @@
+{
+  "AGC_196": {
+    "id": "AGC_196",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_044": {
+    "id": "AGC_044",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_020": {
+    "id": "AGC_020",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_174": {
+    "id": "AGC_174",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_083": {
+    "id": "AGC_083",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_149": {
+    "id": "AGC_149",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_052": {
+    "id": "AGC_052",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_009": {
+    "id": "AGC_009",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_119": {
+    "id": "AGC_119",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_064": {
+    "id": "AGC_064",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_130": {
+    "id": "AGC_130",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_035": {
+    "id": "AGC_035",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_047": {
+    "id": "AGC_047",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_084": {
+    "id": "AGC_084",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_151": {
+    "id": "AGC_151",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_137": {
+    "id": "AGC_137",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_152": {
+    "id": "AGC_152",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_051": {
+    "id": "AGC_051",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_107": {
+    "id": "AGC_107",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_065": {
+    "id": "AGC_065",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_059": {
+    "id": "AGC_059",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_184": {
+    "id": "AGC_184",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_082": {
+    "id": "AGC_082",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_146": {
+    "id": "AGC_146",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_128": {
+    "id": "AGC_128",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_180": {
+    "id": "AGC_180",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_134": {
+    "id": "AGC_134",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_041": {
+    "id": "AGC_041",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_166": {
+    "id": "AGC_166",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_003": {
+    "id": "AGC_003",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_081": {
+    "id": "AGC_081",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_129": {
+    "id": "AGC_129",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_034": {
+    "id": "AGC_034",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_079": {
+    "id": "AGC_079",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_070": {
+    "id": "AGC_070",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_113": {
+    "id": "AGC_113",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_038": {
+    "id": "AGC_038",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_042": {
+    "id": "AGC_042",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_194": {
+    "id": "AGC_194",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_030": {
+    "id": "AGC_030",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_078": {
+    "id": "AGC_078",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_121": {
+    "id": "AGC_121",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_148": {
+    "id": "AGC_148",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_067": {
+    "id": "AGC_067",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_089": {
+    "id": "AGC_089",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_007": {
+    "id": "AGC_007",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_080": {
+    "id": "AGC_080",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_156": {
+    "id": "AGC_156",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_140": {
+    "id": "AGC_140",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_118": {
+    "id": "AGC_118",
+    "region": "hgo-tulancingo",
+    "geometry": null
+  },
+  "AGC_190": {
+    "id": "AGC_190",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_092": {
+    "id": "AGC_092",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_091": {
+    "id": "AGC_091",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_060": {
+    "id": "AGC_060",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_115": {
+    "id": "AGC_115",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_191": {
+    "id": "AGC_191",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_085": {
+    "id": "AGC_085",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_188": {
+    "id": "AGC_188",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_126": {
+    "id": "AGC_126",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_097": {
+    "id": "AGC_097",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_043": {
+    "id": "AGC_043",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_185": {
+    "id": "AGC_185",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_108": {
+    "id": "AGC_108",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_181": {
+    "id": "AGC_181",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_153": {
+    "id": "AGC_153",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_006": {
+    "id": "AGC_006",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_036": {
+    "id": "AGC_036",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_109": {
+    "id": "AGC_109",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_077": {
+    "id": "AGC_077",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_177": {
+    "id": "AGC_177",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_105": {
+    "id": "AGC_105",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_182": {
+    "id": "AGC_182",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_096": {
+    "id": "AGC_096",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_176": {
+    "id": "AGC_176",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_155": {
+    "id": "AGC_155",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_100": {
+    "id": "AGC_100",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_135": {
+    "id": "AGC_135",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_186": {
+    "id": "AGC_186",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_143": {
+    "id": "AGC_143",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_018": {
+    "id": "AGC_018",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_106": {
+    "id": "AGC_106",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_033": {
+    "id": "AGC_033",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_150": {
+    "id": "AGC_150",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_104": {
+    "id": "AGC_104",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_167": {
+    "id": "AGC_167",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_002": {
+    "id": "AGC_002",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_136": {
+    "id": "AGC_136",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_178": {
+    "id": "AGC_178",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_125": {
+    "id": "AGC_125",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_116": {
+    "id": "AGC_116",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_162": {
+    "id": "AGC_162",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_057": {
+    "id": "AGC_057",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_142": {
+    "id": "AGC_142",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_197": {
+    "id": "AGC_197",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_028": {
+    "id": "AGC_028",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_073": {
+    "id": "AGC_073",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_031": {
+    "id": "AGC_031",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_171": {
+    "id": "AGC_171",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_111": {
+    "id": "AGC_111",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_015": {
+    "id": "AGC_015",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_063": {
+    "id": "AGC_063",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_110": {
+    "id": "AGC_110",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_032": {
+    "id": "AGC_032",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_024": {
+    "id": "AGC_024",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_045": {
+    "id": "AGC_045",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_195": {
+    "id": "AGC_195",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_088": {
+    "id": "AGC_088",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_005": {
+    "id": "AGC_005",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_102": {
+    "id": "AGC_102",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_127": {
+    "id": "AGC_127",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_101": {
+    "id": "AGC_101",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_095": {
+    "id": "AGC_095",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_017": {
+    "id": "AGC_017",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_192": {
+    "id": "AGC_192",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_072": {
+    "id": "AGC_072",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_159": {
+    "id": "AGC_159",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_158": {
+    "id": "AGC_158",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_011": {
+    "id": "AGC_011",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_076": {
+    "id": "AGC_076",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_168": {
+    "id": "AGC_168",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_132": {
+    "id": "AGC_132",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_062": {
+    "id": "AGC_062",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_056": {
+    "id": "AGC_056",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_055": {
+    "id": "AGC_055",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_179": {
+    "id": "AGC_179",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_139": {
+    "id": "AGC_139",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_133": {
+    "id": "AGC_133",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_013": {
+    "id": "AGC_013",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_189": {
+    "id": "AGC_189",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_094": {
+    "id": "AGC_094",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_160": {
+    "id": "AGC_160",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_124": {
+    "id": "AGC_124",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_172": {
+    "id": "AGC_172",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_026": {
+    "id": "AGC_026",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_175": {
+    "id": "AGC_175",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_010": {
+    "id": "AGC_010",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_008": {
+    "id": "AGC_008",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_154": {
+    "id": "AGC_154",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_012": {
+    "id": "AGC_012",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_049": {
+    "id": "AGC_049",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_090": {
+    "id": "AGC_090",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_131": {
+    "id": "AGC_131",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_022": {
+    "id": "AGC_022",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_014": {
+    "id": "AGC_014",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_016": {
+    "id": "AGC_016",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_161": {
+    "id": "AGC_161",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_069": {
+    "id": "AGC_069",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_165": {
+    "id": "AGC_165",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_021": {
+    "id": "AGC_021",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_193": {
+    "id": "AGC_193",
+    "region": "pue-chignahuapan",
+    "geometry": null
+  },
+  "AGC_098": {
+    "id": "AGC_098",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_187": {
+    "id": "AGC_187",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_040": {
+    "id": "AGC_040",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_025": {
+    "id": "AGC_025",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_050": {
+    "id": "AGC_050",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_039": {
+    "id": "AGC_039",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_099": {
+    "id": "AGC_099",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_048": {
+    "id": "AGC_048",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_120": {
+    "id": "AGC_120",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_112": {
+    "id": "AGC_112",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_138": {
+    "id": "AGC_138",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_029": {
+    "id": "AGC_029",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_122": {
+    "id": "AGC_122",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_023": {
+    "id": "AGC_023",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_004": {
+    "id": "AGC_004",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_144": {
+    "id": "AGC_144",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_147": {
+    "id": "AGC_147",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_075": {
+    "id": "AGC_075",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_093": {
+    "id": "AGC_093",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_053": {
+    "id": "AGC_053",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_117": {
+    "id": "AGC_117",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_087": {
+    "id": "AGC_087",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_054": {
+    "id": "AGC_054",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_145": {
+    "id": "AGC_145",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_123": {
+    "id": "AGC_123",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_170": {
+    "id": "AGC_170",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_086": {
+    "id": "AGC_086",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_183": {
+    "id": "AGC_183",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_164": {
+    "id": "AGC_164",
+    "region": "hgo-apan",
+    "geometry": null
+  },
+  "AGC_173": {
+    "id": "AGC_173",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_027": {
+    "id": "AGC_027",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_169": {
+    "id": "AGC_169",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_163": {
+    "id": "AGC_163",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_157": {
+    "id": "AGC_157",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_141": {
+    "id": "AGC_141",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_061": {
+    "id": "AGC_061",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_066": {
+    "id": "AGC_066",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_068": {
+    "id": "AGC_068",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_071": {
+    "id": "AGC_071",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_037": {
+    "id": "AGC_037",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_058": {
+    "id": "AGC_058",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_114": {
+    "id": "AGC_114",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_074": {
+    "id": "AGC_074",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_019": {
+    "id": "AGC_019",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_103": {
+    "id": "AGC_103",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_046": {
+    "id": "AGC_046",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  },
+  "AGC_001": {
+    "id": "AGC_001",
+    "region": "tlx-poniente-calpulalpan",
+    "geometry": null
+  }
+}

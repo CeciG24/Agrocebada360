@@ -6,17 +6,13 @@ services:
     plan: free
     buildCommand: pip install -r api/requirements.txt -r ml/requirements-inference.txt -r ml/requirements-advanced.txt
     startCommand: uvicorn api.app.main:app --host 0.0.0.0 --port $PORT
-    disk:
-      name: cebada-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
       - key: CEBADA_MODE
         value: real
       - key: CEBADA_DATA
-        value: /data/data
+        value: data/deploy/data
       - key: CEBADA_DELIVERY
-        value: /data/delivery
+        value: data/deploy/delivery
       - key: CEBADA_LOG_LEVEL
         value: INFO
       - key: CEBADA_ALLOWED_ORIGINS

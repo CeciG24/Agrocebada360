@@ -1,0 +1,887 @@
+{
+  "AGC_003": {
+    "parcel_id": "AGC_003",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_011": {
+    "parcel_id": "AGC_011",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_016": {
+    "parcel_id": "AGC_016",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_025": {
+    "parcel_id": "AGC_025",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_027": {
+    "parcel_id": "AGC_027",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_028": {
+    "parcel_id": "AGC_028",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_029": {
+    "parcel_id": "AGC_029",
+    "status": "available",
+    "reason": null,
+    "level": "high",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Prioridad alta de revision. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_030": {
+    "parcel_id": "AGC_030",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_031": {
+    "parcel_id": "AGC_031",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_036": {
+    "parcel_id": "AGC_036",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_039": {
+    "parcel_id": "AGC_039",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_042": {
+    "parcel_id": "AGC_042",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_043": {
+    "parcel_id": "AGC_043",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_050": {
+    "parcel_id": "AGC_050",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_052": {
+    "parcel_id": "AGC_052",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_061": {
+    "parcel_id": "AGC_061",
+    "status": "available",
+    "reason": null,
+    "level": "high",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Prioridad alta de revision. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_063": {
+    "parcel_id": "AGC_063",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_065": {
+    "parcel_id": "AGC_065",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_071": {
+    "parcel_id": "AGC_071",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_075": {
+    "parcel_id": "AGC_075",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_076": {
+    "parcel_id": "AGC_076",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_082": {
+    "parcel_id": "AGC_082",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_085": {
+    "parcel_id": "AGC_085",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_086": {
+    "parcel_id": "AGC_086",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_087": {
+    "parcel_id": "AGC_087",
+    "status": "available",
+    "reason": null,
+    "level": "high",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Prioridad alta de revision. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_088": {
+    "parcel_id": "AGC_088",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_091": {
+    "parcel_id": "AGC_091",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_093": {
+    "parcel_id": "AGC_093",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_094": {
+    "parcel_id": "AGC_094",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_095": {
+    "parcel_id": "AGC_095",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_107": {
+    "parcel_id": "AGC_107",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_113": {
+    "parcel_id": "AGC_113",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_116": {
+    "parcel_id": "AGC_116",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_118": {
+    "parcel_id": "AGC_118",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_120": {
+    "parcel_id": "AGC_120",
+    "status": "available",
+    "reason": null,
+    "level": "high",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Prioridad alta de revision. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_126": {
+    "parcel_id": "AGC_126",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_128": {
+    "parcel_id": "AGC_128",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_129": {
+    "parcel_id": "AGC_129",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_130": {
+    "parcel_id": "AGC_130",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_136": {
+    "parcel_id": "AGC_136",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_142": {
+    "parcel_id": "AGC_142",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_143": {
+    "parcel_id": "AGC_143",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_147": {
+    "parcel_id": "AGC_147",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_149": {
+    "parcel_id": "AGC_149",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_153": {
+    "parcel_id": "AGC_153",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_154": {
+    "parcel_id": "AGC_154",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_156": {
+    "parcel_id": "AGC_156",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_158": {
+    "parcel_id": "AGC_158",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_173": {
+    "parcel_id": "AGC_173",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_174": {
+    "parcel_id": "AGC_174",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_175": {
+    "parcel_id": "AGC_175",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_177": {
+    "parcel_id": "AGC_177",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_182": {
+    "parcel_id": "AGC_182",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_183": {
+    "parcel_id": "AGC_183",
+    "status": "available",
+    "reason": null,
+    "level": "medium",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Revisar rendimiento estimado. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_186": {
+    "parcel_id": "AGC_186",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_188": {
+    "parcel_id": "AGC_188",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_190": {
+    "parcel_id": "AGC_190",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_191": {
+    "parcel_id": "AGC_191",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  },
+  "AGC_192": {
+    "parcel_id": "AGC_192",
+    "status": "available",
+    "reason": null,
+    "level": "low",
+    "method_version": "review-priority-adapter-v1",
+    "model_version": "yield-v1",
+    "description": "Sin alerta combinada. Prioridad operativa relativa al conjunto evaluado; no es una probabilidad de pérdida ni riesgo crediticio. Una alerta OOD no confirma un error predictivo; sin alerta combinada no significa ausencia de riesgo.",
+    "meta": {
+      "mode": "real",
+      "contract_version": "0.1.0",
+      "cycle": "2025-04/2025-10",
+      "data_cutoff": "2025-10-31"
+    }
+  }
+}

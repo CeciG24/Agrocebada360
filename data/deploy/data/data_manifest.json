@@ -1,0 +1,216 @@
+{
+  "layout_version": "layout-v1",
+  "created_utc": "2026-10-19T02:15:09Z",
+  "source": "data\\DATASET_RETO_AGRO_2026_LIMPIO_2.zip",
+  "mapping": [
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\climate_aggregates.csv",
+      "to": "clima/climate_aggregates.csv",
+      "sha256": "0771a37cff6a0d80519c313cccae64765cae81351eb1a6a3fa15e72dbd8a7544",
+      "bytes": 16113
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\climate_features.csv",
+      "to": "clima/climate_features.csv",
+      "sha256": "2adf1bfeb60b4e216d59c416c5166cb16643b3d18ccf8a5b42042bff444638b0",
+      "bytes": 111775
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\climate_timeseries.csv",
+      "to": "clima/climate_timeseries.csv",
+      "sha256": "74857141105ee9d96a6b053cfa5bb1c1535d980174043f4c982fd85e6c6643bb",
+      "bytes": 700296
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\features_master.csv",
+      "to": "features/features_master.csv",
+      "sha256": "59d74155556855231e1faadf4f6984970788da05b3d45a1179767c94fd4bffac",
+      "bytes": 509336
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\fenologia_features.csv",
+      "to": "features/fenologia_features.csv",
+      "sha256": "3610ec644046e096fb93fab29d5ae257fbb17190a1bf27bfebce3da349d56937",
+      "bytes": 39443
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\satellite_features.csv",
+      "to": "features/satellite_features.csv",
+      "sha256": "74696e742d3d0b6216c8bb28ec7420f9fdba5854e99f666378bc7e1ac086b24a",
+      "bytes": 366528
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\basico_temporal_normalizado.csv",
+      "to": "normalizado/basico_temporal_normalizado.csv",
+      "sha256": "09918f08827b4eb7a126c80a8426b307b42b0e1ed55fedbd2bbb67290d2e57ac",
+      "bytes": 35207103
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\pro_temporal_normalizado.csv",
+      "to": "normalizado/pro_temporal_normalizado.csv",
+      "sha256": "28eef3cd4bb3b9b0535b683134cf3e098e08c173c3748decafa09f0c18911c4e",
+      "bytes": 5654098
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\parcel_master.csv",
+      "to": "parcel_master.csv",
+      "sha256": "1213afe83a23b62cc330c7c377a2d930ac2fa25c90ddb87d81d9bc2a8fc363a3",
+      "bytes": 16689
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\climate_corte_agosto.csv",
+      "to": "prediccion_temprana/climate_corte_agosto.csv",
+      "sha256": "c793ef361df0412bc69bd32788d35950e70596931d0c6512da3b7f9777dd50f8",
+      "bytes": 58517
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\climate_corte_julio.csv",
+      "to": "prediccion_temprana/climate_corte_julio.csv",
+      "sha256": "85589e9b67fc5c9640cdf72e567e2ae399f7d371c3d421e15d6edb133547cbf2",
+      "bytes": 43984
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\climate_corte_junio.csv",
+      "to": "prediccion_temprana/climate_corte_junio.csv",
+      "sha256": "047b7a8c6b12bba2c5df39c37c109e9ef16a53d748f93a5248ba80bbaa30e533",
+      "bytes": 29420
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\climate_corte_octubre.csv",
+      "to": "prediccion_temprana/climate_corte_octubre.csv",
+      "sha256": "b14cd1e7777ed162e3a9738e1dff3aef989bbb3c3efe726c513d676f379d5b71",
+      "bytes": 87979
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\climate_corte_septiembre.csv",
+      "to": "prediccion_temprana/climate_corte_septiembre.csv",
+      "sha256": "6eec3324e9d6be07bc34f04af60c9ae8b071c04b36d12f4f62432b7319077fba",
+      "bytes": 73239
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\features_master_corte_agosto.csv",
+      "to": "prediccion_temprana/features/features_master_corte_agosto.csv",
+      "sha256": "e9966221dd77462f5f61ba5301ad36bb14e2cc19f047bb61b48c11ceb61266b3",
+      "bytes": 85702
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\features_master_corte_julio.csv",
+      "to": "prediccion_temprana/features/features_master_corte_julio.csv",
+      "sha256": "7aa083b2c407859f15a36749b49bf5defc82b97465cdde8ed83a305581d585ac",
+      "bytes": 84758
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\features_master_corte_junio.csv",
+      "to": "prediccion_temprana/features/features_master_corte_junio.csv",
+      "sha256": "9e8fefabc1d19a4c1fa43f45150f7db2032d232604f85ca6aee4cee41c99b4cd",
+      "bytes": 85366
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\features_master_corte_octubre.csv",
+      "to": "prediccion_temprana/features/features_master_corte_octubre.csv",
+      "sha256": "60526a5d53bd47e5f867013916468c766d92d6a31766829d248d4ea80fd53ac7",
+      "bytes": 84981
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\features_master_corte_septiembre.csv",
+      "to": "prediccion_temprana/features/features_master_corte_septiembre.csv",
+      "sha256": "38291e233ad1a3baa679c5173b262e8f916b88c8f645c6dfd54f7ed3fbcecbd5",
+      "bytes": 85249
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\sentinel2_corte_agosto.csv",
+      "to": "prediccion_temprana/sentinel2_corte_agosto.csv",
+      "sha256": "6138184add9bddeb3079183d5c083962b701ff17d112b02652d294cc70fff6da",
+      "bytes": 3409099
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\sentinel2_corte_julio.csv",
+      "to": "prediccion_temprana/sentinel2_corte_julio.csv",
+      "sha256": "3fc92d276696469d503bceea7d6930c96885f27401c36cd2778cbccc8ad6b468",
+      "bytes": 2654386
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\sentinel2_corte_junio.csv",
+      "to": "prediccion_temprana/sentinel2_corte_junio.csv",
+      "sha256": "c0304cf587c7139d9dc9a68250e348a82b4a965a916a87491e9ebc1cba14ad60",
+      "bytes": 1979494
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\sentinel2_corte_octubre.csv",
+      "to": "prediccion_temprana/sentinel2_corte_octubre.csv",
+      "sha256": "64a68d40e6f1a5019d8d93afab0e59e173dc61ccee981b0d01decc9c3ee1d28b",
+      "bytes": 4613964
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\sentinel2_corte_septiembre.csv",
+      "to": "prediccion_temprana/sentinel2_corte_septiembre.csv",
+      "sha256": "22a0d618add663ca4f1e331d295e4c93b7da50a3e104d54e3167bf3b6423b445",
+      "bytes": 3969247
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\landsat_timeseries.csv",
+      "to": "sensores/landsat_timeseries.csv",
+      "sha256": "60f14d61b98e2451357afd6b1f848e93b694aec35f6db4e128f8b81dc66a4d93",
+      "bytes": 7340469
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\planet_timeseries.csv",
+      "to": "sensores/planet_timeseries.csv",
+      "sha256": "11548dff91578e655b7f3270325f79bd7f59ad7bb98f22997a6bb5aae92c93eb",
+      "bytes": 5654095
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\sentinel2_timeseries.csv",
+      "to": "sensores/sentinel2_timeseries.csv",
+      "sha256": "d699a7861d1abcfaba8a76ac6e2a58322f8d653f98d735deac6c5d11b613a840",
+      "bytes": 27867669
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\targets\\rendimiento.csv",
+      "to": "targets/rendimiento.csv",
+      "sha256": "3253015e26c75ad4dbcf09672daa6e25396a37c0310e9ce8ff34e2fc52fff62e",
+      "bytes": 2294
+    },
+    {
+      "from": "DATASET_RETO_AGRO_2026_LIMPIO_2\\topography_master.csv",
+      "to": "topografia/topography_master.csv",
+      "sha256": "4546ee962d089c93959305d5e6315bae20266ac761f0f9870939caf740781721",
+      "bytes": 20368
+    }
+  ],
+  "ignored": [
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._basico_temporal_normalizado.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._climate_aggregates.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._climate_features.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._climate_timeseries.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._features_master.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._fenologia_features.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._parcel_master.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._pro_temporal_normalizado.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._satellite_features.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\._topography_master.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._climate_corte_agosto.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._climate_corte_julio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._climate_corte_junio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._climate_corte_octubre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._climate_corte_septiembre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._sentinel2_corte_agosto.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._sentinel2_corte_julio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._sentinel2_corte_junio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._sentinel2_corte_octubre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\._sentinel2_corte_septiembre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\._features_master_corte_agosto.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\._features_master_corte_julio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\._features_master_corte_junio.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\._features_master_corte_octubre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\prediccion_temprana\\features\\._features_master_corte_septiembre.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\._landsat_timeseries.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\._planet_timeseries.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\sensores\\._sentinel2_timeseries.csv",
+    "__MACOSX\\DATASET_RETO_AGRO_2026_LIMPIO_2\\targets\\._rendimiento.csv"
+  ],
+  "id_target_alias_note": "mapeo observado (audit-2026-10-14): ID_POLIGONO -> parcel_id; RENDIMIENTO_T_HA -> rendimiento_t_ha. Nombres oficiales PENDIENTES (§20).",
+  "source_sha256": "deb59f36535e52b5c39847d601c5fc5c6b7517beae2a80771cb22b0bf45b144b",
+  "source_bytes": 26370686,
+  "early_cut_matrices_missing": []
+}
