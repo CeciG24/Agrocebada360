@@ -1,2 +1,6 @@
-# Prevent line-ending conversion for data bundle files — SHA256 checks depend on exact bytes
-data/deploy/** text eol=lf
+# Data CSVs: fingerprint computed from LF bytes (ZIP extraction)
+data/deploy/data/** text eol=lf
+data/deploy/acceptance.json text eol=lf
+
+# Delivery files: SHA256 computed on Windows (CRLF) — preserve exact bytes
+data/deploy/delivery/** binary
