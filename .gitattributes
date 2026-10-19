@@ -1,0 +1,2 @@
+# Prevent line-ending conversion for data bundle files — SHA256 checks depend on exact bytes
+data/deploy/** binary
