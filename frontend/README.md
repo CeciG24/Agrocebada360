@@ -21,8 +21,8 @@ npm run dev
 ```
 
 Abrir `http://localhost:5173/`. `?demo=1` selecciona la demostración local;
-`?demo=0` consulta la API. El selector permite cambiar después. La API actual
-opera en **mock**: consultar la API no implica que sus predicciones sean reales.
+`?demo=0` consulta la API. El selector permite cambiar después. La API usa **mock** por defecto y permite **real** con una entrega validada; ver
+[configuración del backend](../api/README.md). Consultar la API no implica por sí solo que sus predicciones sean reales.
 La interfaz muestra el origen efectivo recibido en `meta.mode`.
 
 Vite reenvía únicamente las rutas públicas de la API a `http://127.0.0.1:8000`,
@@ -50,8 +50,8 @@ Preserva IDs como strings y codifica segmentos de URL. Listado y mapa comparten
 una consulta; las geometrías `null` no eliminan parcelas ni se sustituyen por
 polígonos inventados. Solo la demostración local genera geometrías sintéticas.
 
-La API actual aún no implementa explicaciones, riesgo ni resúmenes regionales.
-Sus errores se muestran por `error.code`; no se completa con datos demo. Una
+La API implementa explicaciones, riesgo y resúmenes regionales cuando la entrega
+validada incorpora esos módulos. Sus errores se muestran por `error.code`; no se completa con datos demo. Una
 predicción no disponible se representa con `null` y un aviso, nunca con cero.
 Las respuestas de dominio validan `meta`, ciclo, corte y campos principales;
 el detalle rechaza mezclar orígenes o explicaciones/riesgo de otra versión de
@@ -62,8 +62,10 @@ sin recalcularla ni asumir municipios, superficie o producción. Mantiene los
 grupos con cobertura cero o errores y señala parcelas sin región.
 
 El contrato no define rutas de vecinos, cortes tempranos, métricas o resumen
-global. En modo API esas funciones devuelven estados de no disponibilidad sin
-realizar HTTP. La demostración mantiene sus ejemplos separados y etiquetados.
+global. Vecinos, cortes y resumen global conservan ausencia explícita. Las métricas
+usan una ficha versionada del frontend, contrastada mediante una predicción en
+la ruta existente `/predict/{id}`; no se añade una ruta de métricas. La demostración
+mantiene sus ejemplos separados y etiquetados.
 El selector de cortes solo aparece cuando la fuente entrega cortes; los SHAP,
 riesgo e intervalos del cierre no se reutilizan como resultados de otro corte.
 
@@ -111,3 +113,20 @@ Se comprobaron Dashboard, Regional, Modelo y Acerca de en modo API mock y
 demo local, con escritorio y ancho móvil de 390 px, sin errores de JavaScript
 ni desbordamiento horizontal. Se conservan controles nativos de teclado,
 foco visible, texto además de color y respeto a movimiento reducido.
+
+## Página Modelo con evidencia verificada
+
+`/modelo?demo=0` muestra métricas de validación interna, 138 pares OOF, metodología,
+importancia SHAP de las 30 variables climáticas, fuentes y limitaciones.
+La ficha se regenera desde la raíz con
+`python scripts/build_model_evidence.py --data-root data/integrated/verified-2026-10-17/data`.
+Ver [fuentes, comprobación con la API y alcance](../docs/model-view.md).
+
+La ficha no se muestra si la API sirve otro modelo/contexto o una predicción de
+referencia incompatible. Una API mock no recibe métricas reales. El hash del
+modelo documentado queda en la ficha; el contrato HTTP no permite certificar
+esa identidad binaria a través de una consulta.
+
+Verificación de esta integración: 25 pruebas frontend, cuatro del generador,
+lint/build y Chrome escritorio/móvil de 390 px, con separación de demo y rechazo
+de otra versión de modelo.

@@ -1,0 +1,1157 @@
+{
+  "format_version": "model-evidence-v1",
+  "modelo_oficial": "Ridge · variables climáticas",
+  "model_version": "yield-v1",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "data_version": "sha256:b045a212af57282a",
+  "n_train": 138,
+  "n_evaluation": 59,
+  "n_features": 30,
+  "rmse": 0.514672258022233,
+  "mae": 0.3560961583385179,
+  "r2": 0.6316622491734689,
+  "cv_aleatoria": {
+    "rmse": 0.514672258022233,
+    "r2": 0.6316622491734689,
+    "folds": 5,
+    "repeats": 10,
+    "seed": 42,
+    "method": "KFold con mezcla: 5 folds × 10 repeticiones. Métricas medias por repetición."
+  },
+  "cv_espacial": {
+    "rmse": 0.6995342420901589,
+    "r2": 0.3196173031056314,
+    "method": "GroupKFold: 5 folds sobre 6 grupos KMeans de centroides. Diagnóstico de generalización geográfica; no reproduce el muestreo oficial."
+  },
+  "oof": {
+    "points": [
+      {
+        "parcel_id": "AGC_001",
+        "observed": 3.5,
+        "predicted": 2.92507321734273
+      },
+      {
+        "parcel_id": "AGC_002",
+        "observed": 4.63,
+        "predicted": 4.377502569112601
+      },
+      {
+        "parcel_id": "AGC_004",
+        "observed": 3.0,
+        "predicted": 2.9552004017640003
+      },
+      {
+        "parcel_id": "AGC_005",
+        "observed": 5.16,
+        "predicted": 4.5871044955576785
+      },
+      {
+        "parcel_id": "AGC_006",
+        "observed": 4.49,
+        "predicted": 4.62773359228014
+      },
+      {
+        "parcel_id": "AGC_007",
+        "observed": 3.5,
+        "predicted": 3.027181408155117
+      },
+      {
+        "parcel_id": "AGC_008",
+        "observed": 4.55,
+        "predicted": 4.359573355273681
+      },
+      {
+        "parcel_id": "AGC_009",
+        "observed": 4.79,
+        "predicted": 4.240228086103552
+      },
+      {
+        "parcel_id": "AGC_010",
+        "observed": 4.1,
+        "predicted": 4.346400484023223
+      },
+      {
+        "parcel_id": "AGC_012",
+        "observed": 4.69,
+        "predicted": 4.605726566269135
+      },
+      {
+        "parcel_id": "AGC_013",
+        "observed": 4.01,
+        "predicted": 4.604008197780798
+      },
+      {
+        "parcel_id": "AGC_014",
+        "observed": 4.83,
+        "predicted": 4.281002033500057
+      },
+      {
+        "parcel_id": "AGC_015",
+        "observed": 2.64,
+        "predicted": 4.657101377034912
+      },
+      {
+        "parcel_id": "AGC_017",
+        "observed": 4.98,
+        "predicted": 4.598945595681373
+      },
+      {
+        "parcel_id": "AGC_018",
+        "observed": 4.49,
+        "predicted": 4.3682564003200195
+      },
+      {
+        "parcel_id": "AGC_019",
+        "observed": 3.0,
+        "predicted": 2.9844806433665294
+      },
+      {
+        "parcel_id": "AGC_020",
+        "observed": 3.5,
+        "predicted": 3.318391915954595
+      },
+      {
+        "parcel_id": "AGC_021",
+        "observed": 4.94,
+        "predicted": 4.599085472126409
+      },
+      {
+        "parcel_id": "AGC_022",
+        "observed": 4.55,
+        "predicted": 4.3543676405215885
+      },
+      {
+        "parcel_id": "AGC_023",
+        "observed": 3.0,
+        "predicted": 3.218206233634046
+      },
+      {
+        "parcel_id": "AGC_024",
+        "observed": 3.03,
+        "predicted": 4.375232311936712
+      },
+      {
+        "parcel_id": "AGC_026",
+        "observed": 3.55,
+        "predicted": 4.655434992570927
+      },
+      {
+        "parcel_id": "AGC_032",
+        "observed": 4.03,
+        "predicted": 4.365175850987455
+      },
+      {
+        "parcel_id": "AGC_033",
+        "observed": 4.47,
+        "predicted": 4.629414092948963
+      },
+      {
+        "parcel_id": "AGC_034",
+        "observed": 2.0,
+        "predicted": 3.327608177151054
+      },
+      {
+        "parcel_id": "AGC_035",
+        "observed": 4.68,
+        "predicted": 3.662225648869756
+      },
+      {
+        "parcel_id": "AGC_037",
+        "observed": 3.5,
+        "predicted": 2.9416511689324314
+      },
+      {
+        "parcel_id": "AGC_038",
+        "observed": 3.3,
+        "predicted": 3.2623561331224122
+      },
+      {
+        "parcel_id": "AGC_040",
+        "observed": 3.0,
+        "predicted": 2.9557627192390603
+      },
+      {
+        "parcel_id": "AGC_041",
+        "observed": 2.5,
+        "predicted": 3.5972012872151624
+      },
+      {
+        "parcel_id": "AGC_044",
+        "observed": 3.5,
+        "predicted": 3.3662955922540796
+      },
+      {
+        "parcel_id": "AGC_045",
+        "observed": 4.1,
+        "predicted": 4.373367164109894
+      },
+      {
+        "parcel_id": "AGC_046",
+        "observed": 3.0,
+        "predicted": 2.9898497658444905
+      },
+      {
+        "parcel_id": "AGC_047",
+        "observed": 4.45,
+        "predicted": 3.987100063839729
+      },
+      {
+        "parcel_id": "AGC_048",
+        "observed": 2.5,
+        "predicted": 2.99724204573853
+      },
+      {
+        "parcel_id": "AGC_049",
+        "observed": 5.53,
+        "predicted": 4.587435704599214
+      },
+      {
+        "parcel_id": "AGC_051",
+        "observed": 4.45,
+        "predicted": 4.376809679838622
+      },
+      {
+        "parcel_id": "AGC_053",
+        "observed": 3.5,
+        "predicted": 2.931512286567046
+      },
+      {
+        "parcel_id": "AGC_054",
+        "observed": 2.5,
+        "predicted": 2.806789976073441
+      },
+      {
+        "parcel_id": "AGC_055",
+        "observed": 5.45,
+        "predicted": 4.59569539920692
+      },
+      {
+        "parcel_id": "AGC_056",
+        "observed": 5.07,
+        "predicted": 4.601827659283693
+      },
+      {
+        "parcel_id": "AGC_057",
+        "observed": 4.55,
+        "predicted": 4.614212742106408
+      },
+      {
+        "parcel_id": "AGC_058",
+        "observed": 2.5,
+        "predicted": 2.963097713267364
+      },
+      {
+        "parcel_id": "AGC_059",
+        "observed": 4.41,
+        "predicted": 4.711267041602637
+      },
+      {
+        "parcel_id": "AGC_060",
+        "observed": 4.52,
+        "predicted": 4.37470530488412
+      },
+      {
+        "parcel_id": "AGC_062",
+        "observed": 3.81,
+        "predicted": 4.377203574636538
+      },
+      {
+        "parcel_id": "AGC_064",
+        "observed": 4.51,
+        "predicted": 4.3062640541072605
+      },
+      {
+        "parcel_id": "AGC_066",
+        "observed": 3.0,
+        "predicted": 2.948438381683892
+      },
+      {
+        "parcel_id": "AGC_067",
+        "observed": 3.0,
+        "predicted": 3.3833890718139266
+      },
+      {
+        "parcel_id": "AGC_068",
+        "observed": 2.5,
+        "predicted": 2.9799997754728667
+      },
+      {
+        "parcel_id": "AGC_069",
+        "observed": 5.46,
+        "predicted": 4.5720131991463235
+      },
+      {
+        "parcel_id": "AGC_070",
+        "observed": 3.3,
+        "predicted": 3.242582378600877
+      },
+      {
+        "parcel_id": "AGC_072",
+        "observed": 4.55,
+        "predicted": 4.588872731593
+      },
+      {
+        "parcel_id": "AGC_073",
+        "observed": 4.3,
+        "predicted": 4.332984523102401
+      },
+      {
+        "parcel_id": "AGC_074",
+        "observed": 2.5,
+        "predicted": 3.2264944729768223
+      },
+      {
+        "parcel_id": "AGC_077",
+        "observed": 4.76,
+        "predicted": 4.350710925437309
+      },
+      {
+        "parcel_id": "AGC_078",
+        "observed": 3.0,
+        "predicted": 3.115750548740555
+      },
+      {
+        "parcel_id": "AGC_079",
+        "observed": 3.3,
+        "predicted": 3.2140072007533407
+      },
+      {
+        "parcel_id": "AGC_080",
+        "observed": 3.5,
+        "predicted": 3.0176765663832845
+      },
+      {
+        "parcel_id": "AGC_081",
+        "observed": 3.7,
+        "predicted": 3.155962702837034
+      },
+      {
+        "parcel_id": "AGC_083",
+        "observed": 4.61,
+        "predicted": 4.34943939340745
+      },
+      {
+        "parcel_id": "AGC_084",
+        "observed": 4.54,
+        "predicted": 4.681376350267849
+      },
+      {
+        "parcel_id": "AGC_089",
+        "observed": 3.0,
+        "predicted": 3.0811744680860924
+      },
+      {
+        "parcel_id": "AGC_090",
+        "observed": 4.68,
+        "predicted": 4.3527020370411575
+      },
+      {
+        "parcel_id": "AGC_092",
+        "observed": 4.57,
+        "predicted": 4.62950080112096
+      },
+      {
+        "parcel_id": "AGC_096",
+        "observed": 4.59,
+        "predicted": 4.349230570319029
+      },
+      {
+        "parcel_id": "AGC_097",
+        "observed": 4.69,
+        "predicted": 4.607452655612823
+      },
+      {
+        "parcel_id": "AGC_098",
+        "observed": 3.0,
+        "predicted": 2.9845003349574006
+      },
+      {
+        "parcel_id": "AGC_099",
+        "observed": 3.5,
+        "predicted": 2.954242261081263
+      },
+      {
+        "parcel_id": "AGC_100",
+        "observed": 4.5,
+        "predicted": 4.323500965994386
+      },
+      {
+        "parcel_id": "AGC_101",
+        "observed": 4.57,
+        "predicted": 4.370342476783575
+      },
+      {
+        "parcel_id": "AGC_102",
+        "observed": 4.4,
+        "predicted": 4.367322571985829
+      },
+      {
+        "parcel_id": "AGC_103",
+        "observed": 3.0,
+        "predicted": 2.974097879459131
+      },
+      {
+        "parcel_id": "AGC_104",
+        "observed": 4.56,
+        "predicted": 4.350361860353545
+      },
+      {
+        "parcel_id": "AGC_105",
+        "observed": 4.41,
+        "predicted": 4.364636862660716
+      },
+      {
+        "parcel_id": "AGC_106",
+        "observed": 4.43,
+        "predicted": 4.356862094814982
+      },
+      {
+        "parcel_id": "AGC_108",
+        "observed": 4.51,
+        "predicted": 4.640036314151549
+      },
+      {
+        "parcel_id": "AGC_109",
+        "observed": 4.54,
+        "predicted": 4.631938757457476
+      },
+      {
+        "parcel_id": "AGC_110",
+        "observed": 4.18,
+        "predicted": 4.345011872003882
+      },
+      {
+        "parcel_id": "AGC_111",
+        "observed": 4.72,
+        "predicted": 4.623114024149767
+      },
+      {
+        "parcel_id": "AGC_112",
+        "observed": 3.0,
+        "predicted": 2.9680996261886943
+      },
+      {
+        "parcel_id": "AGC_114",
+        "observed": 3.0,
+        "predicted": 2.9638775917697364
+      },
+      {
+        "parcel_id": "AGC_115",
+        "observed": 4.6,
+        "predicted": 4.3339553335424625
+      },
+      {
+        "parcel_id": "AGC_117",
+        "observed": 3.5,
+        "predicted": 2.941966258157331
+      },
+      {
+        "parcel_id": "AGC_119",
+        "observed": 4.4,
+        "predicted": 4.306784217217098
+      },
+      {
+        "parcel_id": "AGC_121",
+        "observed": 3.3,
+        "predicted": 3.0544917782933503
+      },
+      {
+        "parcel_id": "AGC_122",
+        "observed": 3.5,
+        "predicted": 2.940880176833491
+      },
+      {
+        "parcel_id": "AGC_123",
+        "observed": 2.5,
+        "predicted": 2.999643930214993
+      },
+      {
+        "parcel_id": "AGC_124",
+        "observed": 5.05,
+        "predicted": 4.585547834729793
+      },
+      {
+        "parcel_id": "AGC_125",
+        "observed": 4.06,
+        "predicted": 4.35337847795878
+      },
+      {
+        "parcel_id": "AGC_127",
+        "observed": 5.57,
+        "predicted": 4.367208682234692
+      },
+      {
+        "parcel_id": "AGC_131",
+        "observed": 4.89,
+        "predicted": 4.3486395949116305
+      },
+      {
+        "parcel_id": "AGC_132",
+        "observed": 4.13,
+        "predicted": 4.631894388794964
+      },
+      {
+        "parcel_id": "AGC_133",
+        "observed": 3.91,
+        "predicted": 4.630826933721983
+      },
+      {
+        "parcel_id": "AGC_134",
+        "observed": 4.52,
+        "predicted": 4.313737577102946
+      },
+      {
+        "parcel_id": "AGC_135",
+        "observed": 4.49,
+        "predicted": 4.624696830270252
+      },
+      {
+        "parcel_id": "AGC_137",
+        "observed": 4.54,
+        "predicted": 4.681238671909164
+      },
+      {
+        "parcel_id": "AGC_138",
+        "observed": 2.5,
+        "predicted": 2.9781173959024443
+      },
+      {
+        "parcel_id": "AGC_139",
+        "observed": 4.67,
+        "predicted": 4.343413975983665
+      },
+      {
+        "parcel_id": "AGC_140",
+        "observed": 3.2,
+        "predicted": 3.076699746542103
+      },
+      {
+        "parcel_id": "AGC_141",
+        "observed": 3.5,
+        "predicted": 2.959115304730027
+      },
+      {
+        "parcel_id": "AGC_144",
+        "observed": 2.5,
+        "predicted": 2.9661691481469017
+      },
+      {
+        "parcel_id": "AGC_145",
+        "observed": 3.5,
+        "predicted": 2.983796458198177
+      },
+      {
+        "parcel_id": "AGC_146",
+        "observed": 4.58,
+        "predicted": 4.334116056163637
+      },
+      {
+        "parcel_id": "AGC_148",
+        "observed": 3.0,
+        "predicted": 3.088839042810496
+      },
+      {
+        "parcel_id": "AGC_150",
+        "observed": 4.52,
+        "predicted": 4.607414453969061
+      },
+      {
+        "parcel_id": "AGC_151",
+        "observed": 4.69,
+        "predicted": 4.661729430747277
+      },
+      {
+        "parcel_id": "AGC_152",
+        "observed": 4.87,
+        "predicted": 4.645506946749255
+      },
+      {
+        "parcel_id": "AGC_155",
+        "observed": 4.52,
+        "predicted": 4.621228620002523
+      },
+      {
+        "parcel_id": "AGC_157",
+        "observed": 3.0,
+        "predicted": 2.9388444481484886
+      },
+      {
+        "parcel_id": "AGC_159",
+        "observed": 4.77,
+        "predicted": 4.598902264923207
+      },
+      {
+        "parcel_id": "AGC_160",
+        "observed": 3.62,
+        "predicted": 4.647006486671676
+      },
+      {
+        "parcel_id": "AGC_161",
+        "observed": 4.46,
+        "predicted": 4.576121133677918
+      },
+      {
+        "parcel_id": "AGC_162",
+        "observed": 5.59,
+        "predicted": 4.606083460826953
+      },
+      {
+        "parcel_id": "AGC_163",
+        "observed": 3.0,
+        "predicted": 2.961246572116672
+      },
+      {
+        "parcel_id": "AGC_164",
+        "observed": 3.0,
+        "predicted": 3.216739716321998
+      },
+      {
+        "parcel_id": "AGC_165",
+        "observed": 4.44,
+        "predicted": 4.624652113438735
+      },
+      {
+        "parcel_id": "AGC_166",
+        "observed": 2.5,
+        "predicted": 3.58729366810976
+      },
+      {
+        "parcel_id": "AGC_167",
+        "observed": 4.54,
+        "predicted": 4.609345722121992
+      },
+      {
+        "parcel_id": "AGC_168",
+        "observed": 4.49,
+        "predicted": 4.352205501851043
+      },
+      {
+        "parcel_id": "AGC_169",
+        "observed": 2.5,
+        "predicted": 2.965412947654669
+      },
+      {
+        "parcel_id": "AGC_170",
+        "observed": 3.0,
+        "predicted": 3.224370163752403
+      },
+      {
+        "parcel_id": "AGC_171",
+        "observed": 2.15,
+        "predicted": 4.4065825823247415
+      },
+      {
+        "parcel_id": "AGC_172",
+        "observed": 5.19,
+        "predicted": 4.595972725098903
+      },
+      {
+        "parcel_id": "AGC_176",
+        "observed": 4.38,
+        "predicted": 4.382448940335615
+      },
+      {
+        "parcel_id": "AGC_178",
+        "observed": 4.39,
+        "predicted": 4.364416474124441
+      },
+      {
+        "parcel_id": "AGC_179",
+        "observed": 4.55,
+        "predicted": 4.631240214144606
+      },
+      {
+        "parcel_id": "AGC_180",
+        "observed": 4.14,
+        "predicted": 4.111293550410901
+      },
+      {
+        "parcel_id": "AGC_181",
+        "observed": 4.51,
+        "predicted": 4.367927191115879
+      },
+      {
+        "parcel_id": "AGC_184",
+        "observed": 4.47,
+        "predicted": 4.299560722436328
+      },
+      {
+        "parcel_id": "AGC_185",
+        "observed": 5.01,
+        "predicted": 4.3437872396497985
+      },
+      {
+        "parcel_id": "AGC_187",
+        "observed": 3.0,
+        "predicted": 3.379021998588332
+      },
+      {
+        "parcel_id": "AGC_189",
+        "observed": 4.03,
+        "predicted": 4.345437067822861
+      },
+      {
+        "parcel_id": "AGC_193",
+        "observed": 4.57,
+        "predicted": 4.349300853338383
+      },
+      {
+        "parcel_id": "AGC_194",
+        "observed": 3.2,
+        "predicted": 3.2185254648184505
+      },
+      {
+        "parcel_id": "AGC_195",
+        "observed": 3.68,
+        "predicted": 4.390393686928173
+      },
+      {
+        "parcel_id": "AGC_196",
+        "observed": 3.5,
+        "predicted": 3.3726596253701353
+      },
+      {
+        "parcel_id": "AGC_197",
+        "observed": 4.52,
+        "predicted": 4.3711460352877225
+      }
+    ],
+    "method": "Predicción fuera de fold por parcela, promediada entre las 10 repeticiones.",
+    "note": "Las tarjetas muestran métricas medias por repetición; no se recalculan desde estos puntos promediados."
+  },
+  "features": [
+    {
+      "feature": "precip_mean_mm_2025",
+      "friendly_name": "Precipitación mensual media · abr–oct 2025",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.2864783022083385
+    },
+    {
+      "feature": "precip_total_mm_2025",
+      "friendly_name": "Precipitación acumulada · abr–oct 2025",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.2864783022082976
+    },
+    {
+      "feature": "precip_mean_mm_2023",
+      "friendly_name": "Precipitación mensual media · 2023",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.2446147306172278
+    },
+    {
+      "feature": "precip_total_mm_2023",
+      "friendly_name": "Precipitación acumulada · 2023",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.24461473061722383
+    },
+    {
+      "feature": "amplitud_termica_std_c_2023",
+      "friendly_name": "Variabilidad de amplitud térmica · 2023",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.14420211803962693
+    },
+    {
+      "feature": "tmax_mean_c_2023",
+      "friendly_name": "Temperatura máxima media · 2023",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.0956518714725957
+    },
+    {
+      "feature": "tmax_mean_c_2022",
+      "friendly_name": "Temperatura máxima media · 2022",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.08034948265615227
+    },
+    {
+      "feature": "amplitud_termica_std_c_2024",
+      "friendly_name": "Variabilidad de amplitud térmica · 2024",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.06868591286508005
+    },
+    {
+      "feature": "precip_total_mm_2024",
+      "friendly_name": "Precipitación acumulada · 2024",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.06288862259064577
+    },
+    {
+      "feature": "precip_mean_mm_2024",
+      "friendly_name": "Precipitación mensual media · 2024",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.06288862259064541
+    },
+    {
+      "feature": "precip_mean_mm_2022",
+      "friendly_name": "Precipitación mensual media · 2022",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.06047397439040011
+    },
+    {
+      "feature": "precip_total_mm_2022",
+      "friendly_name": "Precipitación acumulada · 2022",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.06047397439030134
+    },
+    {
+      "feature": "tmax_mean_c_2022_2025",
+      "friendly_name": "Temperatura máxima media · histórico + ciclo 2025",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.0603597170750731
+    },
+    {
+      "feature": "amplitud_termica_std_c_2022",
+      "friendly_name": "Variabilidad de amplitud térmica · 2022",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.058507488057886074
+    },
+    {
+      "feature": "precip_total_mm_2022_2025",
+      "friendly_name": "Precipitación acumulada · histórico + ciclo 2025",
+      "definition": "Suma de la precipitación mensual disponible; no es una media anual.",
+      "variable_unit": "mm",
+      "transformation": "sum(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.05376037125287729
+    },
+    {
+      "feature": "precip_mean_mm_2022_2025",
+      "friendly_name": "Precipitación mensual media · histórico + ciclo 2025",
+      "definition": "Promedio de la precipitación de los meses disponibles, con el mismo peso por mes.",
+      "variable_unit": "mm",
+      "transformation": "mean(precip_mm)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.053760371252856515
+    },
+    {
+      "feature": "amplitud_termica_mean_c_2023",
+      "friendly_name": "Amplitud térmica media · 2023",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.04964175365487551
+    },
+    {
+      "feature": "tmax_mean_c_2025",
+      "friendly_name": "Temperatura máxima media · abr–oct 2025",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.027589298908545508
+    },
+    {
+      "feature": "tmax_mean_c_2024",
+      "friendly_name": "Temperatura máxima media · 2024",
+      "definition": "Promedio de los valores mensuales de temperatura máxima; no es la máxima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.027352281932100528
+    },
+    {
+      "feature": "amplitud_termica_mean_c_2022",
+      "friendly_name": "Amplitud térmica media · 2022",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.026598159968694867
+    },
+    {
+      "feature": "amplitud_termica_mean_c_2022_2025",
+      "friendly_name": "Amplitud térmica media · histórico + ciclo 2025",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.022894558907406548
+    },
+    {
+      "feature": "amplitud_termica_std_c_2025",
+      "friendly_name": "Variabilidad de amplitud térmica · abr–oct 2025",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.019444322069657877
+    },
+    {
+      "feature": "amplitud_termica_std_c_2022_2025",
+      "friendly_name": "Variabilidad de amplitud térmica · histórico + ciclo 2025",
+      "definition": "Desviación estándar muestral entre meses de la amplitud térmica; no es incertidumbre del modelo.",
+      "variable_unit": "°C",
+      "transformation": "std(tmax_c - tmin_c, ddof=1)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.01748729923667464
+    },
+    {
+      "feature": "tmin_mean_c_2023",
+      "friendly_name": "Temperatura mínima media · 2023",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2023-01-01",
+      "temporal_end": "2023-12-31",
+      "temporal_window": "Meses disponibles de 2023.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.011700782967143903
+    },
+    {
+      "feature": "tmin_mean_c_2022",
+      "friendly_name": "Temperatura mínima media · 2022",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2022-12-31",
+      "temporal_window": "Meses disponibles de 2022.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.011533352749432714
+    },
+    {
+      "feature": "amplitud_termica_mean_c_2025",
+      "friendly_name": "Amplitud térmica media · abr–oct 2025",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.008123837246645612
+    },
+    {
+      "feature": "tmin_mean_c_2024",
+      "friendly_name": "Temperatura mínima media · 2024",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.0069113019835131415
+    },
+    {
+      "feature": "tmin_mean_c_2022_2025",
+      "friendly_name": "Temperatura mínima media · histórico + ciclo 2025",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2022-01-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Meses disponibles de 2022–2024 y abril–octubre de 2025. Excluye enero–marzo de 2025; no es una media de medias anuales.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.0028371219053341707
+    },
+    {
+      "feature": "tmin_mean_c_2025",
+      "friendly_name": "Temperatura mínima media · abr–oct 2025",
+      "definition": "Promedio de los valores mensuales de temperatura mínima; no es la mínima absoluta del periodo.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmin_c)",
+      "temporal_start": "2025-04-01",
+      "temporal_end": "2025-10-31",
+      "temporal_window": "Ciclo abril–octubre de 2025; excluye enero–marzo y noviembre–diciembre.",
+      "uses_historical_information": false,
+      "historical_context": null,
+      "mean_abs_shap": 0.001487431037625622
+    },
+    {
+      "feature": "amplitud_termica_mean_c_2024",
+      "friendly_name": "Amplitud térmica media · 2024",
+      "definition": "Promedio mensual de la diferencia entre temperatura máxima y mínima.",
+      "variable_unit": "°C",
+      "transformation": "mean(tmax_c - tmin_c)",
+      "temporal_start": "2024-01-01",
+      "temporal_end": "2024-12-31",
+      "temporal_window": "Meses disponibles de 2024.",
+      "uses_historical_information": true,
+      "historical_context": "Contexto ambiental; no implica que hubiera cebada en esos años.",
+      "mean_abs_shap": 0.0008919149643330959
+    }
+  ],
+  "shap_population": 59,
+  "sources": [
+    {
+      "name": "Series climáticas del dataset del reto",
+      "path": "clima/climate_timeseries.csv",
+      "window": "2022–2024 y abril–octubre de 2025",
+      "transformation": "Agregados de precipitación, temperaturas y amplitud térmica por P1.9.",
+      "note": "El histórico es contexto ambiental; no implica cultivo de cebada en esos años."
+    }
+  ],
+  "limitations": [
+    "Validación interna; no es la calificación sobre el conjunto oculto de FIRA.",
+    "El error espacial es mayor: la generalización geográfica es una limitación.",
+    "La selección usa esta evidencia de validación; no constituye una evaluación externa independiente.",
+    "Las variables correlacionadas pueden compartir importancia SHAP; sus efectos no son causales.",
+    "El modelo final usa clima; satélites y topografía se exploraron, pero no son entradas de yield-v1."
+  ],
+  "reference_prediction": {
+    "parcel_id": "AGC_003",
+    "prediction": 3.2101763931190157,
+    "unit": "t/ha",
+    "model_version": "yield-v1"
+  },
+  "meta": {
+    "mode": "real",
+    "contract_version": "0.1.0",
+    "cycle": "2025-04/2025-10",
+    "data_cutoff": "2025-10-31"
+  },
+  "provenance": {
+    "ml/models/feature_schema.json": "4b114d753bedb313036607aa180d3d7c374ecd14d5860a3353af3b0089bff3d0",
+    "ml/results/final_model_config.json": "cd65e57968342ea474f107ce1ff20dc507f79287463b24d2ec07d2c2c4fc71d8",
+    "ml/results/leaderboard.csv": "554617e486ec656003129a37d2de64b20e2be273f457b9495cc929156c5b3964",
+    "ml/results/leaderboard_meta.json": "3aa4576ec70e6566ed455095945f13ff642ae7ccae3a4743ad51ebee997933e9",
+    "ml/results/oof/E4_clima__ridge.csv": "764a6b191b2d781c02d957041d8cf467f63255a09a9f7a06c05ee1bf9d872c52",
+    "ml/src/cv.py": "472efb583ab86a97d6369fd056a914d8bd62397149362b9f449a811a1582e9ac",
+    "ml/src/config.py": "a8d46f9692a965a7c8a8820532ecc0d21a85ca27583dcd7d4c643d34eb708775",
+    "ml/src/data.py": "a43d04db6c34b367e5d08690e4b8d7d9343016570018ba0e5ff4ae063e76a8b5",
+    "api/app/catalogs/feature_labels.json": "ebf4ed420a84973171a7b1a30faf51531ad5ba95dfdd594ad1e4c22cf479ca30",
+    "ml/results/rol3/shap_yield_v1/shap_metadata_yield_v1.json": "ff547988654fb681c98a5eda1069d354d1d8aa28cc0a0a4cf1c8044fa5f3266b",
+    "ml/results/rol3/shap_yield_v1/shap_valores_yield_v1.csv": "8deea3ce43f50aab1af013a4737c63d449b4114f231a2b83d24c0691c5af1198",
+    "ml/results/rol3/shap_yield_v1/shap_importancia_yield_v1.csv": "bcff6fae80523dddf3af4cbd3359a2339ca0ec21ecb1adcab5880b55fd4c0afe"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "model": "yield-v1",
+  "oofPoints": 138,
+  "features": 30,
+  "metrics": [
+    "0.5147",
+    "0.3561",
+    "0.6317",
+    "0.6995"
+  ],
+  "mobileWidth": 390,
+  "noOverflow": true,
+  "mismatchRejected": true,
+  "mockSeparated": true,
+  "errors": [],
+  "frontendTestsPassed": 25,
+  "pythonEvidenceTestsPassed": 4,
+  "evidenceSha256": "93e99e2eae5bf17bb2585a56a36a7db46a924ee516f3ab6d3b40b8a19712e4e0",
+  "lint": "passed",
+  "build": "passed",
+  "frontendUrl": "http://127.0.0.1:5173/modelo?demo=0"
+}

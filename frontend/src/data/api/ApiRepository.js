@@ -1,3 +1,4 @@
+import { verifyModelEvidence } from '../model/modelEvidence.js';
 import { assertMeta, assertParcel, assertPrediction, assertExplanation, assertRisk, assertRegion, sameContext } from './contract.js';
 
 const MESSAGES = {
@@ -14,6 +15,7 @@ const MESSAGES = {
   VALIDATION_ERROR: 'Los parámetros de consulta no son válidos.',
   NETWORK_ERROR: 'No se pudo conectar con la API.',
   INVALID_RESPONSE: 'La API devolvió una respuesta incompatible con el contrato.',
+  MODEL_EVIDENCE_MISMATCH: 'La ficha de validación no corresponde al modelo o contexto de la API activa.',
 };
 
 export class ApiError extends Error {
@@ -26,7 +28,7 @@ export class ApiError extends Error {
   }
 }
 
-export function createApiRepository({ baseUrl = '', fetchImpl = globalThis.fetch, onMeta = () => {} } = {}) {
+export function createApiRepository({ baseUrl = '', fetchImpl = globalThis.fetch, onMeta = () => {}, modelEvidence = null } = {}) {
   const base = baseUrl.replace(/\/$/, '');
   let catalogPromise;
   const details = new Map();
@@ -144,10 +146,18 @@ export function createApiRepository({ baseUrl = '', fetchImpl = globalThis.fetch
         avisos,
       };
     },
-    // API 0.1.0 no define vecinos, cortes, métricas ni un resumen global.
+    // La ficha de validación es un artefacto del frontend, contrastado mediante /predict; no añade endpoints.
     async getVecinos() { return []; },
     async getCortesTemporales() { return []; },
-    async getMetricasModelo() { return null; },
+    async getMetricasModelo() {
+      if (!modelEvidence) return null;
+      const ref = modelEvidence.reference_prediction;
+      if (!ref?.parcel_id) throw new ApiError('MODEL_EVIDENCE_MISMATCH');
+      const prediction = await checked(`/predict/${encodeURIComponent(ref.parcel_id)}`, assertPrediction);
+      if (prediction.meta.mode === 'mock') return null;
+      try { return verifyModelEvidence(modelEvidence, prediction); }
+      catch { throw new ApiError('MODEL_EVIDENCE_MISMATCH'); }
+    },
     async getResumenGlobal() { return null; },
     async getContextoMunicipal(id) {
       const parcel = await detail(id);

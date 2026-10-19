@@ -1,9 +1,11 @@
+import modelEvidence from './model/model-evidence.json';
 import { MockRepository } from './mock/MockRepository';
 import { createApiRepository } from './api/ApiRepository';
 import { useDemoStore } from '../store/demoStore';
 
 const ApiRepository = createApiRepository({
   baseUrl: import.meta.env.VITE_API_URL ?? '',
+  modelEvidence,
   onMeta: (apiMeta) => useDemoStore.setState({ apiMeta }),
 });
 
