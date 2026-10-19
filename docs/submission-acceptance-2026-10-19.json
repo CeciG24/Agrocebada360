@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "output": "submissions\\la_amariza_prediccion.csv",
+  "n_rows": 59,
+  "decimals": 4,
+  "unit": "t/ha",
+  "ids_source": "C:\\Users\\ceci_\\Documents\\Ing_ciencias_de_la_computacion\\Agrocebada\\ml\\split\\official_ids_v1.json",
+  "predictions_source": "C:\\Users\\ceci_\\Documents\\Ing_ciencias_de_la_computacion\\Agrocebada\\ml\\results\\predictions_raw.csv",
+  "output_sha256": "cfaee38e238af7a813c7f2fdc4955e45d45a5733dde98c7d4889c48eaffdc318",
+  "rendimiento_min": 2.7341,
+  "rendimiento_max": 4.6149
+}

@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-19T06:19:59.417Z",
+  "frontend": "https://agrocebada360.vercel.app",
+  "api": "https://agrocebada-api.onrender.com",
+  "status": "failed",
+  "routes": [
+    {
+      "api_region": "hgo-apan",
+      "parcels": 19,
+      "predicted": 4
+    },
+    {
+      "api_region": "hgo-tulancingo",
+      "parcels": 32,
+      "predicted": 11
+    },
+    {
+      "api_region": "pue-chignahuapan",
+      "parcels": 100,
+      "predicted": 29
+    },
+    {
+      "api_region": "tlx-poniente-calpulalpan",
+      "parcels": 46,
+      "predicted": 15
+    },
+    {
+      "frontend_route": "/",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    }
+  ],
+  "geometries": 197,
+  "predictions": 59,
+  "explanations": 59,
+  "risk_levels": {
+    "medium": 17,
+    "low": 38,
+    "high": 4
+  },
+  "error": "Direct route /regional\n\n404 !== 200\n"
+}

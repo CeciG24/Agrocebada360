@@ -1,0 +1,80 @@
+{
+  "checked_at": "2026-10-19T06:21:00.766Z",
+  "frontend": "http://127.0.0.1:5174",
+  "api": "https://agrocebada-api.onrender.com",
+  "status": "passed",
+  "routes": [
+    {
+      "api_region": "hgo-apan",
+      "parcels": 19,
+      "predicted": 4
+    },
+    {
+      "api_region": "hgo-tulancingo",
+      "parcels": 32,
+      "predicted": 11
+    },
+    {
+      "api_region": "pue-chignahuapan",
+      "parcels": 100,
+      "predicted": 29
+    },
+    {
+      "api_region": "tlx-poniente-calpulalpan",
+      "parcels": 46,
+      "predicted": 15
+    },
+    {
+      "frontend_route": "/",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    },
+    {
+      "frontend_route": "/regional",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    },
+    {
+      "frontend_route": "/modelo",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    },
+    {
+      "frontend_route": "/acerca",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    },
+    {
+      "frontend_route": "/parcela/AGC_029",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    },
+    {
+      "frontend_route": "/parcela/AGC_001",
+      "direct": 200,
+      "reload": true,
+      "mobile_width": 390,
+      "no_overflow": true
+    }
+  ],
+  "geometries": 197,
+  "predictions": 59,
+  "explanations": 59,
+  "risk_levels": {
+    "medium": 17,
+    "low": 38,
+    "high": 4
+  },
+  "mock_separated": true,
+  "browser_errors": []
+}
