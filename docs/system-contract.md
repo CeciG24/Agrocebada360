@@ -842,8 +842,8 @@ No cerrar estos valores por inferencia:
 - [ ] definición final de región;
 - [ ] CRS de los archivos geoespaciales oficiales;
 - [ ] columnas y orden del submission;
-- [ ] nombre exacto del archivo de submission;
-- [ ] canal/correo oficial de envío del CSV, si aplica;
+- [x] nombre exacto del archivo de submission: `nombre_del_equipo_prediccion.csv` (correo FIRA, 2026-10-18; ver `docs/additional/fira-instructions.txt`);
+- [x] canal/correo oficial de envío del CSV: `innovacion@fira.gob.mx` (correo FIRA, 2026-10-18; ver `docs/additional/fira-instructions.txt`);
 - [ ] esquema final de features;
 - [ ] política final de faltantes;
 - [ ] versión final del modelo;

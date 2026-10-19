@@ -14,6 +14,7 @@ catboost_info/
 .env
 .env.*
 !.env.example
+docs/additional
 
 # Frontend
 node_modules/
@@ -28,6 +29,8 @@ dist/
 /data/**
 !/data/.gitkeep
 !/data/README.md
+!/data/deploy/
+!/data/deploy/**
 *.pkl
 *.pickle
 

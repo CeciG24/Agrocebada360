@@ -1,0 +1,356 @@
+{
+  "AGC_003": {
+    "lower": 2.3221895922653406,
+    "upper": 4.098163193972692,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_011": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_016": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_025": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_027": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_028": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_029": {
+    "lower": 2.150328719275265,
+    "upper": 3.926302320982616,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_030": {
+    "lower": 2.200104968837197,
+    "upper": 3.976078570544548,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_031": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_036": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_039": {
+    "lower": 2.087124823157618,
+    "upper": 3.863098424864969,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_042": {
+    "lower": 2.3221895922653406,
+    "upper": 4.098163193972692,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_043": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_050": {
+    "lower": 2.087124823157618,
+    "upper": 3.863098424864969,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_052": {
+    "lower": 3.4229342486717407,
+    "upper": 5.198907850379092,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_061": {
+    "lower": 2.179895871989263,
+    "upper": 3.9558694736966142,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_063": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_065": {
+    "lower": 3.517152492738518,
+    "upper": 5.293126094445869,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_071": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_075": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_076": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_082": {
+    "lower": 3.4364458113565464,
+    "upper": 5.2124194130638974,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_085": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_086": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_087": {
+    "lower": 1.846094573619307,
+    "upper": 3.622068175326658,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_088": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_091": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_093": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_094": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_095": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_107": {
+    "lower": 3.4364458113565464,
+    "upper": 5.2124194130638974,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_113": {
+    "lower": 2.3221895922653406,
+    "upper": 4.098163193972692,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_116": {
+    "lower": 3.4364458113565464,
+    "upper": 5.2124194130638974,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_118": {
+    "lower": 2.4183710415085047,
+    "upper": 4.194344643215856,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_120": {
+    "lower": 1.846094573619307,
+    "upper": 3.622068175326658,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_126": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_128": {
+    "lower": 3.4364458113565464,
+    "upper": 5.2124194130638974,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_129": {
+    "lower": 2.3221895922653406,
+    "upper": 4.098163193972692,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_130": {
+    "lower": 3.4229342486717407,
+    "upper": 5.198907850379092,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_136": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_142": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_143": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_147": {
+    "lower": 2.174737623616144,
+    "upper": 3.950711225323495,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_149": {
+    "lower": 3.4229342486717407,
+    "upper": 5.198907850379092,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_153": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_154": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_156": {
+    "lower": 2.200104968837197,
+    "upper": 3.976078570544548,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_158": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_173": {
+    "lower": 2.087124823157618,
+    "upper": 3.863098424864969,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_174": {
+    "lower": 3.196133133425148,
+    "upper": 4.972106735132499,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_175": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_177": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_182": {
+    "lower": 3.501241408104611,
+    "upper": 5.277215009811962,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_183": {
+    "lower": 2.0707043654637305,
+    "upper": 3.8466779671710816,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_186": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_188": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_190": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_191": {
+    "lower": 3.4778375816220937,
+    "upper": 5.253811183329445,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  },
+  "AGC_192": {
+    "lower": 3.726874118162198,
+    "upper": 5.502847719869549,
+    "interval_level": 0.9,
+    "interval_method": "Cuantil de residuos OOF promediados; exploratorio, sin garantía de cobertura"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "bundle_format_version": "1.0.0",
+  "serialization": "joblib",
+  "contract_version": "0.3.0",
+  "model_version": "yield-v1",
+  "feature_schema_version": "features-v1",
+  "data_version": "sha256:b045a212af57282a",
+  "model_file": "yield_model_v1.joblib",
+  "feature_schema_file": "feature_schema.json",
+  "model_sha256": "f624c2324e418b642a41c98bed53977fa4eb9fa3e210c0341d239592b4bc33d6",
+  "feature_schema_sha256": "4b114d753bedb313036607aa180d3d7c374ecd14d5860a3353af3b0089bff3d0"
+}
