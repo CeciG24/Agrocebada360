@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from api.app.core.config import Settings, get_settings
 from api.app.core.errors import register_error_handlers
@@ -35,6 +36,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(title="Cebada360", version="0.1.0", lifespan=lifespan,
                   docs_url=None, redoc_url=None, openapi_url=None, redirect_slashes=False)
+    origins = [o.strip() for o in config.allowed_origins.split(",") if o.strip()]
+    if origins:
+        app.add_middleware(CORSMiddleware, allow_origins=origins,
+                           allow_methods=["GET"], allow_headers=["*"])
     app.state.settings = config
     register_error_handlers(app)
     app.include_router(router)
