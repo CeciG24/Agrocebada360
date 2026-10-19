@@ -4,7 +4,7 @@
 
 ## Metodología y alcance
 
-La metodología interna `review-priority-adapter-v1` adapta las prioridades ya publicadas por Persona 3. El mapeo al vocabulario de la API se definió en P4.14 con la autorización del equipo; no se atribuye como una metodología oficial de FIRA ni una aprobación adicional de Persona 3.
+La metodología interna `review-priority-adapter-v1` adapta las prioridades ya publicadas por Persona 3. El mapeo al vocabulario de la API se definió en P4.14 con la autorización del equipo; no se atribuye como una metodología oficial de FIRA. El usuario confirmó en esta conversación que Persona 3 ya validó la implementación de niveles de riesgo (confirmación registrada el 18 de octubre de 2026). Esta validación del mapeo no equivale a calibración de probabilidades ni validación agronómica externa.
 
 | Condición documentada en P3.9 | Prioridad de origen | API `level` | Etiqueta de interfaz |
 |---|---|---|---|

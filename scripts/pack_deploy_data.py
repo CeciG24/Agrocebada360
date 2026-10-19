@@ -1,62 +1,52 @@
-"""Empaqueta data/deploy/ en un tar.gz listo para subir al disco de Render.
-
-Uso:
-    python scripts/pack_deploy_data.py
-
-Produce:
-    data/cebada-deploy.tar.gz  (~50-70 MB comprimido)
-
-Pasos siguientes:
-    1. Sube data/cebada-deploy.tar.gz a GitHub Releases como asset de v1.0-agrocebada
-       (o a cualquier servicio que dé una URL de descarga directa).
-    2. Copia la URL de descarga directa del asset.
-    3. En el shell de Render (dashboard → servicio → Shell), ejecuta:
-           bash scripts/setup_render_disk.sh <URL>
-"""
+"""Optional archive of the bundled deployment; Render's current blueprint uses Git directly."""
+import argparse
 import hashlib
+import json
 import sys
 import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEPLOY_DIR = ROOT / "data" / "deploy"
-OUTPUT = ROOT / "data" / "cebada-deploy.tar.gz"
-REQUIRED = ["data/features/features_master.csv", "data/targets/rendimiento.csv",
-            "data/parcel_master.csv", "data/topografia/topography_master.csv",
-            "data/clima/climate_timeseries.csv", "delivery/integration_manifest.json",
-            "delivery/catalog.json", "delivery/explanations.json", "delivery/model"]
+sys.path.insert(0, str(ROOT))
+DEPLOY_DIR = ROOT / 'data/deploy'
+OUTPUT = ROOT / 'data/cebada-deploy.tar.gz'
+
+
+def check_deploy():
+    from ml.integration import IntegratedArtifacts
+    manifest = json.loads((DEPLOY_DIR / 'data/data_manifest.json').read_text(encoding='utf-8'))
+    for record in manifest['mapping']:
+        path = (DEPLOY_DIR / 'data' / record['to']).resolve()
+        if not path.is_relative_to((DEPLOY_DIR / 'data').resolve()):
+            raise ValueError('Data manifest path outside the deployment.')
+        if hashlib.sha256(path.read_bytes()).hexdigest() != record['sha256']:
+            raise ValueError(f'Data checksum mismatch: {record["to"]}')
+    for name in ['parcels.geojson', 'geometry_metadata.json']:
+        if not (DEPLOY_DIR / 'data/geometria' / name).is_file():
+            raise ValueError('Deployment requires verified geometry and its CRS metadata.')
+    artifacts = IntegratedArtifacts(DEPLOY_DIR / 'data', DEPLOY_DIR / 'delivery')
+    geometries = sum(row['geometry'] is not None for row in artifacts.catalog.values())
+    if not geometries or geometries != len(artifacts.catalog):
+        raise ValueError('Deployment map requires complete geometry coverage.')
+    if not artifacts.risks or not artifacts.regions:
+        raise ValueError('Deployment requires verified risk and regional modules.')
+    return {'status': 'passed', 'n_parcels': len(artifacts.catalog), 'n_geometries': geometries,
+            'n_risks': len(artifacts.risks), 'n_regions': len(artifacts.regions)}
 
 
 def main():
-    if not DEPLOY_DIR.exists():
-        sys.exit("No se encontró data/deploy/. Ejecuta primero prepare_data.py y prepare_delivery().")
-
-    missing = [r for r in REQUIRED if not (DEPLOY_DIR / r).exists()]
-    if missing:
-        sys.exit(f"Faltan archivos en data/deploy/:\n  " + "\n  ".join(missing))
-
-    if OUTPUT.exists():
-        OUTPUT.unlink()
-        print(f"Reemplazando {OUTPUT.name} existente.")
-
-    print(f"Empaquetando data/deploy/ -> {OUTPUT} ...")
-    with tarfile.open(OUTPUT, "w:gz", compresslevel=6) as tar:
-        tar.add(DEPLOY_DIR, arcname="deploy")
-
-    size_mb = OUTPUT.stat().st_size / 1_048_576
-    sha = hashlib.sha256(OUTPUT.read_bytes()).hexdigest()
-
-    print(f"\nArchivo creado: {OUTPUT}")
-    print(f"  Tamano  : {size_mb:.1f} MB")
-    print(f"  SHA-256 : {sha}")
-    print("\nSiguientes pasos")
-    print("1. Sube data/cebada-deploy.tar.gz como asset en GitHub Releases:")
-    print("     gh release upload v1.0-agrocebada data/cebada-deploy.tar.gz")
-    print("   O subelo a Google Drive / Dropbox y obtén un link de descarga directa.")
-    print("2. En el shell de Render (dashboard -> tu servicio -> pestana Shell):")
-    print("     bash scripts/setup_render_disk.sh <URL-DE-DESCARGA>")
-    print("3. Reinicia el servicio en Render para que cargue los datos.")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check-only', action='store_true', help='Validate without creating an archive.')
+    args = parser.parse_args()
+    report = check_deploy()
+    if not args.check_only:
+        if OUTPUT.exists():
+            raise FileExistsError(f'Archive already exists: {OUTPUT}; choose explicitly whether to replace it.')
+        with tarfile.open(OUTPUT, 'w:gz', compresslevel=6) as archive:
+            archive.add(DEPLOY_DIR, arcname='deploy')
+        report.update(output=str(OUTPUT), output_sha256=hashlib.sha256(OUTPUT.read_bytes()).hexdigest())
+    print(json.dumps(report, indent=2))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

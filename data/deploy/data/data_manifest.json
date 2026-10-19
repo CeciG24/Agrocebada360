@@ -176,6 +176,18 @@
       "to": "topografia/topography_master.csv",
       "sha256": "4546ee962d089c93959305d5e6315bae20266ac761f0f9870939caf740781721",
       "bytes": 20368
+    },
+    {
+      "from": "verified-2026-10-17/data/geometria/parcels.geojson",
+      "to": "geometria/parcels.geojson",
+      "sha256": "ac4a818edec61a460a1ee7d53fff0dc04d284484e43800901bedc3daf87e960f",
+      "bytes": 268195
+    },
+    {
+      "from": "verified-2026-10-17/data/geometria/geometry_metadata.json",
+      "to": "geometria/geometry_metadata.json",
+      "sha256": "6e7d1facfc27bac99b152b20d935f66dec7e4d32094102a7a1fb9f2e378bf22e",
+      "bytes": 317
     }
   ],
   "ignored": [

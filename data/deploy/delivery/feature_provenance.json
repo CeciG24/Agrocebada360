@@ -7,12 +7,14 @@
     "targets/rendimiento.csv": "3253015e26c75ad4dbcf09672daa6e25396a37c0310e9ce8ff34e2fc52fff62e",
     "parcel_master.csv": "1213afe83a23b62cc330c7c377a2d930ac2fa25c90ddb87d81d9bc2a8fc363a3",
     "topografia/topography_master.csv": "4546ee962d089c93959305d5e6315bae20266ac761f0f9870939caf740781721",
-    "clima/climate_timeseries.csv": "74857141105ee9d96a6b053cfa5bb1c1535d980174043f4c982fd85e6c6643bb"
+    "clima/climate_timeseries.csv": "74857141105ee9d96a6b053cfa5bb1c1535d980174043f4c982fd85e6c6643bb",
+    "geometria/parcels.geojson": "ac4a818edec61a460a1ee7d53fff0dc04d284484e43800901bedc3daf87e960f",
+    "geometria/geometry_metadata.json": "6e7d1facfc27bac99b152b20d935f66dec7e4d32094102a7a1fb9f2e378bf22e"
   },
   "transformation_code_sha256": {
     "scripts_limpieza/p1_5.py": "4983e4f4c264bea8a7ecd50f5abc17d2efa5e9a77a113b62ccb74328b37013bc",
     "scripts_limpieza/p1_9.py": "0c57097abefe870f9ad18eda3eabb5dcb402cfcfc7b2f680dc9adabac0b9d364",
-    "ml/data_handoff.py": "b86b882474c41264a0b9bf41f1cf3fe78c8870e2bf6b1313a38183f4b4b4398e"
+    "ml/data_handoff.py": "d875c9b97c6b21dbd9dd70a631e65d1ef24df19c778581d1ff9fce442ba0ea70"
   },
   "features": {
     "precip_total_mm_2022": {

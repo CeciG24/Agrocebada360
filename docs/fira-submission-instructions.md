@@ -1,97 +1,35 @@
-# Instrucciones de Entrega — Reto AgroCebada FIRA 2026
+# Generar, validar y entregar predicciones
 
-Versión: `1.0.0`
+Revisión técnica: 2026-10-18. El script genera archivos; no envía correos ni carga documentos en plataformas.
 
----
+## Fuente y requisitos por confirmar
 
-## Fecha límite
+Las Bases y aclaraciones conservadas en `docs/system-contract.md` exigen estimaciones puntuales en t/ha con cuatro decimales, código e instrucciones, video de máximo cinco minutos y documentación del trabajo y uso de IA. El video forma parte de la entrega; no debe tratarse como opcional por una redacción interna.
 
-**Lunes 19 de octubre de 2026 a las 23:59 hrs.**
+La guía previa citaba un correo de FIRA del 18 de octubre: reporte de máximo cuatro cuartillas, tabla de predicciones, archivo `nombre_del_equipo_prediccion.csv` y envío a `innovacion@fira.gob.mx`. **El archivo citado `docs/additional/fira-instructions.txt` no está en el repositorio.** El equipo debe conservar ese correo y confirmar el formato/canal en la plataforma antes del envío. No se resuelve aquí la discrepancia entre cuatro cuartillas y la extensión por secciones de las Bases. Esta revisión no modifica los requisitos oficiales por inferencia.
 
-Después de esa hora la plataforma cierra y no se aceptan entregas adicionales.
-Cargar con anticipación y verificar que todos los componentes estén enviados.
+La fecha comunicada por el equipo es 19 de octubre de 2026, 23:59; confirmar los detalles de recepción en la fuente oficial. La validación técnica del CSV no acredita envío ni aceptación por FIRA.
 
----
+## Comandos ejecutables desde la raíz
 
-## Componentes a entregar
-
-### 1. Plataforma oficial FIRA
-
-Subir directamente en la plataforma de recepción:
-
-- **Reporte técnico** en PDF, máximo 4 cuartillas.
-  - Puede incluir ecuaciones, gráficas, tablas y demás elementos metodológicos.
-  - **Obligatorio:** tabla con `parcel_id` y `rendimiento_t_ha` (las 59 parcelas de evaluación).
-
-### 2. Correo a `innovacion@fira.gob.mx`
-
-Enviar con el mismo límite de fecha y hora:
-
-#### Archivo CSV de predicciones (obligatorio)
-
-| Campo | Valor |
-|-------|-------|
-| **Nombre del archivo** | `nombre_del_equipo_prediccion.csv` |
-| **Filas** | 59 (una por parcela de evaluación) |
-| **Columnas** | `parcel_id`, `rendimiento_t_ha` |
-| **Formato `parcel_id`** | Identificador original de FIRA, sin modificaciones |
-| **Formato `rendimiento_t_ha`** | Número decimal en t/ha, **4 decimales** (e.g., `3.9142`) |
-| **Restricciones** | Sin NaN, sin Inf, sin IDs duplicados, sin filas extra |
-
-Ejemplo de contenido esperado:
-
-```csv
-parcel_id,rendimiento_t_ha
-PARCEL_001,3.9142
-PARCEL_002,4.1087
-...
+```powershell
+.\.venv\Scripts\python.exe scripts/generate_submission.py --team la_amariza --predictions ml/results/predictions_raw.csv --ids ml/split/official_ids_v1.json --out-dir submissions
+.\.venv\Scripts\python.exe scripts/generate_submission.py --validate-only submissions/la_amariza_prediccion.csv --predictions ml/results/predictions_raw.csv --ids ml/split/official_ids_v1.json
 ```
 
-> Los IDs deben coincidir exactamente con los 59 IDs del conjunto de evaluación oficial
-> (`split/official_ids_v1.json`). No alterar el formato ni el valor del identificador.
+`--team` se requiere al generar. `--validate-only` revisa un archivo existente sin escribirlo. No existen las opciones `--output` ni `verify_integrated_delivery.py --submission` de la guía anterior.
 
-#### Adjuntos opcionales en el mismo correo
+Formato interno vigente: encabezado exacto `parcel_id,rendimiento_t_ha`; IDs opacos sin cambios, únicos y con cobertura exacta de `eval_ids`; valores finitos con cuatro decimales. La cantidad se obtiene de la lista y no está fijada en el código. En la versión actual son 59 filas. El generador conserva el orden de esa lista y rechaza filas extra, faltantes o duplicadas. El validador además contrasta los valores con las predicciones congeladas redondeadas.
 
-- Enlace al repositorio de código fuente.
-- Enlace al video demostrativo (≤ 5 minutos).
-- Otros anexos que el equipo considere relevantes.
+`ml/split/official_ids_v1.json` declara un split derivado de `dataset_split`, pendiente de cotejo con una lista autoritativa de FIRA. El nombre del archivo no acredita por sí mismo que esa confirmación ya ocurrió.
 
----
+## Cierre del equipo
 
-## Generación del CSV
-
-Usar el script del repositorio:
-
-```bash
-python scripts/generate_submission.py \
-  --predictions ml/predictions/predictions_raw.csv \
-  --ids split/official_ids_v1.json \
-  --output nombre_del_equipo_prediccion.csv
-```
-
-El script aplica automáticamente el validador (P4.17):
-- Verifica 59 IDs únicos sin NaN ni Inf.
-- Confirma que los IDs coincidan con `official_ids_v1.json`.
-- Redondea a 4 decimales.
-
-Para verificar manualmente antes de enviar:
-
-```bash
-python scripts/verify_integrated_delivery.py --submission nombre_del_equipo_prediccion.csv
-```
-
----
-
-## Checklist de entrega
-
-- [ ] CSV generado y validado con `generate_submission.py`
-- [ ] 59 filas exactas, sin duplicados ni NaN
-- [ ] IDs coinciden con `split/official_ids_v1.json`
-- [ ] Archivo nombrado exactamente `la_amariza_prediccion.csv`
-- [ ] Reporte técnico en PDF (≤ 4 cuartillas) con tabla `parcel_id / rendimiento_t_ha`
-- [ ] Reporte subido a la plataforma FIRA
-- [ ] Correo enviado a `innovacion@fira.gob.mx` antes del 19 oct 2026, 23:59 hrs
-- [ ] Enlace al repositorio incluido en el correo
-- [ ] Video demo (≤ 5 min) incluido o enlazado en el correo
-- [ ] Backup completo generado (P4.25)
-- [ ] Release GitHub v1.0-agrocebada creado (P4.26)
+- [x] CSV existente con 59 filas, IDs únicos, valores finitos y cuatro decimales, contrastado con predicciones congeladas.
+- [ ] Cotejar IDs y formato contra la instrucción oficial más reciente; conservar la fuente del correo citado.
+- [ ] Confirmar nombre de equipo/archivo y canal de recepción.
+- [ ] Completar reporte técnico, contribuciones y declaración/prompts de IA; resolver extensión con FIRA.
+- [ ] Publicar video de máximo cinco minutos y comprobar permisos de acceso.
+- [ ] Validar frontend y API públicos de la versión final.
+- [ ] Realizar los envíos/cargas y conservar constancias.
+- [ ] Confirmar respaldo y release si el equipo los incluye en su plan.

@@ -1,0 +1,9 @@
+{
+  "source_crs": "EPSG:4326",
+  "api_crs": "EPSG:4326",
+  "n_parcels": 197,
+  "validation": "nonempty valid Polygon/MultiPolygon; unique string IDs",
+  "coordinate_order": "longitude, latitude",
+  "dimensions": 2,
+  "source": "DATASET_RETO_AGRO_2026/Parcelas_Reto_AGC_CONJUNTO_70_30/Parcelas_Reto_AGC_CONJUNTO.shp"
+}

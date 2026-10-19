@@ -10,10 +10,10 @@
   "split_status": "derivada de dataset_split; PENDIENTE confirmar contra la lista oficial de FIRA (contrato §20)",
   "split_sha256": "38c8b6b1a29449778432164714ed65b6fa26bd7e51696e4c0460627bcbcdbb86",
   "files_sha256": {
-    "feature_provenance.json": "cb4304d2f99a9e79c283f70e2d9ebb7e9b2f6413c22d3f7e9bbee797379a350d",
+    "feature_provenance.json": "4bb6a805fa7d38373a8cd2577800840efa0aa8232f0425e3c54920134fe803b3",
     "explanations.json": "bd0c84d6ce893824d54a0a2dc834ec0aedbed4d1b5d67a0a7e178289074ff0c2",
     "intervals.json": "f6c6ea10dee8dd1bf1b611fca6d14e7fb1df4cdbf990a867e0563183ac3356a5",
-    "catalog.json": "2320e22c6f5051074263955d3c5150681a905e28c648c251a7603b9e0c9353f8",
+    "catalog.json": "a487cf4c89f474bd30bcdbdc588eaa92d88dd5d7d8390b13be052ac8e8cfb298",
     "model/model_manifest.json": "0036c99b5a1b833f6e70ab545e5a8aa14b3bd7069f4f656a28406604336ce4f9",
     "risks.json": "973cc0d3a86de7e27c90ca506b4485e1b99e04a0e63c7090bfb7b0069e5fd539",
     "risk_method.json": "989b4642a00485306b7054702814719ebc72f5576b7b4f8c992cacc6090cb688",
@@ -40,7 +40,7 @@
       "rol3/riesgo_yield_v1/metadata_riesgo_yield_v1.json": "f378467e9878d3f43a79265085732365bf56302d38526dc4ea176c950bd3071e"
     }
   },
-  "geometry": "unavailable; geometry=null",
+  "geometry": "available; 197 geometrías EPSG:4326; source_crs=EPSG:4326",
   "regions": {
     "definition_version": "state-regions-v1",
     "summary_population": "evaluation_predictions_only"

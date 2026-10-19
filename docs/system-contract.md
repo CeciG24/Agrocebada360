@@ -874,3 +874,7 @@ Antes de modificar código o contratos, cualquier agente debe:
 7. detenerse y señalar la ambigüedad cuando dos fuentes entren en conflicto.
 
 Una respuesta de un agente nunca tiene mayor autoridad que una fuente oficial.
+
+## Nota de auditoría de fuentes — 2026-10-18
+
+Las dos casillas anteriores sobre nombre del CSV y correo de envío fueron marcadas por una integración previa citando `docs/additional/fira-instructions.txt`. Ese archivo no está versionado. Debe conservarse/cotejarse el correo fuente antes de considerar esos puntos acreditados documentalmente; esta nota no introduce un cambio en el formato de la API. Ver `docs/fira-submission-instructions.md`. Las decisiones internas implementadas (modelo, SHAP, riesgo y regiones) están documentadas en sus fichas de integración; no se presentan como especificaciones impuestas por FIRA.
